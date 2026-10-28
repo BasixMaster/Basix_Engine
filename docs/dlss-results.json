@@ -1,0 +1,107 @@
+{
+  "checked_on": "2026-10-28",
+  "status": "passed",
+  "cases": [
+    {
+      "name": "positive",
+      "status": "passed",
+      "exit_code": 0,
+      "reviewed_manual_hook_warnings": 3
+    },
+    {
+      "name": "omitted-evaluation",
+      "status": "expected failure observed",
+      "exit_code": 1,
+      "reviewed_manual_hook_warnings": 3
+    },
+    {
+      "name": "post-evaluation-cleanup",
+      "status": "expected failure observed",
+      "exit_code": 1,
+      "reviewed_manual_hook_warnings": 3
+    },
+    {
+      "name": "unsupported-extension",
+      "status": "expected failure observed",
+      "exit_code": 1,
+      "reviewed_manual_hook_warnings": 0
+    },
+    {
+      "name": "relative-runtime",
+      "status": "expected failure observed",
+      "exit_code": 1,
+      "reviewed_manual_hook_warnings": 0
+    },
+    {
+      "name": "invalid-signature",
+      "status": "expected failure observed",
+      "exit_code": 1,
+      "reviewed_manual_hook_warnings": 0
+    },
+    {
+      "name": "release-refuses-validation",
+      "status": "expected failure observed",
+      "exit_code": 1,
+      "reviewed_manual_hook_warnings": 0
+    },
+    {
+      "name": "without-legacy-handoff",
+      "status": "expected failure observed",
+      "exit_code": 1,
+      "reviewed_manual_hook_warnings": 3
+    }
+  ],
+  "gpu": {
+    "status": "passed",
+    "sdk": "Streamline2.14.16 DLSS SR",
+    "device": "NVIDIA GeForce RTX 4090",
+    "driver_version_raw": 2588573696,
+    "api_version_raw": 4211039,
+    "frames": 3,
+    "input_width": 427,
+    "input_height": 240,
+    "output_width": 640,
+    "output_height": 360,
+    "rgb_component_checks": 2073600,
+    "input_component_checks": 922320,
+    "native_engine_component_comparisons": 2073600,
+    "rgb_rmse": 0.000347785,
+    "max_error": 0.00146484,
+    "validation_enabled": true,
+    "validation_errors": 0,
+    "validation_warnings": 0,
+    "feature_free_checked": true,
+    "sdk_shutdown_checked": true,
+    "legacy_handoff": true,
+    "additional_core_features": [
+      "Vulkan1.3.privateData",
+      "Vulkan1.4.pushDescriptor"
+    ],
+    "normalized_extension_requests": [
+      "VK_EXT_buffer_device_address"
+    ],
+    "scope": "static constant-radiance SR and same-command NoGraphicsAPI heap/pipeline/root restoration; no temporal quality, RR or FG"
+  },
+  "runtime_version": "2.14.16",
+  "runtime_sha256": {
+    "sl.interposer.dll": "b1d7395aebd7b9722841d64dcf7433680020b6a8e421f851c16d5ba0c2182edf",
+    "sl.common.dll": "38eea3b4209afc455636ea372b5933d65fcc13becec6c84d101dcfc4d8648f75",
+    "sl.dlss.dll": "18871eea87c90345da97d8109faa81ea7d5840e8d99b51b55b0e46cfa177f84e",
+    "sl.pcl.dll": "5698c38e722318681f215c9fe68e45b9bedd51378acc699d8eee26e961e57770",
+    "NvLowLatencyVk.dll": "2a77dc3e1c724b7eea5755be0ae7423752e79a2459fae72181a9f00e3507e5d6",
+    "nvngx_dlss.dll": "d00b5b0ab29c3ca101b70c3a5ecb3a01b7ef33766a3383a28a18623083e6123e"
+  },
+  "loader_confirmed_validation": true,
+  "synchronization_validation_requested": true,
+  "validation_dll_sha256": "249474155f7ed98c94f26c8a86c5d5da729dcabaaa1a7136d14fc68caf99213b",
+  "whole_process_vulkan_diagnostics": "zero warnings/errors/sync-hazards",
+  "sdk_warning_scope": "Three reviewed manual-hook state-tracking warnings per SDK/device process; no SDK errors or unreviewed warnings.",
+  "compatibility_issue": "https://github.com/NVIDIA-RTX/Streamline/issues/109",
+  "sdk_network_scope": "OTA flags disabled; SDK still invokes NGX bootstrap updater. This is not an offline-runtime claim.",
+  "limits": [
+    "One Windows RTX4090/NVIDIA617.42 configuration",
+    "Static constant radiance, zero motion/jitter; not temporal quality or image-detail validation",
+    "No RR, FG, SDK resize or actual device-loss recovery",
+    "Not a performance benchmark or proof of shipping redistribution compliance"
+  ]
+}

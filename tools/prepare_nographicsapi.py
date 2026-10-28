@@ -28,6 +28,16 @@ def main():
  s=s.replace('    void* window = nullptr; // HWND', '    bool enable_ray_query = false; // Basix experimental Vulkan-only device contract.\n    void* window = nullptr; // HWND',1)
  s+='\nnamespace gpu {\nstruct NativeVulkanHandles { void* instance; void* physical_device; void* device; bool validation_enabled; };\nstruct NativeVulkanTexture { void* device; uint64 image; uint32 format, width, height, depth, layers, usage; };\nNativeVulkanHandles basix_native_vulkan(Device* device) noexcept;\nvoid* basix_native_commands(CommandBuffer* commands) noexcept;\nNativeVulkanTexture basix_native_texture(Texture* texture) noexcept;\n}\n'
  s+='\nnamespace gpu { bool basix_signal_timeline(TimelineSemaphore* semaphore, uint64 value) noexcept; }\n'
+ # Optional SDK requirements are borrowed only during create_device. The caller
+ # queries and validates every requested feature against the selected adapter.
+ s=s.replace('    bool enable_ray_query = false;', '''    const char* const* basix_instance_extensions = nullptr;
+    uint32 basix_instance_extension_count = 0;
+    const char* const* basix_device_extensions = nullptr;
+    uint32 basix_device_extension_count = 0;
+    bool (*basix_configure_features)(void* physical, void* vulkan12, void* vulkan13, void* user) noexcept = nullptr;
+    void* basix_feature_user = nullptr;
+    bool enable_ray_query = false;''',1)
+ s+='\nnamespace gpu { uint32 basix_graphics_queue_family(Device* device) noexcept; }\n'
  h.write_text(s,encoding='utf-8')
  f=dst/'src/NoGraphicsAPI.cpp';s=f.read_text();needle='    const char* enabled_device_extensions[7]{};'
  if s.count(needle)!=1:raise SystemExit('Upstream patch context changed.')
@@ -71,6 +81,55 @@ def main():
  s=s.replace('    const VkInstanceCreateInfo instance_info{', '    state->basix_validation_enabled = enabled_layer_count != 0;\n    const VkInstanceCreateInfo instance_info{',1)
  s+='\nnamespace gpu {\nNativeVulkanHandles basix_native_vulkan(Device* d) noexcept { return {d->instance, d->physical_device, d->device, d->basix_validation_enabled}; }\nvoid* basix_native_commands(CommandBuffer* c) noexcept { return c->command_buffer; }\nNativeVulkanTexture basix_native_texture(Texture* t) noexcept { return {t->state->device, (uint64)t->image, (uint32)to_vk(t->format), t->width, t->height, t->depth, t->layer_count, (uint32)t->basix_usage}; }\n}\n'
  s+='\nnamespace gpu { bool basix_signal_timeline(TimelineSemaphore* t, uint64 value) noexcept { VkSemaphoreSignalInfo info{ .sType = VK_STRUCTURE_TYPE_SEMAPHORE_SIGNAL_INFO, .semaphore = t->semaphore, .value = value }; return vkSignalSemaphore(t->state->device, &info) == VK_SUCCESS; } }\n'
- f.write_text(s,encoding='utf-8');(dst/'BASIX_INTEROP_REVISION').write_text(PIN+'\n');(dst/'BASIX_INTEROP_PATCH_VERSION').write_text('3\n')
+ s=s.replace('    const char* enabled_instance_extensions[7]{};', '    const char* enabled_instance_extensions[64]{};',1)
+ s=s.replace('    state->basix_validation_enabled = enabled_layer_count != 0;', '''    if (desc.basix_instance_extension_count > 48 || (desc.basix_instance_extension_count && !desc.basix_instance_extensions))
+        return fail_device_creation(state, Error::unsupported, "Invalid SDK instance extension list");
+    for (uint32 i = 0; i < desc.basix_instance_extension_count; ++i)
+    {
+        const char* name = desc.basix_instance_extensions[i];
+        if (!name || !has_name({instance_extensions, instance_extension_count}, name))
+            return fail_device_creation(state, Error::unsupported, "Required SDK instance extension unavailable");
+        bool present = false;
+        for (uint32 j = 0; j < enabled_instance_extension_count; ++j) if (strcmp(enabled_instance_extensions[j], name) == 0) present = true;
+        if (!present)
+            enabled_instance_extensions[enabled_instance_extension_count++] = name;
+    }
+    state->basix_validation_enabled = enabled_layer_count != 0;''',1)
+ s=s.replace('    const char* enabled_device_extensions[10]{};', '    const char* enabled_device_extensions[64]{};',1)
+ s=s.replace('    const VkDeviceCreateInfo device_info{', '''    if (desc.basix_device_extension_count > 48 || (desc.basix_device_extension_count && !desc.basix_device_extensions))
+        return fail_device_creation(state, Error::unsupported, "Invalid SDK device extension list");
+    if (desc.basix_device_extension_count)
+    {
+        VkExtensionProperties basix_sdk_ext[max_device_extensions]{};
+        uint32 basix_sdk_count = 0;
+        if (enumerate_device_extensions(state->physical_device, {basix_sdk_ext, max_device_extensions}, basix_sdk_count) != Error::none)
+            return fail_device_creation(state, Error::unsupported, "SDK extension enumeration failed");
+        for (uint32 i = 0; i < desc.basix_device_extension_count; ++i)
+        {
+            const char* name = desc.basix_device_extensions[i];
+            if (!name || !has_name({basix_sdk_ext, basix_sdk_count}, name))
+                return fail_device_creation(state, Error::unsupported, "Required SDK device extension unavailable");
+            bool present = false;
+            for (uint32 j = 0; j < enabled_device_extension_count; ++j) if (strcmp(enabled_device_extensions[j], name) == 0) present = true;
+            if (!present)
+                enabled_device_extensions[enabled_device_extension_count++] = name;
+        }
+    }
+    if (desc.basix_configure_features && !desc.basix_configure_features(state->physical_device, &enabled_features.vulkan12, &enabled_features.vulkan13, desc.basix_feature_user))
+        return fail_device_creation(state, Error::unsupported, "Required SDK Vulkan features unavailable");
+    for (uint32 i = 0; i < desc.basix_device_extension_count; ++i)
+    {
+        if (strcmp(desc.basix_device_extensions[i], VK_KHR_PUSH_DESCRIPTOR_EXTENSION_NAME) == 0)
+        {
+            VkPhysicalDeviceVulkan14Features sdk14{ .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_FEATURES };
+            VkPhysicalDeviceFeatures2 sdk_features{ .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2, .pNext = &sdk14 };
+            vkGetPhysicalDeviceFeatures2(state->physical_device, &sdk_features);
+            if (!sdk14.pushDescriptor) return fail_device_creation(state, Error::unsupported, "SDK requires core1.4 pushDescriptor");
+            enabled_features.vulkan14.pushDescriptor = VK_TRUE;
+        }
+    }
+    const VkDeviceCreateInfo device_info{''',1)
+ s+='\nnamespace gpu { uint32 basix_graphics_queue_family(Device* d) noexcept { return d->queues[0].family_index; } }\n'
+ f.write_text(s,encoding='utf-8');(dst/'BASIX_INTEROP_REVISION').write_text(PIN+'\n');(dst/'BASIX_INTEROP_PATCH_VERSION').write_text('5\n')
  print('Prepared experimental Vulkan RT interop from '+PIN)
 if __name__=='__main__':main()

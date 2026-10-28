@@ -7,7 +7,7 @@
       "revision": "ffd9f2ab6b7442dcfbe0cb0051d84d0edb078d89",
       "license": "MIT",
       "local_patch": "tools/prepare_nographicsapi.py",
-      "local_patch_version": 2
+      "local_patch_version": 5
     },
     "Vulkan-Headers": {
       "repository": "https://github.com/KhronosGroup/Vulkan-Headers.git",
@@ -29,6 +29,28 @@
       "dll_sha256": "249474155f7ed98c94f26c8a86c5d5da729dcabaaa1a7136d14fc68caf99213b",
       "manifest_api": "1.4.366",
       "license": "Apache-2.0; inspect package notices before redistribution"
+    },
+    "Streamline-SR": {
+      "version": "2.14.16",
+      "url": "https://github.com/NVIDIA-RTX/Streamline/releases/download/v2.14.16/streamline-sdk-v2.14.16.zip",
+      "sha256": "32041e51db0cab709a271b72a352281b690c2abbd669a827809401a5dd23956b",
+      "purpose": "optional local actual DLSS SR evaluation; not vendored or required by CPU/default GPU builds",
+      "runtime_sha256": {
+        "sl.interposer.dll": "b1d7395aebd7b9722841d64dcf7433680020b6a8e421f851c16d5ba0c2182edf",
+        "sl.common.dll": "38eea3b4209afc455636ea372b5933d65fcc13becec6c84d101dcfc4d8648f75",
+        "sl.dlss.dll": "18871eea87c90345da97d8109faa81ea7d5840e8d99b51b55b0e46cfa177f84e",
+        "sl.pcl.dll": "5698c38e722318681f215c9fe68e45b9bedd51378acc699d8eee26e961e57770",
+        "NvLowLatencyVk.dll": "2a77dc3e1c724b7eea5755be0ae7423752e79a2459fae72181a9f00e3507e5d6",
+        "nvngx_dlss.dll": "d00b5b0ab29c3ca101b70c3a5ecb3a01b7ef33766a3383a28a18623083e6123e"
+      },
+      "header_sha256": {
+        "sl.h": "e1e81a7428d15b30db37587e9469bd68a56d630d820a4accec0aee3b17e157dd",
+        "sl_version.h": "2a43f565b45a07d4a4259dc61038ec93a7fb8ce7cb3509ea1fbeeb217f9a1ce8",
+        "sl_core_types.h": "f420cb052ce14489fc9fa0d933c3ed81a010deb01fa13b1aa8d45da1c5ba3234",
+        "sl_dlss.h": "d2c8c61fa71794c8ba424cebce5b3079ebfab8e47ed98b4b00cf8b257ecfd6b5",
+        "sl_helpers_vk.h": "82604567d239d00ac0ac2270cec744f6f11266e1d9d5187a95d4954f76d8c41c"
+      },
+      "license": "Streamline headers have MIT notices; NGX/DLSS and runtime components retain their respective NVIDIA terms. No blanket MIT relicensing."
     }
   },
   "policy": "CPU default build has no external dependencies. GPU experiment requires explicit locally installed/prepared dependencies. No proprietary SDK source or binaries are vendored."

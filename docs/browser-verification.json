@@ -13,10 +13,11 @@
     "single theme picker",
     "anchor navigation",
     "no JS errors",
-    "23 roadmap rows and state badges match ledger",
+    "milestone rows and badges match ledger",
+    "history event coverage and SDK/logbook search",
     "research MiniDXNN/splatting search",
     "in-flight implementation search",
-    "research mobile light/dark and body overflow"
+    "research/logbook mobile light/dark and body overflow"
   ],
   "mobile": {
     "width": 390,
@@ -27,5 +28,6 @@
   },
   "checked_on": "2026-10-28",
   "roadmap_rows": 23,
+  "logbook_events": 6,
   "research_chapters": 18
 }

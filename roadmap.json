@@ -74,7 +74,7 @@
       "prerequisites": [
         "M1a"
       ],
-      "next_test": "Actual optional SDK state/evaluation, broader lifecycle and window/device-failure handling remain pending.",
+      "next_test": "Complete actual OS minimize and separately designed device-loss/recovery gates; preserve SDK/lifetime tests while developing renderer guides.",
       "last_verified_on": "2026-10-28",
       "evidence": [
         {
@@ -113,7 +113,7 @@
       "prerequisites": [
         "M1a"
       ],
-      "next_test": "Add actual reconstruction SDK resource tagging/evaluation using this contract; multi-queue/format/view cases remain outside the tested scope.",
+      "next_test": "Actual static SR now uses this seam; broaden multi-queue/format/view and dynamic SDK cases separately.",
       "last_verified_on": "2026-10-28",
       "evidence": [
         {
@@ -127,16 +127,22 @@
     {
       "id": "M1b-sdk",
       "title": "External SDK state restoration",
-      "status": "pending",
-      "scope": "Resource tagging and state restoration around an actual optional reconstruction SDK evaluation.",
-      "acceptance": "Actual supported SDK evaluation followed by correct engine read/write; record runtime, adapter and required resource semantics.",
+      "status": "completed",
+      "scope": "Actual optional signed Streamline2.14.16 SR evaluation on NoGraphicsAPI-owned Vulkan device; static constant radiance and same-command native/engine binding restoration.",
+      "acceptance": "Eight-case harness passes3actual SR frames,922320 input RGB checks,2073600 expected RGB/native-engine comparisons, RMSE0.000347785/maxerror0.00146484, with whole-process Vulkan logs clean and reviewed SDK hook warnings.",
       "prerequisites": [
         "M1b-textures",
         "M1b-validation"
       ],
-      "next_test": "Evaluate signed Streamline SR via stable custom-engine ProjectID and explicit Vulkan feature/native image contracts; do not invent an NVIDIA application-ID blocker before trying the documented ProjectID path.",
-      "last_verified_on": null,
-      "evidence": [],
+      "next_test": "Preserve workaround/negative controls; broaden real renderer guides, dynamic motion, SDK resize, camera cuts and fallback before temporal-quality claims.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/dlss-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Actual SR, independent input/native/engine comparisons, poisoned readbacks, no-op/known-bug controls, signature/dependency and cleanup checks passed."
+        }
+      ],
       "parent": "M1b"
     },
     {
@@ -197,7 +203,7 @@
       "id": "M3",
       "title": "Many lights and reconstruction",
       "status": "pending",
-      "scope": "Original direct lighting/fallback denoising, optional RTXDI, SR then RR; no vendor SDK is currently integrated.",
+      "scope": "Original direct lighting/fallback denoising and optional RTXDI/SR/RR. A separate static SR interoperability spike is tested; integrated renderer lighting/temporal quality remains pending.",
       "acceptance": "Equal-error captures, temporal tests, separate licensing and a non-DLSS path.",
       "prerequisites": [
         "M2"
@@ -209,16 +215,22 @@
     {
       "id": "M3-dlss",
       "title": "DLSS integration",
-      "status": "pending",
-      "scope": "Optional SR followed by RR through explicit native resource/guide adapters; frame generation separately scoped.",
+      "status": "partial",
+      "scope": "Actual static SR/interoperability smoke passes. Shared renderer guides, temporal quality, camera cuts/resize/toggles and RR remain unimplemented or unverified; FG separately scoped.",
       "acceptance": "Actual SDK evaluation, support checks, guide correctness, resets and fallback pass.",
       "prerequisites": [
         "M1b-sdk",
         "M2"
       ],
-      "next_test": "Select a pinned licensed adapter and test SR inputs/output before RR.",
-      "last_verified_on": null,
-      "evidence": [],
+      "next_test": "Implement reference-renderer depth/motion/material guides, then dynamic SR/reset/fallback sequences before RR.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/dlss-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Static SR gate only; no temporal/detail acceptance follows."
+        }
+      ],
       "parent": "M3"
     },
     {
@@ -398,6 +410,26 @@
     {
       "checked_on": "2026-10-28",
       "event": "Completed scoped repeated-device/in-flight lifecycle gate; hidden-window resize/restoration passed but resize/recovery parent remains partial. SDK and actual device loss stay open."
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M1b-sdk",
+      "from_status": "pending",
+      "to_status": "completed",
+      "event": "Completed bounded actual SR/resource-state interoperability with measured issue109 workaround; static fixture only.",
+      "evidence": [
+        "docs/dlss-results.json"
+      ]
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M3-dlss",
+      "from_status": "pending",
+      "to_status": "partial",
+      "event": "Static SR seam passes; shared renderer temporal guides, resets/fallbacks and RR remain open.",
+      "evidence": [
+        "docs/dlss-results.json"
+      ]
     }
   ]
 }

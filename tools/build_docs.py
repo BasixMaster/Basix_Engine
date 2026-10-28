@@ -172,6 +172,8 @@ import research_expansion
 research_expansion.apply(sections,sources,source,section,table,cite)
 import thread_research
 thread_research.apply(sections,sources,source,section,table,cite)
+import sdk_status
+sdk_status.apply(sections,sources,source,section,table,cite)
 
 section('sources','Evidence, sources and research maintenance','''<p>Checked 28 October 2026. Source records distinguish code inspection, vendor documentation, licenses and research. External links need a network connection; this page, local search and the JSON/SQLite evidence work offline. Source snapshots are pinned where available; roadmap pages remain mutable.</p>'''+''.join('<article id="'+s['id']+'"><h3>'+s['id']+' · <a href="'+html.escape(s['url'],quote=True)+'">'+html.escape(s['title'])+'</a></h3><p>'+html.escape(s['notes'])+'</p><p class="doc-caption">'+html.escape(s['kind']+' · checked '+DATE+' · '+s['rights'])+'</p></article>' for s in sources)+'''<p><a href="evidence/library.json">Structured library</a> · <a href="evidence/index.sqlite">SQLite full-text index</a> · <a href="dependencies.json">Dependency pins</a></p><p class="doc-caption">Changelog · 2026-10-28: initial research, architecture proposal, MegaLights comparison, PETAFAB case study, license boundary and validation plan.</p>''')
 
@@ -202,6 +204,7 @@ def main():
  evidence=DOC/'evidence';evidence.mkdir(exist_ok=True)
  research_expansion.enrich_library(library)
  thread_research.enrich_library(library)
+ sdk_status.enrich_library(library)
  library.update(presentation_path='index.html',evidence_page='index.html#sources',guide_pages=['index.html'],hub_topics=[dict(directory='basix-engine-rendering-research',title='Basix Engine rendering research',purpose='MIT game engine architecture, hardware ray tracing, many-light sampling and reconstruction.',topics=['rendering'],page='index.html',guide_pages=['index.html'],specialty=True)])
  for record in library['sources']+library['findings']:
   record['topic']='rendering'

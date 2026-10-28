@@ -5,7 +5,8 @@
   "scope": "UE5.8/6, NoGraphicsAPI, PETAFAB, DXR/DX12, Linear Algebra, RTXDI/RTXPT and DLSS.",
   "updated_on": "2026-10-28",
   "summary": [
-    "Initial CPU/GPU foundation and scoped lifecycle/window tests have local correctness evidence; advanced rendering ideas are separately labeled proposals or author reports."
+    "Initial CPU/GPU foundation and scoped lifecycle/window tests have local correctness evidence; advanced rendering ideas are separately labeled proposals or author reports.",
+    "Actual static DLSS SR interoperability passes8cases with a measured descriptor-state workaround; temporal renderer quality remains unverified."
   ],
   "questions": [
     {
@@ -1298,6 +1299,38 @@
       "topic": "rendering",
       "presentation_path": "index.html",
       "presentation_anchor": "S67"
+    },
+    {
+      "id": "S68",
+      "title": "Streamline descriptor-heap incompatibility issue109",
+      "url": "https://github.com/NVIDIA-RTX/Streamline/issues/109",
+      "notes": "Open issue describes black DLSS inputs with VK_EXT_descriptor_heap. Reporter confirms a conventional dummy descriptor-set bind before SR evaluation restores SR; FG cannot use the same explicit-evaluate workaround. Basix reproduced the black result and measured the SR workaround on its named local configuration.",
+      "kind": "vendor issue / reporter workaround",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Acknowledged open issue and reporter workaround, independently reproduced only within Basix static SR fixture; not a universal fix.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Linked discussion only; original Basix compatibility code is MIT. No SDK code copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S68"
+    },
+    {
+      "id": "S69",
+      "title": "Basix actual DLSS SR validation receipt",
+      "url": "https://github.com/BasixMaster/Basix_Engine/blob/main/docs/dlss-results.json",
+      "notes": "Eight-case pinned-runtime harness:3actual SR frames,427x240→640x360,922320 input RGB checks and2073600 output RGB/native-engine comparisons. RMSE0.000347785,maxerror0.00146484. Whole-process Vulkan logs clean;3reviewed SDK manual-hook warnings per initialized process. No temporal-quality,RR,FG,resize or performance claim.",
+      "kind": "local measured correctness",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Independent input oracle, native-copy versus engine comparison, per-frame poison/sentinel, no-op negative control and full-process logs.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Original Basix code/receipt MIT. Optional signed NVIDIA runtime has separate terms and is not vendored.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S69"
     }
   ],
   "findings": [
@@ -1868,7 +1901,7 @@
         "Q2"
       ],
       "topic": "rendering",
-      "claim": "Three real device sessions and held asynchronous texture submissions pass local oracles; hidden-window resizing/zero-size restoration and controlled cleanup pass. Actual SDK/device-loss remain open.",
+      "claim": "Three real device sessions and held asynchronous texture submissions pass local oracles; hidden-window resizing/zero-size restoration and controlled cleanup pass. That earlier receipt does not test actual SDK/device loss; see F16 for the later SR gate.",
       "evidence_type": "measured",
       "confidence": "high",
       "context": "2026-10-28 Windows/RTX4090/NVIDIA617.42 with pinned core/SyncVal layer.",
@@ -1896,20 +1929,56 @@
       ],
       "presentation_path": "index.html",
       "presentation_anchor": "summary"
+    },
+    {
+      "id": "F16",
+      "title": "Actual SR succeeds only with validated native-state handoff",
+      "question_ids": [
+        "Q2"
+      ],
+      "topic": "rendering",
+      "claim": "The actual optional SR gate passes a constant-radiance oracle and native/engine comparison after conventional descriptor-state handoff. Without it the tested SDK returns black output despite successful API calls.",
+      "evidence_type": "measured",
+      "confidence": "high",
+      "context": "2026-10-28 Windows/RTX4090/NVIDIA617.42; signed pinned Streamline2.14.16 with process-local core/SyncVal.",
+      "strengths": "Independent inputs/readbacks, per-frame poison, no-op/known-bug controls, explicit cleanup and full-process diagnostics.",
+      "limitations": "Static fixed-resolution fixture only; reviewed manual-hook SDK warnings; no RR/FG/temporal/performance or shipping-license acceptance.",
+      "implications": "Complete scoped M1b-sdk; retain M3-dlss and parentM1 as partial and proceed to renderer/motion/recovery gates.",
+      "tags": [
+        "DLSS",
+        "interop",
+        "validation",
+        "roadmap"
+      ],
+      "evidence": [
+        {
+          "source_id": "S68",
+          "locator": "Issue report/comments and receipt cases/gpu fields",
+          "relation": "supports",
+          "note": "Measured local SR only; upstream issue remains open."
+        },
+        {
+          "source_id": "S69",
+          "locator": "Issue report/comments and receipt cases/gpu fields",
+          "relation": "supports",
+          "note": "Measured local SR only; upstream issue remains open."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
     }
   ],
   "actions": [
     {
       "id": "A1",
-      "title": "Implement actual SDK evaluation and broader lifecycle gates",
+      "title": "Build reference renderer and broaden recovery/temporal integration",
       "priority": "high",
       "finding_ids": [
-        "F8",
-        "F9"
+        "F16"
       ],
-      "rationale": "The narrow validated native texture seam now passes; SDK resource semantics and window/device recovery remain open.",
+      "rationale": "Static hardware rays and actual SR seams now pass; shared material/motion guides and real recovery remain open.",
       "prerequisites": "Choose GPU/driver targets and optional SDK terms.",
-      "success_criterion": "Actual optional SDK evaluation and separately named lifecycle/window/device-loss acceptance tests pass.",
+      "success_criterion": "Reference material/PT outputs, camera/object motion, SDK resets/resize and separately scoped failure recovery pass independent tests.",
       "presentation_path": "index.html",
       "presentation_anchor": "roadmap"
     }
@@ -1987,7 +2056,9 @@
         "S64",
         "S65",
         "S66",
-        "S67"
+        "S67",
+        "S68",
+        "S69"
       ],
       "outcome": "Primary-source architecture and license gates resolved; runtime tests remain pending."
     },
@@ -2055,13 +2126,25 @@
         "S67"
       ],
       "outcome": "Independent adoption gates added; incomplete thread/full-paper/access coverage recorded."
+    },
+    {
+      "date": "2026-10-28",
+      "phase": "implementation update",
+      "engine": "Pinned official SDK/source, NVIDIA issue109 and local Vulkan validation",
+      "query": "Streamline descriptor_heap black SR input native interop",
+      "source_ids": [
+        "S68",
+        "S69"
+      ],
+      "outcome": "Reproduced black output, independently validated legacy handoff and full engine-state restoration; broader DLSS quality remains pending."
     }
   ],
   "scope_changes": [
     "Added MegaLights and PETAFAB at user request.",
     "User added DXR2/clustered geometry, tetrahedral cages, alternative ideas and implementation authorization. Corrected contradictory DXR2 maturity wording; recorded local CPU/GPU correctness results.",
     "Added explicit machine-readable roadmap states/evidence and completed scoped M1 validation/native texture experiments; broader M1 remains partial.",
-    "User supplied two discussions. Added selected public leads and primary verification; authenticated discussion/page8 remained inaccessible. No private content published."
+    "User supplied two discussions. Added selected public leads and primary verification; authenticated discussion/page8 remained inaccessible. No private content published.",
+    "Completed actual static SR interoperability after reproducing issue109; retained original failed oracle and startup-validation evidence. Added visible status logbook and scoped transitions."
   ],
   "presentation_path": "index.html",
   "evidence_page": "index.html#sources",

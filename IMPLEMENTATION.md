@@ -35,7 +35,7 @@ Run `basix_gpu_spike --output DIRECTORY` for PPM images and a JSON result. The d
 
 ## Scoped M1 validation and texture checks
 
-Prepare a new dependency destination with the current tool. GPU CMake now requires interop patch version3; stale prepared copies fail explicitly. Compile Debug and Release, optionally configuring `-DBASIX_VALIDATION_TESTS=ON` for the Debug-only CTest case.
+Prepare a new dependency destination with the current tool. GPU CMake now requires interop patch version5; stale prepared copies fail explicitly. Compile Debug and Release, optionally configuring `-DBASIX_VALIDATION_TESTS=ON` for the Debug-only CTest case.
 
 Use a separately installed or locally extracted Khronos validation package. The checked Windows nightly archive and DLL digests are in `dependencies.lock.json`; the mutable nightly URL does not promise future availability of those exact bytes. The layers are testing tools, not vendored/shipped engine runtime. No machine-wide loader setting is changed.
 
@@ -59,9 +59,9 @@ The GPU experiment writes a NoGraphicsAPI storage texture, transitions GENERAL�
 
 ## Remaining gates
 
-The authoritative states, evidence and next tests are in `roadmap.json`; `ENGINE_STATUS.md` and the documentation roadmap table are generated from it. M1 validation and the controlled native-texture subgates are complete. The repeated-device/in-flight lifecycle gate is now complete for the named local configuration. Parent M1 remains partial. Actual optional SDK evaluation/resource tagging and device-loss recovery are pending; hidden-window resizing/zero-size restoration pass but actual OS minimize remains untested.
+The authoritative states, evidence and next tests are in `roadmap.json`; `ENGINE_STATUS.md` and the documentation roadmap table/logbook are generated from it. M1 validation, controlled native-texture, repeated-device/in-flight lifecycle and actual static SR subgates pass for the named local configuration. Parent M1 remains partial. Temporal SDK quality and device-loss recovery are pending; hidden-window resizing/zero-size restoration pass but actual OS minimize remains untested.
 
-Full PT, DLSS, geometry streaming, cage generation/clipping/GPU traversal and clustered-AS backends are still pending. No independent spirv-val, cross-vendor GPU validation or performance benchmark is claimed. The fixture's size changes are not window resizing. Public CI runs offline CPU/roadmap/docs checks and needs no GPU SDK downloads.
+Full PT, production DLSS integration, geometry streaming, cage generation/clipping/GPU traversal and clustered-AS backends are still pending. No independent spirv-val, cross-vendor GPU validation or performance benchmark is claimed. Offscreen fixture size changes are separate from the hidden-window test. Public CI runs offline CPU/roadmap/docs checks and needs no GPU SDK downloads.
 
 ## Repeated device sessions and real pending retirement
 
@@ -81,3 +81,33 @@ The seven-case lifecycle harness passed36864 pointer pixels,73728 ray checks,765
 The WIN32-only console target creates a never-visible, offscreen popup. It presents8clear frames across64×64,320×180,17×9 extents and a96×54 restoration; three acquisitions at a real0×0 client extent return empty. The four-process wrapper also tests controlled exceptions before device creation, after creation and after a completed present. All windows are destroyed and full-process validation logs are clean. Receipts are in `docs/window-results.json`.
 
 The first run exposed an upstream swapchain format/usage issue: sRGB plus STORAGE usage was unsupported on the tested adapter (VUID01778/02275). The clear-only test uses supported `bgra8_unorm`; validation was retained. Original failure logs stay in the workbench. This does not prove sRGB presentation support, displayed pixels, OS minimize, device loss or SDK correctness.
+
+## Actual optional DLSS SR gate
+
+This Windows-only target uses separately supplied Streamline2.14.16 headers and signed production runtime modules. It is off by default. The lock file pins the official SDK archive, selected header hashes and six runtime component hashes. No SDK source, binary or model is vendored, and default CPU/GPU checks do not download it.
+
+After obtaining and verifying the pinned official package, prepare a new NoGraphicsAPI patch5 destination and stage the runtime outside the Basix repository:
+
+```text
+python tools/prepare_streamline_runtime.py --sdk-root PATH_TO_STREAMLINE --destination ../work/streamline-runtime
+cmake -S . -B build-gpu -DBASIX_BUILD_GPU_SPIKE=ON -DBASIX_NOGRAPHICSAPI_SOURCE=PATH_TO_PATCH5 -DBASIX_BUILD_DLSS_SPIKE=ON -DBASIX_STREAMLINE_SDK=PATH_TO_STREAMLINE
+cmake --build build-gpu --config Debug
+cmake --build build-gpu --config Release
+python tools/run_dlss_validation.py --exe build-gpu/Debug/basix_dlss_spike.exe --release-exe build-gpu/Release/basix_dlss_spike.exe --runtime ../work/streamline-runtime --validation-layer-dir PATH_TO_CHECKED_LAYERS --output work/dlss-validation --check-known-driver-bug
+```
+
+The stage helper copies checked `sl.interposer`, `sl.common`, `sl.dlss`, `sl.pcl`, `NvLowLatencyVk` and `nvngx_dlss` DLLs plus separate notices. PCL is automatically added by the SDK. The original MIT loader verifies the interposer's Authenticode/NVIDIA signer with cached trust data and locks it against replacement while loaded. The optional SDK's own terms still apply. Disabled OTA/downloaded-plugin options do not guarantee offline operation: the observed SDK invokes an NGX bootstrap updater.
+
+Basix initializes Streamline before Vulkan, uses its own stable custom-engine ProjectID GUID/version, queries required extensions/features, then registers the NoGraphicsAPI-owned device. No NVIDIA-issued application ID was needed for this local evaluation. Unknown feature names or missing support fail closed. The SDK's returned lists omitted privateData and the core1.4 pushDescriptor bit needed by observed calls; initial full-process validation exposed these requirements. Basix queries both before enabling them and normalizes the conflicting obsolete EXT buffer-device-address request to core1.2/KHR support.
+
+The actual SR fixture supplies RGBA16F color/output, R32F depth, RG32F zero motion, explicit1x1 exposure, full native metadata and camera/frame constants. Three frames upscale427x240 to640x360. All922320 input RGB components match the independent constant oracle;2073600 output RGB components match the independent native FP16 copy exactly and the expected radiance within the predeclared RMSE<0.03/maxerror<0.15 tolerance. Measured RMSE0.000347785 and maxerror0.00146484. Output and both readback memories are reset each frame, so stale/no-op execution cannot pass.
+
+The first actual evaluation returned success with black pixels. This reproduces [NVIDIA issue109](https://github.com/NVIDIA-RTX/Streamline/issues/109): active descriptor heaps prevent the tested SR runtime reading input images. Binding an empty conventional descriptor set immediately before evaluation fixes this named workload. Afterward Basix re-emits both native heaps, pipeline and pointer-root data in the same command buffer. The no-handoff control still fails the image oracle. This is an explicit temporary SR compatibility adapter; no FG compatibility follows.
+
+Eight harness cases cover actual evaluation, omitted-evaluation rejection, cleanup after a real evaluation, unavailable extension rejection, relative runtime rejection, invalid signature rejection, Release validation refusal and the known-driver-bug control. Whole-process Vulkan/core/SyncVal logs have zero warnings/errors; three SDK warnings about unavailable automatic state-tracking hooks are reviewed separately because the host restores state manually. Feature free and SDK shutdown are checked before success; if SDK shutdown fails, still-live modules/device objects are retained until process exit instead of unsafe unloading. See `docs/dlss-results.json` for the sanitized receipt. Raw SDK logs, initial failures and images stay in the workbench.
+
+This is a static fixed-resolution interoperability gate on Windows/RTX4090/NVIDIA617.42, not a temporal/detail-quality or performance benchmark. No motion/jitter quality, SDK resize, camera-cut/fallback sequence, RR, FG, cross-vendor support or actual device-loss recovery is claimed. `M1b-sdk` is completed only for this named scope; `M3-dlss` and parentM1 remain partial.
+
+## Milestone and status logbook
+
+`roadmap.json` retains the original history and dated structured transitions with item ID, previous/new status, reason and evidence. The HTML roadmap and generated Markdown show the same logbook. Validation rejects broken transition chains, current states that contradict the latest recorded transition, unknown states/items and escaping/missing evidence paths. Research coverage and an existing adapter never substitute for executed engine acceptance tests.
