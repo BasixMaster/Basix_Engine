@@ -1,0 +1,120 @@
+/* Shared chat documentation shell v1.0. Component-owned selectors only. */
+:root{--doc-ink:#20354b;--doc-muted:#47627b;--doc-bg:#f3f6fa;--doc-panel:#fff;--doc-line:#c1d0df;--doc-navy:#102b43;--doc-link:#185f94;--doc-teal:#24717a;--doc-rail:18rem;--doc-header-height:100px}*{box-sizing:border-box}html{scroll-padding-top:calc(var(--doc-header-height) + 20px)}body{margin:0;background:var(--doc-bg);color:var(--doc-ink);font:16px/1.6 system-ui,sans-serif}a{color:var(--doc-link);text-underline-offset:3px}button,input{font:inherit}a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid #a14d00;outline-offset:3px}.doc-skip{position:absolute;top:-100px}.doc-skip:focus{top:8px;left:8px;background:white;padding:10px;z-index:1100}.doc-header{position:sticky;top:0;z-index:1000;background:var(--doc-navy);color:#f4f8fc;padding:10px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}.doc-header a,.doc-header button{color:inherit}.doc-header :focus-visible{outline-color:#ffdf7c}.doc-brand{display:flex;align-items:center;gap:10px;text-decoration:none}.doc-brand img{width:42px;height:42px}.doc-brand strong,.doc-brand small{display:block}.doc-brand small{font-size:12px;color:#b9dce7}.doc-actions{display:flex;gap:7px;flex-wrap:wrap}.doc-actions a,.doc-actions button{background:#173b58;border:1px solid #6f8ba3;border-radius:5px;padding:6px 9px;text-decoration:none;cursor:pointer}.doc-actions a:hover,.doc-actions button:hover{background:#285675}.doc-search{display:flex;align-items:center;gap:8px;margin-left:auto;min-width:0}.doc-search input{width:min(260px,100%);min-width:0;padding:7px;border:1px solid #7890a8;border-radius:5px}.doc-layout{display:grid;grid-template-columns:var(--doc-rail) minmax(0,1fr);gap:24px;padding:20px}.doc-sidebar{position:sticky;top:calc(var(--doc-header-height) + 12px);align-self:start;max-height:calc(100dvh - var(--doc-header-height) - 24px);overflow:auto;padding:12px;background:#e8eff6;border:1px solid #a4b7c9;border-radius:7px}.doc-sidebar summary{font-weight:700;cursor:pointer}.doc-sidebar nav{display:grid;gap:5px;margin:12px 0}.doc-sidebar a{display:block;background:#f8fbfe;border:1px solid var(--doc-line);border-radius:5px;padding:7px 9px;text-decoration:none;overflow-wrap:anywhere}.doc-sidebar a[aria-current]{background:#cce1f1;border-left:4px solid #185f94;color:#102b43;font-weight:700}.doc-main{min-width:0;width:100%;max-width:1460px;margin:auto}.doc-overview{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:start}.doc-overview h1{font-size:clamp(28px,4vw,44px);line-height:1.15;margin:10px 0}.doc-cost-slot:empty{display:none}.doc-cost-slot{width:300px;max-width:100%}.doc-panel{background:white;border:1px solid var(--doc-line);border-radius:12px;padding:22px;margin:20px 0;overflow-wrap:anywhere}.doc-panel h2{margin-top:0}.doc-panel figure{margin:16px 0}.doc-panel img{max-width:100%;height:auto}.doc-caption,.doc-footer{font-size:14px;color:var(--doc-muted)}.doc-results{background:white;border:1px solid var(--doc-line);padding:16px;border-radius:8px}.doc-results a{display:block;margin:8px 0}.doc-footer{border-top:1px solid var(--doc-line);padding:16px 0} [hidden]{display:none!important}
+@media(max-width:1000px){.doc-layout{grid-template-columns:minmax(0,1fr);padding:12px;gap:10px}.doc-sidebar{position:static;max-height:none;padding:8px 10px}.doc-sidebar nav{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}.doc-sidebar a{font-size:14px;padding:6px 8px}.doc-header{padding:8px 12px;gap:8px}.doc-brand{flex:1}.doc-search{flex-basis:100%;margin:0}.doc-search input{flex:1;width:auto}.doc-overview{grid-template-columns:1fr}.doc-cost-slot{justify-self:end}.doc-panel{padding:16px}}@media print{.doc-header,.doc-sidebar,.doc-cost-slot,.doc-search,.doc-results{display:none!important}.doc-layout{display:block;padding:0}body{background:white}.doc-panel{break-inside:avoid}}
+
+.doc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:14px}.doc-grid article{border:1px solid var(--doc-line);padding:14px;border-radius:8px}.doc-grid h3{margin:0 0 8px;font-size:18px}.doc-table{overflow:auto;max-width:100%}table{border-collapse:collapse;width:100%;font-size:14px}td,th{border:1px solid var(--doc-line);padding:9px 12px;text-align:left;vertical-align:top}th{background:#dfebf5}tr:nth-child(even){background:#f5f8fc}.doc-note{background:#e8f1fa;border-left:4px solid #185f94;padding:12px 16px}.doc-warning{background:#fff2d9;border-color:#b07816}.doc-panel details{border-top:1px solid var(--doc-line);padding:12px 0}.doc-panel summary{cursor:pointer;font-weight:650}.doc-diagram{width:100%;height:auto;min-width:540px;max-width:900px;display:block;margin:auto}.doc-figure-scroll{overflow:auto}.doc-badge{font-size:12px;border:1px solid #b7cadd;border-radius:4px;padding:2px 6px;background:#dceaf7}.doc-panel p,.doc-panel li{max-width:90ch}.doc-panel code{background:#e5edf4;padding:2px 4px}.doc-panel a{overflow-wrap:anywhere}@media(forced-colors:active){.doc-sidebar a[aria-current]{border-color:Highlight}.doc-panel,.doc-sidebar{border-color:CanvasText}}@media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+
+.doc-actions a,.doc-actions button{display:inline-flex;align-items:center;gap:6px}.doc-search .doc-control-icon{color:#b6e2e3}@media(max-width:1000px){.doc-header{padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right))}.doc-actions a,.doc-actions button,.doc-sidebar a,.doc-sidebar summary,.doc-theme-control select{min-height:44px}.doc-sidebar a{display:flex;align-items:center}.doc-layout{padding-bottom:max(12px,env(safe-area-inset-bottom))}}
+
+/* Cookbook-style wayfinding: stable icons, numbers and readable labels. */
+.doc-sidebar a{display:flex;align-items:flex-start;gap:7px}.doc-nav-icon{flex:0 0 18px;width:18px;height:18px;margin-top:3px;fill:none;stroke:#24717a;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.doc-nav-number{flex:none;font-variant-numeric:tabular-nums;font-weight:650}.doc-nav-label{min-width:0}html[data-doc-theme=dark] .doc-nav-icon{stroke:#b6e2e3}@media(forced-colors:active){.doc-nav-icon{stroke:LinkText}}
+
+.doc-nav-group{border-top:1px solid var(--doc-line);margin-top:10px;padding-top:8px}.doc-nav-group>summary{padding:6px 2px;font-size:14px}.doc-nav-group nav{margin:6px 0}
+
+/* Identity badge and current-section treatment from the selected study hubs. */
+.doc-brand img{box-sizing:content-box;padding:4px;background:linear-gradient(135deg,#15554b,#348c70);border:1px solid #e6bd78;border-radius:14px;box-shadow:0 2px 10px #0003}
+.doc-brand:hover img{border-color:#ffdf7c;box-shadow:0 0 0 2px #b6e2e333}
+.doc-section-tabs{display:flex;align-items:center;flex-wrap:wrap;gap:5px}
+.doc-section-tabs a{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:7px;text-decoration:none;font-size:14px;color:#c4d8e8}
+.doc-section-tabs a:hover{background:#28465b;color:#fff}
+.doc-section-tabs a[aria-current=page]{color:#ecf8ff;background:#29485f;box-shadow:inset 0 -2px #a9d8ff;font-weight:650}
+@media(max-width:1000px){.doc-section-tabs{flex-basis:100%;gap:5px}.doc-section-tabs a{min-height:44px}.doc-brand img{width:32px;height:32px}}
+@media(forced-colors:active){.doc-brand img{border-color:LinkText}.doc-section-tabs a[aria-current]{outline:2px solid Highlight;box-shadow:none}}
+
+/* Prominent app identity: icon and app name form one highlighted group. */
+.doc-header .doc-brand{background:#21475b;border:1px solid #729b9e;border-radius:13px;padding:8px 13px;box-shadow:inset 0 1px #ffffff16,0 3px 12px #0002}
+.doc-header .doc-brand img{width:52px;height:52px;padding:0;flex:none}
+.doc-header .doc-brand strong{font-size:20px;line-height:1.25;color:#fff}
+.doc-header .doc-brand small{margin-top:3px;font-size:12px}
+.doc-sidebar a[aria-current=location]{box-shadow:inset 0 -2px #185f94}
+html[data-doc-theme=dark] .doc-sidebar a[aria-current=location]{box-shadow:inset 0 -2px #a9d8ff}
+@media(max-width:1000px){.doc-header .doc-brand{padding:6px 9px}.doc-header .doc-brand img{width:38px;height:38px}.doc-header .doc-brand strong{font-size:17px}}
+
+:root{--doc-rail:clamp(18rem,23vw,23rem)}
+
+/* Display ordering is invariant across responsive layout changes. */
+.doc-nav-number,.doc-section-number{display:inline-flex;flex:none;font-variant-numeric:tabular-nums}
+
+/* Topic artwork sits beneath the persistent header, inside the main overview. */
+.doc-overview.doc-banner{background:linear-gradient(90deg,#12384fee 0%,#12384fcb 48%,#12384f33 100%),url('banner.svg') center/cover no-repeat;border:1px solid #548d8d;border-radius:16px;padding:28px;color:#f4fbff;min-height:270px;overflow:hidden}
+.doc-banner h1{color:#fff}.doc-banner p,.doc-banner .doc-caption{color:#d8ebf2}.doc-banner>.doc-cost-slot{align-self:start}
+@media(max-width:1000px){.doc-overview.doc-banner{padding:20px;min-height:220px;background-position:60% center}.doc-banner h1{font-size:30px}}
+@media print{.doc-overview.doc-banner{background:white!important;color:#172c3e!important;min-height:0}.doc-banner h1,.doc-banner p{color:#172c3e!important}}
+
+/* Reuse one topic banner across subpages and selected major subsections. */
+.doc-banner-compact{min-height:170px!important;padding:22px!important}
+.doc-banner.doc-banner-section{background:linear-gradient(90deg,#12384fee,#12384f99),url('banner.svg') center/cover no-repeat;border-radius:12px;padding:20px;color:#f4fbff;margin-bottom:20px}
+.doc-banner-section h2{color:#fff;margin:0 0 8px}.doc-banner-section p{margin:0;color:#d8ebf2}
+@media(max-width:1000px){.doc-banner-compact{min-height:140px!important;padding:16px!important}.doc-banner.doc-banner-section{padding:16px}}
+@media print{.doc-banner.doc-banner-section{background:white!important;color:#172c3e!important}.doc-banner-section h2,.doc-banner-section p{color:#172c3e!important}}
+
+/* Many-chapter navigation remains reachable below the measured header. */
+.doc-sidebar{min-height:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:contain;scrollbar-gutter:stable}
+.doc-nav-scroll{min-width:0}.doc-nav-scroll:focus-visible{outline:3px solid #a14d00;outline-offset:-3px}
+@media(max-width:1000px){.doc-sidebar{overflow:visible;max-height:none}.doc-nav-scroll{max-height:min(60dvh,calc(100dvh - var(--doc-header-height) - 76px));overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:contain;scrollbar-gutter:stable;padding-bottom:max(10px,env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch}}
+
+/* Header hierarchy: identity, sections, actions, search, secondary display settings. */
+.doc-header-settings{position:relative;flex:none}.doc-header-settings>summary{display:flex;align-items:center;gap:7px;cursor:pointer;padding:7px 10px;border:1px solid #6f8ba3;border-radius:5px;background:#173b58;min-height:36px}
+.doc-header-settings[open]>summary{background:#29485f;box-shadow:inset 0 -2px #a9d8ff}
+.doc-header-settings-body{position:absolute;right:0;top:calc(100% + 6px);min-width:210px;max-width:calc(100vw - 24px);padding:14px;background:#173b58;border:1px solid #7890a8;border-radius:8px;box-shadow:0 6px 20px #0004;z-index:1100}
+.doc-header-settings-body .doc-theme-control{display:flex;justify-content:space-between}
+@media(max-width:1000px){.doc-header .doc-brand{flex-basis:100%}.doc-header .doc-section-tabs{order:1}.doc-header .doc-actions{order:2}.doc-header .doc-search{order:3;flex:1 1 220px}.doc-header .doc-header-settings{order:4}.doc-header #private-cost-meter{order:5}.doc-header-settings>summary{min-height:44px}.doc-header-settings-body{max-height:45dvh;overflow:auto}}
+@media print{.doc-header-settings{display:none!important}}
+
+/* Content-driven wrapping: no mandatory extra header rows. */
+.doc-header{gap:8px 12px}.doc-header .doc-brand{flex:0 1 auto;min-width:0}.doc-header .doc-section-tabs{flex:0 1 auto}.doc-header .doc-actions{flex:0 1 auto}.doc-header .doc-search{flex:1 1 170px;max-width:340px}.doc-header .doc-search input{width:100%;min-width:80px}
+@media(max-width:1000px){.doc-header .doc-brand,.doc-header .doc-section-tabs{flex-basis:auto}.doc-header .doc-search{flex:1 1 150px;margin-left:0;max-width:none}.doc-header .doc-section-tabs{gap:3px}.doc-header .doc-actions{gap:4px}.doc-header .doc-brand{padding:5px 8px}.doc-header{gap:6px 8px}}
+
+/* Crowding guard: flexible groups, bounded search and readable controls. */
+.doc-header>*{min-width:0;max-width:100%}
+.doc-header .doc-brand{flex-shrink:1}.doc-header .doc-brand>span{min-width:0}.doc-header .doc-brand strong,.doc-header .doc-brand small{overflow-wrap:anywhere}
+.doc-header .doc-section-tabs,.doc-header .doc-actions{flex-wrap:wrap;min-width:0;max-width:100%}
+.doc-header .doc-section-tabs a,.doc-header .doc-actions a,.doc-header .doc-actions button,.doc-header-settings>summary{white-space:normal;overflow-wrap:anywhere;flex-shrink:0}
+.doc-header .doc-search{min-width:min(170px,100%);max-width:320px}.doc-header .doc-search input{min-width:0;flex:1;width:100%}
+.doc-header .doc-header-settings{flex:0 0 auto}
+@media(max-width:600px){.doc-header .doc-brand strong{font-size:16px}.doc-header .doc-brand small{font-size:11px}.doc-header .doc-search{max-width:none;flex-basis:150px}.doc-header .doc-actions,.doc-header .doc-section-tabs{gap:4px}.doc-header .doc-actions a,.doc-header .doc-actions button,.doc-header .doc-section-tabs a{padding:6px 8px}}
+
+/* Current Better_SR_FG_RR visual baseline; pane remains visible by user preference. */
+:root{--doc-rail:clamp(300px,23vw,368px)}
+.doc-sidebar{padding:12px;border:1px solid #a4b7c9;border-radius:7px}
+.doc-nav-title{font:700 15px/1.4 system-ui;margin:6px 2px 12px}
+.doc-sidebar .doc-nav-group{border-top:1px solid var(--doc-line);margin-top:10px;padding-top:8px}
+.doc-sidebar .doc-nav-group:first-of-type{border-top:0;margin-top:0;padding-top:0}
+.doc-sidebar .doc-nav-group>summary{padding:6px 2px;font-size:14px;line-height:1.4}
+.doc-sidebar a{gap:8px;line-height:1.45}
+.doc-header .doc-search{flex:1 1 240px;max-width:420px;min-width:min(220px,100%)}
+.doc-header .doc-search input{flex:1;min-width:0;width:100%;max-width:none}
+@media(max-width:1000px){.doc-sidebar{padding:8px 10px}.doc-sidebar a{gap:5px;font-size:13px;min-height:44px}.doc-header .doc-search{flex:1 1 210px;max-width:none;min-width:0}}
+@media(max-height:500px){.doc-header{position:relative}.doc-sidebar{position:relative;top:0;max-height:none}}
+
+/* Library-first landing: important topic/view destinations before long details. */
+.doc-focus{margin:18px 0;padding:16px 20px;background:var(--doc-panel);border:1px solid var(--doc-line);border-left:4px solid #24717a;border-radius:8px}.doc-focus p{margin:4px 0 12px;max-width:90ch}.doc-quicklinks{display:flex;flex-wrap:wrap;gap:8px}.doc-quicklinks a{padding:7px 10px;border:1px solid var(--doc-line);border-radius:6px;text-decoration:none}.doc-quicklinks a:hover{text-decoration:underline}.doc-panel .doc-grid article{display:flex;flex-direction:column;align-items:flex-start}.doc-panel .doc-grid article>a:last-child{margin-top:auto}.doc-grid article p{margin-top:0}@media(max-width:600px){.doc-quicklinks a{min-height:44px;display:flex;align-items:center}.doc-focus{padding:14px}}
+/* Narrow banner precedes the rail in DOM order; retain compact aligned labels. */
+.doc-sidebar nav a{display:flex;align-items:center;gap:6px;min-width:0}
+.doc-sidebar :is(.doc-link-label,.doc-nav-label){flex:1;min-width:0;overflow-wrap:anywhere}
+.doc-sidebar :is(.doc-nav-number,.doc-section-number){flex:0 0 2.2em;text-align:center;justify-content:center}
+.doc-sidebar .doc-nav-icon{margin:0;flex:0 0 18px}
+@media(max-width:1000px){
+ .doc-layout>.doc-mobile-banner{margin:0;min-height:0;padding:16px;max-width:100%;min-width:0}
+ .doc-layout>.doc-sidebar nav{margin:4px 0;gap:4px}
+ .doc-layout>.doc-sidebar nav a{height:100%;min-height:44px;padding:6px;gap:5px}
+ .doc-layout>.doc-sidebar .doc-nav-group{margin-top:6px;padding-top:4px}
+ .doc-header .doc-brand{padding:5px 7px}.doc-header .doc-brand img{width:34px;height:34px}
+ .doc-header .doc-search{flex:1 1 180px;max-width:100%}.doc-header .doc-actions{gap:4px}
+}
+
+
+/* Narrow banner grading: recognizable artwork, localized text contrast. */
+
+@media screen and (max-width:1000px){
+ .doc-overview.doc-banner{background:linear-gradient(90deg,#12384fee 0%,#12384fcb 48%,#12384f26 100%),url('banner.svg') 60% center/cover no-repeat}
+}
+/* End narrow banner grading. */
+
+/* Mobile navigation budget: keep the content in view. */
+
+@media screen and (max-width:1000px){
+ .doc-layout>.doc-sidebar{position:relative;top:auto;height:auto;max-height:min(240px,30vh);max-height:min(240px,30dvh);min-height:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:contain;scrollbar-gutter:stable;box-sizing:border-box;padding:6px 8px}
+ .doc-layout>.doc-sidebar .doc-nav-scroll{max-height:none;overflow:visible;padding-bottom:4px}
+ .doc-layout>.doc-sidebar .doc-nav-title{font-size:14px;line-height:1.3;margin:3px 2px 5px}
+}

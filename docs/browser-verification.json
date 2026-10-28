@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "checks": [
+    "desktop/mobile screenshots",
+    "light/dark screenshots",
+    "saved theme",
+    "system theme",
+    "PETAFAB search",
+    "source keyword search",
+    "empty search",
+    "no body overflow",
+    "mobile banner order",
+    "single theme picker",
+    "anchor navigation",
+    "no JS errors"
+  ],
+  "mobile": {
+    "width": 390,
+    "scroll": 390,
+    "hero": 173.140625,
+    "nav": 551.765625,
+    "themeControls": 1
+  }
+}

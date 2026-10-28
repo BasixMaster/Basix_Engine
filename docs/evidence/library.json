@@ -1,0 +1,970 @@
+{
+  "schema_version": 1,
+  "title": "Basix Engine evidence library",
+  "purpose": "Support MIT engine architecture and future rendering implementation.",
+  "scope": "UE5.8/6, NoGraphicsAPI, PETAFAB, DXR/DX12, Linear Algebra, RTXDI/RTXPT and DLSS.",
+  "updated_on": "2026-10-28",
+  "summary": [
+    "Research only; implementation proposals and vendor claims are distinguished from measurements."
+  ],
+  "questions": [
+    {
+      "id": "Q1",
+      "title": "MIT distribution boundary",
+      "topic": "Basix engine",
+      "priority": "high",
+      "status": "complete",
+      "why": "Resolve a consequential architecture decision before engine implementation.",
+      "depends_on": [],
+      "search_terms": [
+        "MIT distribution boundary"
+      ],
+      "source_types": [
+        "primary documentation",
+        "code",
+        "license"
+      ],
+      "evaluation": "Compare exact implementation, explicit maturity and distribution terms; distinguish proposal from measurement.",
+      "stop_when": "A bounded decision and executable validation gate are documented.",
+      "coverage": "Research decision covered; no runtime or shipping validation. See research-map chapter and milestones.",
+      "presentation_path": "index.html",
+      "presentation_anchor": "research-map"
+    },
+    {
+      "id": "Q2",
+      "title": "Hardware RT and SDK interop",
+      "topic": "Basix engine",
+      "priority": "high",
+      "status": "complete",
+      "why": "Resolve a consequential architecture decision before engine implementation.",
+      "depends_on": [
+        "Q1"
+      ],
+      "search_terms": [
+        "Hardware RT and SDK interop"
+      ],
+      "source_types": [
+        "primary documentation",
+        "code",
+        "license"
+      ],
+      "evaluation": "Compare exact implementation, explicit maturity and distribution terms; distinguish proposal from measurement.",
+      "stop_when": "A bounded decision and executable validation gate are documented.",
+      "coverage": "Research decision covered; no runtime or shipping validation. See research-map chapter and milestones.",
+      "presentation_path": "index.html",
+      "presentation_anchor": "research-map"
+    },
+    {
+      "id": "Q3",
+      "title": "UE-like scene detail",
+      "topic": "Basix engine",
+      "priority": "high",
+      "status": "complete",
+      "why": "Resolve a consequential architecture decision before engine implementation.",
+      "depends_on": [
+        "Q1"
+      ],
+      "search_terms": [
+        "UE-like scene detail"
+      ],
+      "source_types": [
+        "primary documentation",
+        "code",
+        "license"
+      ],
+      "evaluation": "Compare exact implementation, explicit maturity and distribution terms; distinguish proposal from measurement.",
+      "stop_when": "A bounded decision and executable validation gate are documented.",
+      "coverage": "Research decision covered; no runtime or shipping validation. See research-map chapter and milestones.",
+      "presentation_path": "index.html",
+      "presentation_anchor": "research-map"
+    },
+    {
+      "id": "Q4",
+      "title": "Many-light and PT architecture",
+      "topic": "Basix engine",
+      "priority": "high",
+      "status": "complete",
+      "why": "Resolve a consequential architecture decision before engine implementation.",
+      "depends_on": [
+        "Q1"
+      ],
+      "search_terms": [
+        "Many-light and PT architecture"
+      ],
+      "source_types": [
+        "primary documentation",
+        "code",
+        "license"
+      ],
+      "evaluation": "Compare exact implementation, explicit maturity and distribution terms; distinguish proposal from measurement.",
+      "stop_when": "A bounded decision and executable validation gate are documented.",
+      "coverage": "Research decision covered; no runtime or shipping validation. See research-map chapter and milestones.",
+      "presentation_path": "index.html",
+      "presentation_anchor": "research-map"
+    },
+    {
+      "id": "Q5",
+      "title": "DX roadmap maturity",
+      "topic": "Basix engine",
+      "priority": "medium",
+      "status": "complete",
+      "why": "Resolve a consequential architecture decision before engine implementation.",
+      "depends_on": [
+        "Q1"
+      ],
+      "search_terms": [
+        "DX roadmap maturity"
+      ],
+      "source_types": [
+        "primary documentation",
+        "code",
+        "license"
+      ],
+      "evaluation": "Compare exact implementation, explicit maturity and distribution terms; distinguish proposal from measurement.",
+      "stop_when": "A bounded decision and executable validation gate are documented.",
+      "coverage": "Research decision covered; no runtime or shipping validation. See research-map chapter and milestones.",
+      "presentation_path": "index.html",
+      "presentation_anchor": "research-map"
+    },
+    {
+      "id": "Q6",
+      "title": "PETAFAB evidence",
+      "topic": "Basix engine",
+      "priority": "medium",
+      "status": "complete",
+      "why": "Resolve a consequential architecture decision before engine implementation.",
+      "depends_on": [],
+      "search_terms": [
+        "PETAFAB evidence"
+      ],
+      "source_types": [
+        "primary documentation",
+        "code",
+        "license"
+      ],
+      "evaluation": "Compare exact implementation, explicit maturity and distribution terms; distinguish proposal from measurement.",
+      "stop_when": "A bounded decision and executable validation gate are documented.",
+      "coverage": "Research decision covered; no runtime or shipping validation. See research-map chapter and milestones.",
+      "presentation_path": "index.html",
+      "presentation_anchor": "research-map"
+    }
+  ],
+  "sources": [
+    {
+      "id": "S01",
+      "title": "NoGraphicsAPI README",
+      "url": "https://github.com/sebbbi/NoGraphicsAPI/blob/ffd9f2ab6b7442dcfbe0cb0051d84d0edb078d89/README.md",
+      "notes": "C++20, Vulkan 1.4 and Metal 4 implementation; required Vulkan extensions exceed core 1.4. Driver compatibility table is explicitly a September 2026 snapshot.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S01"
+    },
+    {
+      "id": "S02",
+      "title": "NoGraphicsAPI public interface",
+      "url": "https://github.com/sebbbi/NoGraphicsAPI/blob/ffd9f2ab6b7442dcfbe0cb0051d84d0edb078d89/include/NoGraphicsAPI/NoGraphicsAPI.hpp",
+      "notes": "Local source inspection: no public acceleration-structure build, trace-rays pipeline, or native-handle interop API in this header. Existing draw, compute, mesh, allocation and synchronization API is not a complete hardware RT API.",
+      "kind": "code inspection",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S02"
+    },
+    {
+      "id": "S03",
+      "title": "NoGraphicsAPI design comparison",
+      "url": "https://github.com/sebbbi/NoGraphicsAPI/blob/ffd9f2ab6b7442dcfbe0cb0051d84d0edb078d89/docs/no-graphics-api-comparison.md",
+      "notes": "Pointer roots, application-owned lifetimes and indexed descriptor heaps; barriers use stage/access scopes. Implementation differs from the original aspirational blog.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S03"
+    },
+    {
+      "id": "S04",
+      "title": "NoGraphicsAPI Slang ABI",
+      "url": "https://github.com/sebbbi/NoGraphicsAPI/blob/ffd9f2ab6b7442dcfbe0cb0051d84d0edb078d89/docs/slang.md",
+      "notes": "16-byte-aligned root records; shared constant-buffer layout differs from pointed-to C POD data. Compile and reflect layout checks. Vulkan and Metal shader artifact requirements differ.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S04"
+    },
+    {
+      "id": "S05",
+      "title": "PETAFAB developer technology page",
+      "url": "https://www.sebastianaaltonen.com/petafab/",
+      "notes": "Developer reports custom NoGraphicsAPI engine, distance-field ray tracing, mesh shaders, Clayfield-derived simulation and fully destructible levels. Performance figures are developer claims, not reproduced here.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S05"
+    },
+    {
+      "id": "S06",
+      "title": "PETAFAB Steam listing",
+      "url": "https://store.steampowered.com/app/5354780/PETAFAB_Bot_Invasion/",
+      "notes": "Listing gives November 6, 2026 release date at this check; therefore not yet a released-game validation as of October 28.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S06"
+    },
+    {
+      "id": "S07",
+      "title": "UE5.8 feature overview",
+      "url": "https://www.unrealengine.com/news/unreal-engine-5-8-is-now-available",
+      "notes": "MegaLights is production-ready; Lumen Lite lowers GI cost; Mesh Terrain and Fast Geometry Streaming are experimental. Feature maturity differs across systems.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S07"
+    },
+    {
+      "id": "S08",
+      "title": "The road to UE6",
+      "url": "https://www.unrealengine.com/news/the-road-to-ue-6",
+      "notes": "Epic targets end-2027 Early Access and full release 12–18 months later. Development stream is explicitly not alpha. Verse, interoperability and development workflows are major directions.",
+      "kind": "official documentation",
+      "published_on": "2026-06-22",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S08"
+    },
+    {
+      "id": "S09",
+      "title": "Epic MegaLights technique overview",
+      "url": "https://dev.epicgames.com/documentation/en-us/unreal-engine/megalights-in-unreal-engine",
+      "notes": "Fixed stochastic direct-light sample budget, light guiding, screen-space supplements and denoising. Lighting complexity changes quality; simplified BVH geometry can lose shadows. A direct-lighting system, not a full path tracer.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S09"
+    },
+    {
+      "id": "S10",
+      "title": "UE ray tracing performance guide",
+      "url": "https://dev.epicgames.com/documentation/unreal-engine/ray-tracing-performance-guide-in-unreal-engine",
+      "notes": "Acceleration-structure updates, instance counts and ray-tracing geometry residency are independent performance costs. RT proxies and residency controls matter for dense worlds.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S10"
+    },
+    {
+      "id": "S11",
+      "title": "Agility SDK release table",
+      "url": "https://devblogs.microsoft.com/directx/directx12agility/",
+      "notes": "Retail 1.619.6 listed September 14, 2026; preview 1.721.3 listed July 30, 2026. SDK availability does not imply driver/hardware feature support.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S11"
+    },
+    {
+      "id": "S12",
+      "title": "Shader Model 6.9 retail and more",
+      "url": "https://devblogs.microsoft.com/directx/shader-model-6-9-retail-and-more/",
+      "notes": "Retail DXR1.2 adds SER and OMM. SM6.9 long vectors; Cooperative Vector deprecated in favor of unified SM6.10 Linear Algebra. SER API and actual reordering capability differ.",
+      "kind": "official documentation",
+      "published_on": "2026-02-26",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S12"
+    },
+    {
+      "id": "S13",
+      "title": "DirectX Linear Algebra runtime feature support",
+      "url": "https://microsoft.github.io/DirectX-Specs/d3d/D3D12LinearAlgebraRuntimeFeatureSupport.html",
+      "notes": "Draft v0.11: per-operation type/shape queries, native-operation enumeration, and emulated input/output distinctions. SM6.10 Linear Algebra is a preview research dependency.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S13"
+    },
+    {
+      "id": "S14",
+      "title": "DirectX specification status index",
+      "url": "https://microsoft.github.io/DirectX-Specs/",
+      "notes": "Raytracing2 explicitly marked work in progress, not in preview yet. Prefer explicit maturity status over old forecast language.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S14"
+    },
+    {
+      "id": "S15",
+      "title": "DXR Part 2 draft",
+      "url": "https://github.com/microsoft/DirectX-Specs/blob/master/d3d/Raytracing2.md",
+      "notes": "Draft v0.38 September 8, 2026 proposes clustered geometry, partitioned TLAS, indirect AS operations. Speculative preview schedule is not proof of a shipped SDK.",
+      "kind": "official documentation",
+      "published_on": "2026-09-08",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S15"
+    },
+    {
+      "id": "S16",
+      "title": "HLSL SM6.6 dynamic resources",
+      "url": "https://microsoft.github.io/DirectX-Specs/d3d/HLSL_SM_6_6_DynamicResources.html",
+      "notes": "Direct descriptor heap indexing requires appropriate root signature flags and capability support; nonuniform indexing must be annotated. This is not arbitrary GPU pointer dereference.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S16"
+    },
+    {
+      "id": "S17",
+      "title": "RTXDI changelog",
+      "url": "https://github.com/NVIDIA-RTX/RTXDI/blob/a6efab966b7c3b272da0461578eb56ac61c7cbff/ChangeLog.md",
+      "notes": "RTXDI 3.1 includes RR integration in FullSample, PT decorrelation and compatibility-guided neighbor selection. SDK layout/API changes require explicit version pinning.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S17"
+    },
+    {
+      "id": "S18",
+      "title": "RTXPT architecture and known issues",
+      "url": "https://github.com/NVIDIA-RTX/RTXPT/blob/303b408ab81790a5051abd7573830b7a4112eb8e/README.md",
+      "notes": "Unified PT main sample and separate incremental hybrid IntroSample. D3D12 and Vulkan available with documented Vulkan feature/validation and vendor issues. A sample is not proof of universal production support.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S18"
+    },
+    {
+      "id": "S19",
+      "title": "Streamline programming guide",
+      "url": "https://github.com/NVIDIA-RTX/Streamline/blob/625db07d4bca5abc67d781c42af7e7fb0761f1b6/docs/ProgrammingGuide.md",
+      "notes": "Initialize early; query adapter/API feature support; integration needs native resource/command objects, synchronization, resource tagging and lifetime management.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S19"
+    },
+    {
+      "id": "S20",
+      "title": "Streamline DLSS Ray Reconstruction guide",
+      "url": "https://github.com/NVIDIA-RTX/Streamline/blob/625db07d4bca5abc67d781c42af7e7fb0761f1b6/docs/ProgrammingGuideDLSS_RR.md",
+      "notes": "Noisy color, albedo, normals, roughness, dense motion, depth and reflection-motion or hit-distance guides form the integration contract. Follow pinned guide for formats and flags; do not hard-code an old depth assumption.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S20"
+    },
+    {
+      "id": "S21",
+      "title": "UE license",
+      "url": "https://www.unrealengine.com/eula/unreal",
+      "notes": "UE source and Engine Tools have their own distribution conditions. Benchmarking visual goals does not make UE implementation code MIT. Marketplace asset terms are separate.",
+      "kind": "license",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S21"
+    },
+    {
+      "id": "S22",
+      "title": "ReSTIR original paper overview",
+      "url": "https://research.nvidia.com/publication/2020-07_spatiotemporal-reservoir-resampling-real-time-ray-tracing-dynamic-direct",
+      "notes": "Resample candidates and reuse spatial/temporal samples; estimator choice changes bias. Paper benchmarks do not predict Basix speed.",
+      "kind": "research paper overview",
+      "published_on": "2020-07-19",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S22"
+    },
+    {
+      "id": "S23",
+      "title": "RTX Mega Geometry Cluster LOD",
+      "url": "https://github.com/NVIDIA-RTX/RTXMG/blob/main/docs/ClusterLOD.md",
+      "notes": "D3D12/Vulkan ray-traced cluster LOD path via NVRHI; follows vk_lod_clusters. Separate vendor-dependent implementation from future DXR standardization.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S23"
+    },
+    {
+      "id": "S24",
+      "title": "DLSS 4.5 Ray Reconstruction announcement",
+      "url": "https://www.nvidia.com/en-us/geforce/news/gamescom-2026-nvidia-geforce-rtx-dlss-4-5-announcements/",
+      "notes": "NVIDIA describes a second-generation transformer RR model and app rollout. App model overrides and an engine SDK integration are distinct release surfaces.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S24"
+    },
+    {
+      "id": "S25",
+      "title": "NoGraphicsAPI pinned license",
+      "url": "https://github.com/sebbbi/NoGraphicsAPI/blob/ffd9f2ab6b7442dcfbe0cb0051d84d0edb078d89/LICENSE",
+      "notes": "NoGraphicsAPI revision ffd9f2ab6b7442dcfbe0cb0051d84d0edb078d89; MIT. Retain component-specific terms and notices.",
+      "kind": "license",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "MIT; exact SHA ffd9f2ab6b7442dcfbe0cb0051d84d0edb078d89; checked 2026-10-28. Preserve copyright/license notices; audit dependencies and assets separately.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S25"
+    },
+    {
+      "id": "S26",
+      "title": "DLSS pinned license",
+      "url": "https://github.com/NVIDIA/DLSS/blob/9981c6350dc58c0ce21f024fd65e31e851c31689/LICENSE.txt",
+      "notes": "DLSS revision 9981c6350dc58c0ce21f024fd65e31e851c31689; NVIDIA RTX SDKs License. Retain component-specific terms and notices.",
+      "kind": "license",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "NVIDIA RTX SDKs License; exact SHA 9981c6350dc58c0ce21f024fd65e31e851c31689; checked 2026-10-28. No blanket MIT relicensing; verify redistribution scope, supplements, binaries and assets independently.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S26"
+    },
+    {
+      "id": "S27",
+      "title": "RTXDI pinned license",
+      "url": "https://github.com/NVIDIA-RTX/RTXDI/blob/a6efab966b7c3b272da0461578eb56ac61c7cbff/LICENSE.txt",
+      "notes": "RTXDI revision a6efab966b7c3b272da0461578eb56ac61c7cbff; NVIDIA RTX SDKs License. Retain component-specific terms and notices.",
+      "kind": "license",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "NVIDIA RTX SDKs License; exact SHA a6efab966b7c3b272da0461578eb56ac61c7cbff; checked 2026-10-28. No blanket MIT relicensing; verify redistribution scope, supplements, binaries and assets independently.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S27"
+    },
+    {
+      "id": "S28",
+      "title": "RTXDI-Library pinned license",
+      "url": "https://github.com/NVIDIA-RTX/RTXDI-Library/blob/f12037fa8e97ebc08e9e3edfd2de528ed1772a4b/LICENSE.txt",
+      "notes": "RTXDI-Library revision f12037fa8e97ebc08e9e3edfd2de528ed1772a4b; NVIDIA RTX SDKs License. Retain component-specific terms and notices.",
+      "kind": "license",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "NVIDIA RTX SDKs License; exact SHA f12037fa8e97ebc08e9e3edfd2de528ed1772a4b; checked 2026-10-28. No blanket MIT relicensing; verify redistribution scope, supplements, binaries and assets independently.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S28"
+    },
+    {
+      "id": "S29",
+      "title": "RTXPT pinned license",
+      "url": "https://github.com/NVIDIA-RTX/RTXPT/blob/303b408ab81790a5051abd7573830b7a4112eb8e/LICENSE.txt",
+      "notes": "RTXPT revision 303b408ab81790a5051abd7573830b7a4112eb8e; NVIDIA RTX SDKs License. Retain component-specific terms and notices.",
+      "kind": "license",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "NVIDIA RTX SDKs License; exact SHA 303b408ab81790a5051abd7573830b7a4112eb8e; checked 2026-10-28. No blanket MIT relicensing; verify redistribution scope, supplements, binaries and assets independently.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S29"
+    },
+    {
+      "id": "S30",
+      "title": "NRD pinned license",
+      "url": "https://github.com/NVIDIA-RTX/NRD/blob/9afa555ead6936be1d8f7f2713ac770e2821a83a/LICENSE.txt",
+      "notes": "NRD revision 9afa555ead6936be1d8f7f2713ac770e2821a83a; NVIDIA RTX SDKs License. Retain component-specific terms and notices.",
+      "kind": "license",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "NVIDIA RTX SDKs License; exact SHA 9afa555ead6936be1d8f7f2713ac770e2821a83a; checked 2026-10-28. No blanket MIT relicensing; verify redistribution scope, supplements, binaries and assets independently.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S30"
+    },
+    {
+      "id": "S31",
+      "title": "Streamline pinned license",
+      "url": "https://github.com/NVIDIA-RTX/Streamline/blob/625db07d4bca5abc67d781c42af7e7fb0761f1b6/license.txt",
+      "notes": "Streamline revision 625db07d4bca5abc67d781c42af7e7fb0761f1b6; MIT framework; Nsight Perf exceptions. Retain component-specific terms and notices.",
+      "kind": "license",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "MIT framework; Nsight Perf exceptions; exact SHA 625db07d4bca5abc67d781c42af7e7fb0761f1b6; checked 2026-10-28. No blanket MIT relicensing; verify redistribution scope, supplements, binaries and assets independently.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S31"
+    }
+  ],
+  "findings": [
+    {
+      "id": "F1",
+      "title": "MIT core boundary",
+      "question_ids": [
+        "Q1"
+      ],
+      "topic": "rendering",
+      "claim": "Original MIT core can coexist with optional separately licensed SDKs; the combined NVIDIA stack is not MIT.",
+      "evidence_type": "reported",
+      "confidence": "high",
+      "context": "Public source review as of 2026-10-28",
+      "strengths": "Direct primary-source traceability.",
+      "limitations": "No execution, cross-vendor test or independent performance measurement.",
+      "implications": "Follow the associated chapter and milestone gate before implementation.",
+      "tags": [
+        "Basix",
+        "rendering",
+        "research"
+      ],
+      "evidence": [
+        {
+          "source_id": "S25",
+          "locator": "Linked document and source notes",
+          "relation": "supports",
+          "note": "Supports the scoped claim, not a Basix runtime result."
+        },
+        {
+          "source_id": "S26",
+          "locator": "Linked document and source notes",
+          "relation": "supports",
+          "note": "Supports the scoped claim, not a Basix runtime result."
+        },
+        {
+          "source_id": "S27",
+          "locator": "Linked document and source notes",
+          "relation": "supports",
+          "note": "Supports the scoped claim, not a Basix runtime result."
+        },
+        {
+          "source_id": "S28",
+          "locator": "Linked document and source notes",
+          "relation": "supports",
+          "note": "Supports the scoped claim, not a Basix runtime result."
+        },
+        {
+          "source_id": "S29",
+          "locator": "Linked document and source notes",
+          "relation": "supports",
+          "note": "Supports the scoped claim, not a Basix runtime result."
+        },
+        {
+          "source_id": "S30",
+          "locator": "Linked document and source notes",
+          "relation": "supports",
+          "note": "Supports the scoped claim, not a Basix runtime result."
+        },
+        {
+          "source_id": "S31",
+          "locator": "Linked document and source notes",
+          "relation": "supports",
+          "note": "Supports the scoped claim, not a Basix runtime result."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
+    },
+    {
+      "id": "F2",
+      "title": "Missing hardware RT API",
+      "question_ids": [
+        "Q2"
+      ],
+      "topic": "rendering",
+      "claim": "Inspected NoGraphicsAPI public header has no AS construction, ray dispatch or native SDK object interface.",
+      "evidence_type": "analytical",
+      "confidence": "high",
+      "context": "Public source review as of 2026-10-28",
+      "strengths": "Direct primary-source traceability.",
+      "limitations": "No execution, cross-vendor test or independent performance measurement.",
+      "implications": "Follow the associated chapter and milestone gate before implementation.",
+      "tags": [
+        "Basix",
+        "rendering",
+        "research"
+      ],
+      "evidence": [
+        {
+          "source_id": "S02",
+          "locator": "Linked document and source notes",
+          "relation": "supports",
+          "note": "Supports the scoped claim, not a Basix runtime result."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
+    },
+    {
+      "id": "F3",
+      "title": "Many-light scope",
+      "question_ids": [
+        "Q4"
+      ],
+      "topic": "rendering",
+      "claim": "MegaLights solves direct illumination; it is not a synonym for full PT or RTXDI.",
+      "evidence_type": "reported",
+      "confidence": "high",
+      "context": "Public source review as of 2026-10-28",
+      "strengths": "Direct primary-source traceability.",
+      "limitations": "No execution, cross-vendor test or independent performance measurement.",
+      "implications": "Follow the associated chapter and milestone gate before implementation.",
+      "tags": [
+        "Basix",
+        "rendering",
+        "research"
+      ],
+      "evidence": [
+        {
+          "source_id": "S09",
+          "locator": "Linked document and source notes",
+          "relation": "supports",
+          "note": "Supports the scoped claim, not a Basix runtime result."
+        },
+        {
+          "source_id": "S17",
+          "locator": "Linked document and source notes",
+          "relation": "supports",
+          "note": "Supports the scoped claim, not a Basix runtime result."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
+    },
+    {
+      "id": "F4",
+      "title": "Roadmap distinction",
+      "question_ids": [
+        "Q5"
+      ],
+      "topic": "rendering",
+      "claim": "DXR1.2 is retail; LinAlg is preview; DXR2 status is work in progress; UE6 is a future target.",
+      "evidence_type": "reported",
+      "confidence": "high",
+      "context": "Public source review as of 2026-10-28",
+      "strengths": "Direct primary-source traceability.",
+      "limitations": "No execution, cross-vendor test or independent performance measurement.",
+      "implications": "Follow the associated chapter and milestone gate before implementation.",
+      "tags": [
+        "Basix",
+        "rendering",
+        "research"
+      ],
+      "evidence": [
+        {
+          "source_id": "S08",
+          "locator": "Linked document and source notes",
+          "relation": "supports",
+          "note": "Supports the scoped claim, not a Basix runtime result."
+        },
+        {
+          "source_id": "S11",
+          "locator": "Linked document and source notes",
+          "relation": "supports",
+          "note": "Supports the scoped claim, not a Basix runtime result."
+        },
+        {
+          "source_id": "S12",
+          "locator": "Linked document and source notes",
+          "relation": "supports",
+          "note": "Supports the scoped claim, not a Basix runtime result."
+        },
+        {
+          "source_id": "S13",
+          "locator": "Linked document and source notes",
+          "relation": "supports",
+          "note": "Supports the scoped claim, not a Basix runtime result."
+        },
+        {
+          "source_id": "S14",
+          "locator": "Linked document and source notes",
+          "relation": "supports",
+          "note": "Supports the scoped claim, not a Basix runtime result."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
+    },
+    {
+      "id": "F5",
+      "title": "PETAFAB specialization",
+      "question_ids": [
+        "Q6"
+      ],
+      "topic": "rendering",
+      "claim": "Author describes NoGraphicsAPI with distance-field tracing and mesh shaders; this does not establish general triangle-PT throughput.",
+      "evidence_type": "reported",
+      "confidence": "high",
+      "context": "Public source review as of 2026-10-28",
+      "strengths": "Direct primary-source traceability.",
+      "limitations": "No execution, cross-vendor test or independent performance measurement.",
+      "implications": "Follow the associated chapter and milestone gate before implementation.",
+      "tags": [
+        "Basix",
+        "rendering",
+        "research"
+      ],
+      "evidence": [
+        {
+          "source_id": "S05",
+          "locator": "Linked document and source notes",
+          "relation": "supports",
+          "note": "Supports the scoped claim, not a Basix runtime result."
+        },
+        {
+          "source_id": "S06",
+          "locator": "Linked document and source notes",
+          "relation": "supports",
+          "note": "Supports the scoped claim, not a Basix runtime result."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
+    }
+  ],
+  "actions": [
+    {
+      "id": "A1",
+      "title": "Implement M0/M1 risk spike",
+      "priority": "high",
+      "finding_ids": [
+        "F1",
+        "F2"
+      ],
+      "rationale": "Prove the missing hardware RT and reconstruction seam before broad engine work.",
+      "prerequisites": "Choose GPU/driver targets and optional SDK terms.",
+      "success_criterion": "Hardware rays and reconstruction run with correct lifetimes, resize/reset handling and fallback.",
+      "presentation_path": "index.html",
+      "presentation_anchor": "roadmap"
+    }
+  ],
+  "search_log": [
+    {
+      "date": "2026-10-28",
+      "phase": "scout",
+      "engine": "Official web sources and GitHub",
+      "query": "UE5.8 UE6 DirectX Linear Algebra NoGraphicsAPI RTXDI RTXPT licenses",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14",
+        "S15",
+        "S16",
+        "S17",
+        "S18",
+        "S19",
+        "S20",
+        "S21",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27",
+        "S28",
+        "S29",
+        "S30",
+        "S31"
+      ],
+      "outcome": "Primary-source architecture and license gates resolved; runtime tests remain pending."
+    },
+    {
+      "date": "2026-10-28",
+      "phase": "deep",
+      "engine": "Local code and official developer pages",
+      "query": "NoGraphicsAPI native interop RT header PETAFAB MegaLights",
+      "source_ids": [
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S09"
+      ],
+      "outcome": "Header inspected locally; PETAFAB internals beyond public description remain unknown."
+    }
+  ],
+  "scope_changes": [
+    "Added MegaLights and PETAFAB at user request."
+  ],
+  "presentation_path": "index.html",
+  "evidence_page": "index.html#sources",
+  "guide_pages": [
+    "index.html"
+  ],
+  "hub_topics": [
+    {
+      "directory": "basix-engine-rendering-research",
+      "title": "Basix Engine rendering research",
+      "purpose": "MIT game engine architecture, hardware ray tracing, many-light sampling and reconstruction.",
+      "topics": [
+        "rendering"
+      ],
+      "page": "index.html",
+      "guide_pages": [
+        "index.html"
+      ],
+      "specialty": true
+    }
+  ]
+}

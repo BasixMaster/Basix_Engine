@@ -1,0 +1,54 @@
+{
+  "checked_on": "2026-10-28",
+  "components": {
+    "NoGraphicsAPI": {
+      "repository": "sebbbi/NoGraphicsAPI",
+      "revision": "ffd9f2ab6b7442dcfbe0cb0051d84d0edb078d89",
+      "license": "MIT",
+      "license_url": "https://github.com/sebbbi/NoGraphicsAPI/blob/ffd9f2ab6b7442dcfbe0cb0051d84d0edb078d89/LICENSE",
+      "adoption": "research-only; not vendored"
+    },
+    "DLSS": {
+      "repository": "NVIDIA/DLSS",
+      "revision": "9981c6350dc58c0ce21f024fd65e31e851c31689",
+      "license": "NVIDIA RTX SDKs License",
+      "license_url": "https://github.com/NVIDIA/DLSS/blob/9981c6350dc58c0ce21f024fd65e31e851c31689/LICENSE.txt",
+      "adoption": "research-only; not vendored"
+    },
+    "RTXDI": {
+      "repository": "NVIDIA-RTX/RTXDI",
+      "revision": "a6efab966b7c3b272da0461578eb56ac61c7cbff",
+      "license": "NVIDIA RTX SDKs License",
+      "license_url": "https://github.com/NVIDIA-RTX/RTXDI/blob/a6efab966b7c3b272da0461578eb56ac61c7cbff/LICENSE.txt",
+      "adoption": "research-only; not vendored"
+    },
+    "RTXDI-Library": {
+      "repository": "NVIDIA-RTX/RTXDI-Library",
+      "revision": "f12037fa8e97ebc08e9e3edfd2de528ed1772a4b",
+      "license": "NVIDIA RTX SDKs License",
+      "license_url": "https://github.com/NVIDIA-RTX/RTXDI-Library/blob/f12037fa8e97ebc08e9e3edfd2de528ed1772a4b/LICENSE.txt",
+      "adoption": "research-only; not vendored"
+    },
+    "RTXPT": {
+      "repository": "NVIDIA-RTX/RTXPT",
+      "revision": "303b408ab81790a5051abd7573830b7a4112eb8e",
+      "license": "NVIDIA RTX SDKs License",
+      "license_url": "https://github.com/NVIDIA-RTX/RTXPT/blob/303b408ab81790a5051abd7573830b7a4112eb8e/LICENSE.txt",
+      "adoption": "research-only; not vendored"
+    },
+    "NRD": {
+      "repository": "NVIDIA-RTX/NRD",
+      "revision": "9afa555ead6936be1d8f7f2713ac770e2821a83a",
+      "license": "NVIDIA RTX SDKs License",
+      "license_url": "https://github.com/NVIDIA-RTX/NRD/blob/9afa555ead6936be1d8f7f2713ac770e2821a83a/LICENSE.txt",
+      "adoption": "research-only; not vendored"
+    },
+    "Streamline": {
+      "repository": "NVIDIA-RTX/Streamline",
+      "revision": "625db07d4bca5abc67d781c42af7e7fb0761f1b6",
+      "license": "MIT framework; Nsight Perf exceptions",
+      "license_url": "https://github.com/NVIDIA-RTX/Streamline/blob/625db07d4bca5abc67d781c42af7e7fb0761f1b6/license.txt",
+      "adoption": "research-only; not vendored"
+    }
+  }
+}

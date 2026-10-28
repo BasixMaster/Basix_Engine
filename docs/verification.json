@@ -1,0 +1,24 @@
+{
+  "checked_on": "2026-10-28",
+  "status": "passed",
+  "chapters": 14,
+  "sources": 31,
+  "evidence_records": 43,
+  "checks": [
+    "local targets",
+    "unique IDs",
+    "anchors",
+    "source coverage",
+    "FTS coverage and PETAFAB query",
+    "encoding tokens",
+    "chapter coverage"
+  ],
+  "errors": [],
+  "not_tested": [
+    "GPU execution",
+    "SDK compatibility",
+    "engine image quality",
+    "performance",
+    "legal shipping clearance"
+  ]
+}

@@ -1,0 +1,58 @@
+/* Theme surfaces own their ink. Artwork keeps its source palette; never invert images. */
+.doc-theme-control{display:inline-flex;align-items:center;gap:5px;flex:0 0 auto;white-space:nowrap;margin:0;font:13px/1.3 system-ui;color:inherit}
+.doc-theme-control select{font:inherit;min-height:36px;border:1px solid #7890a8;border-radius:5px;padding:5px;background:#fff;color:#20354b;max-width:7rem}
+.doc-control-icon{width:18px;height:18px;flex:none;vertical-align:-3px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+html[data-doc-theme=dark]{color-scheme:dark;--doc-ink:#e3edf6;--doc-muted:#b2c3d2;--doc-bg:#101a25;--doc-panel:#182736;--doc-raised:#223c51;--doc-line:#7890a8;--doc-link:#9fd3ff;--doc-warning-bg:#483b23;--doc-warning-ink:#fff0cf;--doc-control-bg:#203244;--doc-control-ink:#edf5fc;--doc-focus:#ffdf7c;--ink:var(--doc-ink);--muted:var(--doc-muted);--paper:var(--doc-panel);--wash:var(--doc-bg);--line:var(--doc-line);--link:var(--doc-link);--blue:var(--doc-link)}
+html[data-doc-theme=dark] body{background:var(--doc-bg)!important;color:var(--doc-ink)!important}
+/* Known reading surfaces, including cookbook exercise and route components. */
+html[data-doc-theme=dark] :is(.doc-panel,.panel,.card,.topic-card,.family,details,.tablewrap,.table-wrap,.doc-results,.filter,.concept-figure,.concept-scroll,.formula,.activity,.example,table,.bench-widget,.net-explorer,.activity-figure){background:var(--doc-panel)!important;border-color:var(--doc-line)!important;color:var(--doc-ink)!important}
+html[data-doc-theme=dark] :is(.notice,.task-prepare,.learning-route,.flow li,.doc-note,.callout,th,tr:nth-child(even),code,pre,.concept-figure figcaption,.activity-figure figcaption,.net-pair figcaption){background:var(--doc-raised)!important;color:var(--doc-ink)!important;border-color:var(--doc-line)!important}
+html[data-doc-theme=dark] :is(.doc-warning,.warning,.unknown,.caution){background:var(--doc-warning-bg)!important;color:var(--doc-warning-ink)!important;border-color:#e1b45e!important}
+html[data-doc-theme=dark] .task-done{background:#203d36!important;color:#d0f0e3!important;border-color:#82c6ad!important}
+html[data-doc-theme=dark] :is(.doc-sidebar,#research-section-sidebar,.book-sidebar){background:var(--doc-control-bg)!important;border-color:var(--doc-line)!important;color:var(--doc-ink)!important}
+html[data-doc-theme=dark] :is(.doc-sidebar,#research-section-sidebar,.book-sidebar) :is(a,summary){background:var(--doc-control-bg)!important;color:#c5e4ff!important;border-color:var(--doc-line)!important}
+html[data-doc-theme=dark] :is(.doc-sidebar,#research-section-sidebar,.book-sidebar) a[aria-current]:not([aria-current=false]){background:#345673!important;border-left-color:#9fd3ff!important;color:white!important}
+html[data-doc-theme=dark] a{color:var(--doc-link)}
+html[data-doc-theme=dark] :is(.muted,.small,.scope,.citations,figcaption,.doc-caption,.doc-footer,.eyebrow,.chapter-number,.sources,.phone-path-hint){color:var(--doc-muted)!important}
+html[data-doc-theme=dark] :is(.badge,.pill,.doc-badge){background:#29435a!important;color:var(--doc-ink)!important;border-color:var(--doc-line)!important}
+/* Set both sides of form contrast; later header adapters must not restore a white input. */
+html[data-doc-theme=dark] body :is(input,select,textarea,button){background:var(--doc-control-bg)!important;color:var(--doc-control-ink)!important;border-color:var(--doc-line)!important}
+html[data-doc-theme=dark] body :is(input,textarea)::placeholder{color:var(--doc-muted);opacity:1}
+html[data-doc-theme=dark] body :is(input,select,textarea){color-scheme:dark;accent-color:#9fd3ff}
+html[data-doc-theme=dark] body :is(button,input,select,textarea):disabled{opacity:1;background:var(--doc-panel)!important;color:var(--doc-muted)!important;border-style:dashed;cursor:not-allowed}
+html[data-doc-theme=dark] body :is(button,[role=tab])[aria-pressed=true],html[data-doc-theme=dark] body [role=tab][aria-selected=true]{background:#345673!important;color:#fff!important;border-color:#9fd3ff!important}
+html[data-doc-theme=dark] :focus-visible{outline:3px solid var(--doc-focus)!important;outline-offset:3px}
+/* Keep diagram interiors light, including inline SVG text/fills, without recoloring artwork. */
+html[data-doc-theme=dark] :is(.concept-scroll svg,.doc-diagram,.net-pair svg,.activity-figure>a){background:#fff;border-radius:8px;color:#20354b}
+html[data-doc-theme=dark] :is(.doc-skip,.skip){background:#fff!important;color:#20354b!important}
+/* Header/disclosure styling is deliberately independent of content details and labels. */
+html[data-doc-theme=dark] body :is(.doc-header,#reader-navigation,.topbar){color:#eef7ff!important}
+html[data-doc-theme=dark] body :is(.doc-header,#reader-navigation,.topbar) :is(.doc-header-settings,#book-tools){background:transparent!important;color:#eef7ff!important}
+html[data-doc-theme=dark] body :is(.doc-header,#reader-navigation,.topbar) :is(.doc-header-settings-body,.book-tools-content){background:#173b58!important;color:#eef7ff!important}
+html[data-doc-theme=dark] body :is(.doc-header,#reader-navigation,.topbar) :is(label,summary){color:#eef7ff!important}
+html[data-doc-theme=dark] .route-actions a{background:var(--doc-control-bg)!important;color:var(--doc-link)!important;border-color:var(--doc-line)!important}
+@media print{html[data-doc-theme=dark]{color-scheme:light}html[data-doc-theme=dark] body,html[data-doc-theme=dark] body :is(main,header,footer,section,article,aside,details,summary,p,li,h1,h2,h3,h4,dt,dd,figcaption,td,th,label,table,code,pre,a,.flow li,.task-prepare,.task-done,.notice,.caution,.learning-route,.bench-widget,.net-explorer){background:white!important;color:#172c3e!important}.doc-theme-control{display:none!important}}
+
+.doc-local-search{display:flex;align-items:center;gap:7px;font-size:14px;min-width:0}.doc-local-search input{max-width:220px;min-width:0;padding:7px;font:inherit;border-radius:5px;border:1px solid #7890a8}.doc-local-results{padding:16px;margin:16px;background:var(--doc-panel,#fff);border:1px solid var(--doc-line,#c1d0df);border-radius:8px}.doc-local-results a{display:block;margin:8px 0}@media(max-width:1000px){.doc-local-search{flex-basis:100%}.doc-local-search input{flex:1;max-width:none;min-height:44px}}
+
+/* Semantic research colors: labels and a leading rule carry meaning with the tint.
+   Explicit roles are independent of position, title wording and evidence status. */
+:root{--doc-question-bg:#e8f1fa;--doc-question-ink:#174e76;--doc-question-edge:#39759f;--doc-finding-bg:#e4f3ed;--doc-finding-ink:#185849;--doc-finding-edge:#33816a;--doc-evidence-bg:#edf4fa;--doc-evidence-ink:#244d70;--doc-evidence-edge:#537a9c;--doc-source-bg:#f0eef7;--doc-source-ink:#514368;--doc-source-edge:#7a6a94;--doc-action-bg:#fff2d9;--doc-action-ink:#684800;--doc-action-edge:#a16b14;--doc-decision-bg:#e3f0f1;--doc-decision-ink:#22575d;--doc-decision-edge:#397a82;}
+html[data-doc-theme=dark]{--doc-question-bg:#20384b;--doc-question-ink:#d5eaff;--doc-question-edge:#8bbde0;--doc-finding-bg:#203d36;--doc-finding-ink:#d0f0e3;--doc-finding-edge:#82c6ad;--doc-evidence-bg:#243449;--doc-evidence-ink:#d9e8fb;--doc-evidence-edge:#9bb7d8;--doc-source-bg:#343044;--doc-source-ink:#e9e0f7;--doc-source-edge:#bbabd2;--doc-action-bg:#483b23;--doc-action-ink:#fff0cf;--doc-action-edge:#e1b45e;--doc-decision-bg:#203c41;--doc-decision-ink:#d3eff1;--doc-decision-edge:#88c6cd;}
+[data-doc-role=question]{--doc-role-bg:var(--doc-question-bg);--doc-role-ink:var(--doc-question-ink);--doc-role-edge:var(--doc-question-edge);}
+[data-doc-role=finding]{--doc-role-bg:var(--doc-finding-bg);--doc-role-ink:var(--doc-finding-ink);--doc-role-edge:var(--doc-finding-edge);}
+[data-doc-role=evidence]{--doc-role-bg:var(--doc-evidence-bg);--doc-role-ink:var(--doc-evidence-ink);--doc-role-edge:var(--doc-evidence-edge);}
+[data-doc-role=source]{--doc-role-bg:var(--doc-source-bg);--doc-role-ink:var(--doc-source-ink);--doc-role-edge:var(--doc-source-edge);}
+[data-doc-role=action]{--doc-role-bg:var(--doc-action-bg);--doc-role-ink:var(--doc-action-ink);--doc-role-edge:var(--doc-action-edge);}
+[data-doc-role=decision]{--doc-role-bg:var(--doc-decision-bg);--doc-role-ink:var(--doc-decision-ink);--doc-role-edge:var(--doc-decision-edge);}
+html body :is(.doc-main,.doc-content,main) [data-doc-role]{background:var(--doc-role-bg)!important;color:var(--doc-role-ink)!important;border-color:var(--doc-role-edge)!important;border-inline-start:4px solid var(--doc-role-edge)}
+html body :is(.doc-main,.doc-content,main) [data-doc-role] :is(h2,h3,h4,.eyebrow,.doc-role-label){color:var(--doc-role-ink)!important}
+html body :is(.doc-main,.doc-content,main) [data-doc-role] a{color:var(--doc-role-ink)!important;text-decoration:underline}
+html body :is(.doc-main,.doc-content,main) :is(th,[role=tab][aria-selected=true])[data-doc-role]{box-shadow:inset 0 -2px var(--doc-role-edge)}
+@media(forced-colors:active){html body :is(.doc-main,.doc-content,main) [data-doc-role]{background:Canvas!important;color:CanvasText!important;border-color:CanvasText!important}html body :is(.doc-main,.doc-content,main) [data-doc-role] :is(h2,h3,h4,.eyebrow,.doc-role-label){color:CanvasText!important}html body :is(.doc-main,.doc-content,main) [data-doc-role] a{color:LinkText!important}}
+@media print{html body :is(.doc-main,.doc-content,main) [data-doc-role]{background:white!important;color:#172c3e!important;border-color:#526a7c!important}html body :is(.doc-main,.doc-content,main) [data-doc-role] :is(h2,h3,h4,.eyebrow,.doc-role-label,a){color:#172c3e!important}}
+
+/* Role cards retain their semantic ink, including metadata and nested typography. */
+html[data-doc-theme=dark] body :is(.doc-main,.doc-content,main) [data-doc-role] :is(p,li,dt,dd,h2,h3,h4,.eyebrow,.doc-role-label,.small,.muted,.scope){color:var(--doc-role-ink)!important}
+html[data-doc-theme=dark] body :is(.doc-main,.doc-content,main) [data-doc-role] :is(.badge,.pill,code){background:var(--doc-control-bg)!important;color:var(--doc-ink)!important}
+@media print{html[data-doc-theme=dark] body :is(.doc-main,.doc-content,main) [data-doc-role] :is(p,li,dt,dd,h2,h3,h4,.eyebrow,.doc-role-label,.small,.muted,.scope){color:#172c3e!important}}
