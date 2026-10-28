@@ -6,7 +6,7 @@
   "pointer_pixels": 4096,
   "ray_checks": 8192,
   "frames": 2,
-  "validation": "not run; no validation-layer claim",
+  "validation": "Initial baseline was unvalidated; current scoped Debug/SyncVal results are in validation-results.json.",
   "timing_scope": "correctness only; not a rendering benchmark",
   "scope": "NoGraphicsAPI pointer root + Vulkan hardware ray query on same device; not DLSS or DXR2",
   "checked_on": "2026-10-28",
@@ -41,5 +41,15 @@
     "pointer failure-path RAII",
     "explicit Vulkan-only platform gate",
     "AS build/read memory dependency"
-  ]
+  ],
+  "m1_hardening": {
+    "status": "scoped checks passed",
+    "receipt": "validation-results.json",
+    "validation_layer_api": "1.4.366",
+    "cycles": 3,
+    "texture_pixel_checks": 25500,
+    "contract_rejections": 63,
+    "sdk_evaluation": "pending",
+    "window_resize_device_loss": "pending"
+  }
 }

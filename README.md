@@ -16,11 +16,17 @@ No external dependency is required for the default C++20 cage-math target. The o
 
 Local checks: **78 CPU cage checks**, **4,096 GPU pointer-root pixels**, and **8,192 hardware-ray results** passed on the stated MSVC/RTX4090 configuration. These are correctness checks, not performance or visual-parity benchmarks. GitHub CPU/docs CI passed on Linux and Windows for the implementation commit; GPU checks remain local and other GPU vendors are unverified.
 
+## Current roadmap status
+
+[roadmap.json](roadmap.json) is the status source of truth. The docs show completed, in progress, partial, pending, blocked and deferred scopes with evidence, prerequisites and next tests. [ENGINE_STATUS.md](ENGINE_STATUS.md) is generated from that ledger. Scoped validation/native texture gates now pass; the parent M1 and broad lifecycle gates remain partial. Actual SDK evaluation, window resize and device-loss recovery remain pending.
+
+See [M1 validation results](docs/validation-results.json): five cases, three positive cycles, 25,500 texture checks and 63 contract rejections with zero warning/error logs under the named Debug/core/SyncVal configuration.
+
 ## Research documentation
 
 Open [docs/index.html](docs/index.html) after cloning/downloading. It works offline with chapter/source search and Light/Dark/System themes.
 
-The 17 chapters and 45 sources cover UE5.8/6, MegaLights, PETAFAB, NoGraphicsAPI, DX12/DXR, Linear Algebra, DLSS, RTXDI/RTXPT, DXR2/Clustered Geometry/PTLAS, tetrahedral cages, DGF/DGFS and other viable ideas. The revised roadmap separates tested code, proposed experiments, preview/draft features and vendor claims.
+The 17 chapters and 47 sources cover UE5.8/6, MegaLights, PETAFAB, NoGraphicsAPI, DX12/DXR, Linear Algebra, DLSS, RTXDI/RTXPT, DXR2/Clustered Geometry/PTLAS, tetrahedral cages, DGF/DGFS and other viable ideas. The revised roadmap separates tested code, proposed experiments, preview/draft features and vendor claims.
 
 Research date: **28 October 2026**. DXR2’s rendered spec says preview while other official maturity/package evidence conflicts; a matching public SDK/driver combination has not been established here.
 

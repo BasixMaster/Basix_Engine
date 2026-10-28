@@ -917,6 +917,38 @@
       "topic": "rendering",
       "presentation_path": "index.html",
       "presentation_anchor": "S45"
+    },
+    {
+      "id": "S46",
+      "title": "Synchronization Validation usage",
+      "url": "https://vulkan.lunarg.com/doc/view/latest/windows/synchronization_usage.html",
+      "notes": "Core Khronos validation and validate_sync are separate settings. Official environment method VK_VALIDATION_VALIDATE_SYNC=1 adds SyncVal to core validation; known coverage limitations still apply.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S46"
+    },
+    {
+      "id": "S47",
+      "title": "Basix M1 validation receipt",
+      "url": "https://github.com/BasixMaster/Basix_Engine/blob/main/docs/validation-results.json",
+      "notes": "Local Debug five-case harness confirms layer insertion, requests SyncVal and scans full-process logs. Three cycles:12288 pointer pixels,24576 hardware rays,25500 texture pixels,63 contract rejections. Zero warning/error logs. Headless same-queue only; no actual SDK, window resize, device loss or cross-vendor result.",
+      "kind": "local measured correctness",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Local oracles plus pinned validation harness; diagnostic scope and untested cases explicitly bounded.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Original Basix receipt/code MIT; validation tooling separately pinned and not vendored.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S47"
     }
   ],
   "findings": [
@@ -1253,20 +1285,50 @@
       ],
       "presentation_path": "index.html",
       "presentation_anchor": "summary"
+    },
+    {
+      "id": "F9",
+      "title": "Scoped native texture/state and validation gates passed",
+      "question_ids": [
+        "Q2"
+      ],
+      "topic": "rendering",
+      "claim": "The local five-case Debug harness passed three pointer/ray/texture cycles with63 lifetime/metadata rejections and no core/SyncVal warning/error logs. This is not an actual SDK, window or device-loss result.",
+      "evidence_type": "measured",
+      "confidence": "high",
+      "context": "2026-10-28, Windows/RTX4090/NVIDIA617.42, pinned Khronos nightly manifest1.4.366.",
+      "strengths": "Independent pixel/ray expectations, explicit layer trace, full-process log scan and negative cleanup cases.",
+      "limitations": "Headless/same-queue, one adapter; standalone counters have a narrower lifetime than the harness log scan.",
+      "implications": "Complete the narrow validation/texture roadmap subgates; keep parent/lifecycle partial and SDK/window/device-loss pending.",
+      "tags": [
+        "validation",
+        "interop",
+        "roadmap"
+      ],
+      "evidence": [
+        {
+          "source_id": "S47",
+          "locator": "validation-results.json cases and gpu fields",
+          "relation": "supports",
+          "note": "Measured local correctness only."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
     }
   ],
   "actions": [
     {
       "id": "A1",
-      "title": "Harden M1 texture/state and SDK boundary",
+      "title": "Implement actual SDK evaluation and broader lifecycle gates",
       "priority": "high",
       "finding_ids": [
-        "F2",
-        "F8"
+        "F8",
+        "F9"
       ],
-      "rationale": "Basic rays now run; prove validation and native resource/state contracts before renderer expansion.",
+      "rationale": "The narrow validated native texture seam now passes; SDK resource semantics and window/device recovery remain open.",
       "prerequisites": "Choose GPU/driver targets and optional SDK terms.",
-      "success_criterion": "Validation-enabled captures, resize/device-state transitions and SDK texture tagging have explicit passing tests.",
+      "success_criterion": "Actual optional SDK evaluation and separately named lifecycle/window/device-loss acceptance tests pass.",
       "presentation_path": "index.html",
       "presentation_anchor": "roadmap"
     }
@@ -1322,7 +1384,9 @@
         "S42",
         "S43",
         "S44",
-        "S45"
+        "S45",
+        "S46",
+        "S47"
       ],
       "outcome": "Primary-source architecture and license gates resolved; runtime tests remain pending."
     },
@@ -1365,7 +1429,8 @@
   ],
   "scope_changes": [
     "Added MegaLights and PETAFAB at user request.",
-    "User added DXR2/clustered geometry, tetrahedral cages, alternative ideas and implementation authorization. Corrected contradictory DXR2 maturity wording; recorded local CPU/GPU correctness results."
+    "User added DXR2/clustered geometry, tetrahedral cages, alternative ideas and implementation authorization. Corrected contradictory DXR2 maturity wording; recorded local CPU/GPU correctness results.",
+    "Added explicit machine-readable roadmap states/evidence and completed scoped M1 validation/native texture experiments; broader M1 remains partial."
   ],
   "presentation_path": "index.html",
   "evidence_page": "index.html#sources",

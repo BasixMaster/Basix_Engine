@@ -26,6 +26,8 @@ def main():
   if not target.exists():errors.append('missing target: '+link)
   if u.fragment and not u.path and unquote(u.fragment) not in parsed.ids:errors.append('missing anchor: '+link)
  data=json.loads((p.parent/'evidence/library.json').read_text(encoding='utf-8'))
+ from roadmap import load as load_roadmap
+ if load_roadmap(check_paths=True)!=json.loads((p.parent/'roadmap-status.json').read_text(encoding='utf-8')):errors.append('roadmap projection mismatch')
  ids=[r['id'] for k in ['questions','sources','findings','actions'] for r in data[k]]
  if data!=json.loads((p.parent/'library.json').read_text(encoding='utf-8')):errors.append('root/nested evidence projection mismatch')
  for kind in ['questions','sources','findings','actions']:

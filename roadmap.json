@@ -1,0 +1,332 @@
+{
+  "schema_version": 1,
+  "updated_on": "2026-10-28",
+  "states": {
+    "completed": "The explicitly bounded acceptance scope passed its named tests. This does not complete broader engine features.",
+    "in_progress": "Implementation or validation is actively under way; acceptance has not yet passed in full.",
+    "partial": "A useful subset has verified evidence, with substantial scope still unimplemented or unverified.",
+    "pending": "Planned work with no completed implementation/acceptance evidence for this scope. Prerequisites do not imply an external blocker.",
+    "blocked": "Work cannot proceed because a named, actual dependency or external condition is unavailable; record the blocker.",
+    "deferred": "Intentionally postponed optional work; no commitment to implement or delivery date."
+  },
+  "items": [
+    {
+      "id": "M0a",
+      "title": "CPU foundation",
+      "status": "completed",
+      "scope": "Dependency-free C++20 build and original affine tetrahedral-cell math; not cage preprocessing or GPU cage traversal.",
+      "acceptance": "78 CPU correctness checks; Linux and Windows CPU/docs CI passed for implementation commit 923d10b. Contains no performance or visual-quality acceptance.",
+      "prerequisites": [],
+      "next_test": "Repeat CPU correctness and documentation checks after affected math/build changes.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/implementation-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "78 local CPU checks; Ubuntu and Windows CPU/docs CI run 40677723983 on commit 923d10b."
+        }
+      ]
+    },
+    {
+      "id": "M0b",
+      "title": "GPU pointer-root foundation",
+      "status": "completed",
+      "scope": "Pinned NoGraphicsAPI preparation and one Slang pointer-root ABI on the named Windows/Vulkan adapter.",
+      "acceptance": "4096 output pixels match independent CPU arithmetic on RTX 4090/NVIDIA 617.42. Cross-vendor and independent SPIR-V validation remain outside this scope.",
+      "prerequisites": [
+        "M0a"
+      ],
+      "next_test": "Preserve the pointer-root oracle while enabling validation and adding texture transitions.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/implementation-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "4096 pointer-root GPU pixels matched the CPU oracle on the stated local configuration."
+        }
+      ]
+    },
+    {
+      "id": "M1a",
+      "title": "Ordinary hardware-ray seam",
+      "status": "completed",
+      "scope": "Same-device Vulkan BLAS/TLAS and static/translated ray queries using native command scopes.",
+      "acceptance": "8192 analytic ray-query oracle comparisons pass across two transforms. No DXR2, PT, SDK or GPU-cage completion follows.",
+      "prerequisites": [
+        "M0b"
+      ],
+      "next_test": "Repeat ray oracles with validation and the native-texture path enabled.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/implementation-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "8192 ordinary hardware ray-query checks passed; no validation-layer pass claimed in this receipt."
+        }
+      ]
+    },
+    {
+      "id": "M1b",
+      "title": "Harden native interop",
+      "status": "partial",
+      "scope": "Validation, native texture/resource-state contract, SDK transitions and lifecycle behavior.",
+      "acceptance": "All M1b subgates have passing evidence under their named scopes. A texture smoke test alone does not prove SDK or window/device recovery.",
+      "prerequisites": [
+        "M1a"
+      ],
+      "next_test": "Actual optional SDK state/evaluation, broader lifecycle and window/device-failure handling remain pending.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/validation-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Verified Debug/SyncVal harness: five cases, three positive cycles, 12288 pointer pixels, 24576 rays, 25500 texture checks, 63 contract rejections; zero diagnostic logs."
+        }
+      ]
+    },
+    {
+      "id": "M1b-validation",
+      "title": "Validation-enabled GPU correctness",
+      "status": "completed",
+      "scope": "Named local Debug core/SyncVal run plus whole-process log scan, pinned validation package and missing-shader/image-write/Release-rejection cases. One RTX4090 configuration only.",
+      "acceptance": "Pointer/ray/texture workloads pass with validation enabled; record layer versions and relevant diagnostics.",
+      "prerequisites": [
+        "M1a"
+      ],
+      "next_test": "Preserve these checks when adding native textures or real SDK calls; broaden hardware coverage separately.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/validation-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Verified Debug/SyncVal harness: five cases, three positive cycles, 12288 pointer pixels, 24576 rays, 25500 texture checks, 63 contract rejections; zero diagnostic logs."
+        }
+      ],
+      "parent": "M1b"
+    },
+    {
+      "id": "M1b-textures",
+      "title": "Native texture and layout contract",
+      "status": "completed",
+      "scope": "Controlled same-device/same-queue RGBA8 2D images: GENERAL/transfer layout transitions, native compute and explicit NoGraphicsAPI heap/PSO restore; registry-issued tickets and fence-gated retirement.",
+      "acceptance": "25500 exact pixel checks over 64x64,17x9,1x1 extents across three cycles and 63 metadata/stale-ticket/retirement rejections pass with requested SyncVal. This is not an actual SDK evaluation.",
+      "prerequisites": [
+        "M1a"
+      ],
+      "next_test": "Add actual reconstruction SDK resource tagging/evaluation using this contract; multi-queue/format/view cases remain outside the tested scope.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/validation-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Verified Debug/SyncVal harness: five cases, three positive cycles, 12288 pointer pixels, 24576 rays, 25500 texture checks, 63 contract rejections; zero diagnostic logs."
+        }
+      ],
+      "parent": "M1b"
+    },
+    {
+      "id": "M1b-sdk",
+      "title": "External SDK state restoration",
+      "status": "pending",
+      "scope": "Resource tagging and state restoration around an actual optional reconstruction SDK evaluation.",
+      "acceptance": "Actual supported SDK evaluation followed by correct engine read/write; record runtime, adapter and required resource semantics.",
+      "prerequisites": [
+        "M1b-textures",
+        "M1b-validation"
+      ],
+      "next_test": "Introduce one optional SDK adapter only after the native texture contract passes.",
+      "last_verified_on": null,
+      "evidence": [],
+      "parent": "M1b"
+    },
+    {
+      "id": "M1b-lifecycle",
+      "title": "Repeated resource lifecycle",
+      "status": "partial",
+      "scope": "Nine offscreen image lifecycles across three cycles and negative retirement guards are tested. Repeated device creation and real asynchronous/in-flight release scenarios remain unverified.",
+      "acceptance": "Repeated create/destroy and in-flight retirement tests pass without stale handles or validation errors.",
+      "prerequisites": [
+        "M1b-textures",
+        "M1b-validation"
+      ],
+      "next_test": "Add repeated device sessions and actual in-flight retirement requests before completing the broad lifecycle gate.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/validation-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Verified Debug/SyncVal harness: five cases, three positive cycles, 12288 pointer pixels, 24576 rays, 25500 texture checks, 63 contract rejections; zero diagnostic logs."
+        }
+      ],
+      "parent": "M1b"
+    },
+    {
+      "id": "M1b-resize",
+      "title": "Window resize and device loss",
+      "status": "pending",
+      "scope": "Window/swapchain resize and explicit device-loss/recovery behavior; current headless test does not cover this.",
+      "acceptance": "Resize tests preserve correct resources/states; device loss produces documented recovery or a clean actionable failure.",
+      "prerequisites": [
+        "M1b-lifecycle"
+      ],
+      "next_test": "Add the required window/device-failure harness before claiming coverage.",
+      "last_verified_on": null,
+      "evidence": [],
+      "parent": "M1b"
+    },
+    {
+      "id": "M2",
+      "title": "Reference renderer and materials",
+      "status": "pending",
+      "scope": "Stable scene/material IDs, import, shared BSDF and progressive reference PT.",
+      "acceptance": "Convergence, BSDF PDF/energy tests and motion-guide clips pass.",
+      "prerequisites": [
+        "M1b"
+      ],
+      "next_test": "Start a minimal material/scene representation and analytic reference scene.",
+      "last_verified_on": null,
+      "evidence": []
+    },
+    {
+      "id": "M3",
+      "title": "Many lights and reconstruction",
+      "status": "pending",
+      "scope": "Original direct lighting/fallback denoising, optional RTXDI, SR then RR; no vendor SDK is currently integrated.",
+      "acceptance": "Equal-error captures, temporal tests, separate licensing and a non-DLSS path.",
+      "prerequisites": [
+        "M2"
+      ],
+      "next_test": "Establish a brute-force light/reference baseline before sample reuse or reconstruction.",
+      "last_verified_on": null,
+      "evidence": []
+    },
+    {
+      "id": "M3-dlss",
+      "title": "DLSS integration",
+      "status": "pending",
+      "scope": "Optional SR followed by RR through explicit native resource/guide adapters; frame generation separately scoped.",
+      "acceptance": "Actual SDK evaluation, support checks, guide correctness, resets and fallback pass.",
+      "prerequisites": [
+        "M1b-sdk",
+        "M2"
+      ],
+      "next_test": "Select a pinned licensed adapter and test SR inputs/output before RR.",
+      "last_verified_on": null,
+      "evidence": [],
+      "parent": "M3"
+    },
+    {
+      "id": "G1",
+      "title": "Geometry and streaming contract",
+      "status": "pending",
+      "scope": "Stable clusters, codec tags, residency generations, source triangle/material provenance and conventional BLAS.",
+      "acceptance": "Deterministic cook, bounded residency and stale-handle rejection.",
+      "prerequisites": [
+        "M1a"
+      ],
+      "next_test": "Prototype a small original geometry manifest and provenance tests.",
+      "last_verified_on": null,
+      "evidence": []
+    },
+    {
+      "id": "G2",
+      "title": "Tetrahedral cage pipeline",
+      "status": "partial",
+      "scope": "Original affine-cell CPU math is verified; cage generation, clipping, attributes and GPU adjacent-cell traversal remain open.",
+      "acceptance": "Independent deformed-triangle comparison, seam/grazing tests and invalid-deformation fallback; fast method never called watertight.",
+      "prerequisites": [
+        "M0a"
+      ],
+      "next_test": "Implement triangle clipping/provenance and independent coverage tests before GPU cage work.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/implementation-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "78 CPU checks cover the affine-cell mathematical layer only."
+        }
+      ]
+    },
+    {
+      "id": "G2-gpu",
+      "title": "GPU cages and shared boundaries",
+      "status": "pending",
+      "scope": "Adjacent-cell micro-BLAS tracing, motion history and deformation correctness; not implemented by ordinary triangle ray smoke.",
+      "acceptance": "GPU adjacent-cell results match independently deformed geometry within declared tolerances; handle duplicates/leaks and invalid cages.",
+      "prerequisites": [
+        "G1",
+        "M1b"
+      ],
+      "next_test": "Complete clipping/provenance first, then compare two adjacent cells against an independent triangle reference.",
+      "last_verified_on": null,
+      "evidence": [],
+      "parent": "G2"
+    },
+    {
+      "id": "G3",
+      "title": "Optional clustered acceleration structures",
+      "status": "pending",
+      "scope": "NV cluster experiment and later separate standard DXR2 adapter; advertised device extensions are not implementation evidence.",
+      "acceptance": "Queried support plus CLAS to cluster BLAS to TLAS trace, move/retire and residency lifetime checks.",
+      "prerequisites": [
+        "G1",
+        "M1b"
+      ],
+      "next_test": "Pin an actual usable API/runtime/driver combination and run the smallest cluster-AS oracle.",
+      "last_verified_on": null,
+      "evidence": []
+    },
+    {
+      "id": "G4",
+      "title": "Geometry comparison",
+      "status": "pending",
+      "scope": "Compare conventional skin/refit, rigid instances, clusters and cages on repeated and diverse assets.",
+      "acceptance": "Full-frame/AS timings, peak memory and image/deformation error under an explicit common workload.",
+      "prerequisites": [
+        "G2-gpu",
+        "G3"
+      ],
+      "next_test": "Define the matched workloads and quality budgets before performance claims.",
+      "last_verified_on": null,
+      "evidence": []
+    },
+    {
+      "id": "M4",
+      "title": "Playable game slice",
+      "status": "pending",
+      "scope": "Streaming scene, animation, physics/audio/input, save/load and packaged assets.",
+      "acceptance": "Reproducible playable encounter with declared target hardware and content.",
+      "prerequisites": [
+        "M2",
+        "M3",
+        "G1"
+      ],
+      "next_test": "Choose the intended scene/gameplay workload after renderer correctness is established.",
+      "last_verified_on": null,
+      "evidence": []
+    },
+    {
+      "id": "R",
+      "title": "Optional rendering research",
+      "status": "deferred",
+      "scope": "DGF/DGFS, LinAlg, neural caches, Work Graphs and future Work Lists are independently optional.",
+      "acceptance": "A candidate beats its baseline within a stated quality/memory budget with verified availability and licensing.",
+      "prerequisites": [
+        "M2"
+      ],
+      "next_test": "Select one measured bottleneck and an available candidate; no future standard is mandatory.",
+      "last_verified_on": null,
+      "evidence": []
+    }
+  ],
+  "history": [
+    {
+      "checked_on": "2026-10-28",
+      "event": "Recorded baseline completed M0a/M0b/M1a and pending future gates."
+    },
+    {
+      "checked_on": "2026-10-28",
+      "event": "Completed scoped M1b-validation and M1b-textures from the five-case local validation harness; parent/lifecycle remain partial."
+    }
+  ]
+}

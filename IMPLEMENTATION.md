@@ -25,22 +25,40 @@ cmake --build build-gpu --config Release
 ctest --test-dir build-gpu -C Release --output-on-failure
 ```
 
-The preparation tool verifies the exact clean upstream revision and refuses to overwrite an existing destination. It copies the upstream tree and applies an original experimental Vulkan-only extension: explicit ray-query device initialization and borrowed device/physical-device/command-buffer handles. The upstream checkout stays unchanged. This extension is not an upstream-supported API or a Metal backend implementation.
+The preparation tool verifies the exact clean upstream revision and refuses to overwrite an existing destination. It copies the upstream tree and applies an original experimental Vulkan-only extension: explicit ray-query device initialization and borrowed device/physical-device/command-buffer handles and controlled native texture metadata. The upstream checkout stays unchanged. This extension is not an upstream-supported API or a Metal backend implementation.
 
 Only committed bytes are exported (`git archive`), so ignored local files cannot enter the prepared dependency. GPU CMake validates the exact revision marker and tracks the included shader ABI/compiler as build dependencies. Apple is explicitly excluded from this Vulkan-only spike; the CPU target remains portable. RT eligibility is currently checked after upstream adapter selection, so a multi-GPU machine may reject the selected adapter even if another could run RT; explicit adapter selection remains open.
 
 The test owns its device through NoGraphicsAPI. It dispatches a NoGraphicsAPI pointer-root compute shader, then builds ordinary Vulkan BLAS/TLAS objects and executes ray queries on that **same device**. Native Vulkan code is isolated in the experiment; native pipelines use a separate command-recording scope. Every submission is awaited before pool reset or resource destruction. Static and translated triangle results are compared with an independent analytic CPU oracle over two 64×64 grids.
 
-Run `basix_gpu_spike --output DIRECTORY` for PPM images and a JSON result. The directory is explicit and receives only generated experiment files. Unsupported initialization fails rather than silently substituting software results. No DLSS binary, ray pipeline, DXR2/CLAS implementation or advanced rendering is included.
+Run `basix_gpu_spike --output DIRECTORY` for PPM images and a JSON result. The directory is explicit and receives only generated experiment files. Unsupported initialization fails rather than silently substituting software results. No DLSS binary, ray pipeline, DXR2/CLAS implementation or advanced rendering is included. The texture experiment uses registry-issued monotonic borrow tickets, expected metadata checks and timeline-gated retirement. Only own RGBA8 2D single-mip images on the same device/queue are covered.
 
-## Verified scope and remaining gates
+## Scoped M1 validation and texture checks
 
-- Local CPU: 78 checks passed.
-- Local RTX 4090 / NVIDIA 617.42: pointer-root 4,096-pixel oracle and 8,192 hardware-ray results passed.
-- GPU test is headless and correctness-only. No Khronos validation-layer pass or performance benchmark is claimed. SPIR-V was produced by the pinned Slang compiler; an independent spirv-val check was not available.
-- Local GPU runs disabled implicit third-party overlay layers for that process with `VK_LOADER_LAYERS_DISABLE=~implicit~`; no system registry or driver settings were changed.
-- GPU window resize, presentation, device-loss recovery, textures/native SDK state contracts, DLSS SR/RR and mixed-renderer state restoration remain open.
-- Cage clipping of source triangles, shared-vertex provenance, cage generation, serialized assets, multi-tet GPU traversal and deformation motion vectors remain open.
-- Clustered geometry, PTLAS, DGF/DGFS, meshlet streaming and Work Lists are idea-pool items, with distinct availability and adoption gates in the research page.
+Prepare a new dependency destination with the current tool. GPU CMake now requires interop patch version2; stale prepared copies fail explicitly. Compile Debug and Release, optionally configuring `-DBASIX_VALIDATION_TESTS=ON` for the Debug-only CTest case.
 
-CI runs the offline CPU and public-documentation targets; GPU CI requires a separately configured physical runner. CPU/docs CI for implementation commit923d10b passed on Linux and Windows in [run40677723983](https://github.com/BasixMaster/Basix_Engine/actions/runs/40677723983). GPU success remains local, with no cross-vendor validation.
+Use a separately installed or locally extracted Khronos validation package. The checked Windows nightly archive and DLL digests are in `dependencies.lock.json`; the mutable nightly URL does not promise future availability of those exact bytes. The layers are testing tools, not vendored/shipped engine runtime. No machine-wide loader setting is changed.
+
+```text
+python tools/run_gpu_validation.py --exe build-gpu/Debug/basix_gpu_spike.exe --release-exe build-gpu/Release/basix_gpu_spike.exe --validation-layer-dir PATH_TO_CHECKED_LAYERS --output work/validation
+```
+
+The helper sets `VK_LAYER_PATH`, disables implicit third-party overlays only for its child process, and requests core plus synchronization validation with `VK_VALIDATION_VALIDATE_SYNC=1`. It verifies the pinned DLL hash and loader trace, scans full-process logs, and checks three positive cycles plus four expected-failure cases. Full logs remain in the selected output directory; the sanitized receipt contains no local paths/account telemetry.
+
+The GPU experiment writes a NoGraphicsAPI storage texture, transitions GENERAL→TRANSFER_SRC for a native copy, returns to GENERAL, runs a native storage-image compute pass, then explicitly restores NoGraphicsAPI heap/PSO bindings before engine readback. Tests recreate64×64,17×9 and1×1 offscreen images. Borrow tickets capture their epoch privately; epochs do not reset between cycles. Wrong metadata, stale tickets and premature retirement are rejected before native API use.
+
+`--validate` refuses an unvalidated Release build. `--cycles 1..16` bounds resource churn. `--shader-dir` selects a shader resource directory and supports failure-path testing. Standalone C++ diagnostic counters cover the messenger lifetime after device initialization and before device teardown; the helper separately scans startup and shutdown logs. Zero validation messages are evidence for the named workload, not a proof covering every GPU hazard.
+
+## Current verified scope
+
+- CPU:78 independent cage-math checks passed; no GPU cage/preprocessing claim.
+- Initial RTX4090/NVIDIA617.42:4096 pointer-root pixels and8192 hardware rays passed.
+- Reviewed M1 Debug/core/SyncVal harness:5cases;3positive cycles;12288 pointer pixels,24576 rays,25500 exact texture pixel checks,63 metadata/stale-ticket/retirement rejections. Zero warning/error logs including startup/shutdown. Layer manifest reports1.4.366; checked archive/DLL hashes are pinned.
+- Expected failures: invalid cycle count, missing-shader cleanup, image-write-failure cleanup, and Release refusal to claim validation.
+- CPU/docs CI passed on Linux/Windows for prior foundation commit923d10b in run40677723983. Current changes receive their own CI after publication; GPU tests remain local physical-device checks.
+
+## Remaining gates
+
+The authoritative states, evidence and next tests are in `roadmap.json`; `ENGINE_STATUS.md` and the documentation roadmap table are generated from it. M1 validation and the controlled native-texture subgates are complete. Parent M1 and broader lifecycle remain partial. Actual optional SDK evaluation/resource tagging, repeated device sessions, genuinely asynchronous retirement, window/swapchain resize and device-loss recovery are pending.
+
+Full PT, DLSS, geometry streaming, cage generation/clipping/GPU traversal and clustered-AS backends are still pending. No independent spirv-val, cross-vendor GPU validation or performance benchmark is claimed. The fixture's size changes are not window resizing. Public CI runs offline CPU/roadmap/docs checks and needs no GPU SDK downloads.

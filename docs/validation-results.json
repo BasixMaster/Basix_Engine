@@ -1,0 +1,83 @@
+{
+  "checked_on": "2026-10-28",
+  "status": "passed",
+  "configuration": "Debug",
+  "validation_layer": "Khronos nightly checked 2026-10-28",
+  "validation_manifest_api": "1.4.366",
+  "validation_dll_sha256": "249474155f7ed98c94f26c8a86c5d5da729dcabaaa1a7136d14fc68caf99213b",
+  "loader_confirmed_validation_layer": true,
+  "synchronization_validation_requested": true,
+  "diagnostic_log_scan": "zero warning/error and sync-hazard diagnostics, including startup/shutdown",
+  "process_only_environment": true,
+  "cases": [
+    {
+      "name": "core-sync-positive",
+      "status": "passed",
+      "exit_code": 0,
+      "scope": "positive GPU check"
+    },
+    {
+      "name": "invalid-cycle",
+      "status": "passed",
+      "exit_code": 1,
+      "scope": "expected failure; cleanup path"
+    },
+    {
+      "name": "missing-shader-cleanup",
+      "status": "passed",
+      "exit_code": 1,
+      "scope": "expected failure; cleanup path"
+    },
+    {
+      "name": "image-write-cleanup",
+      "status": "passed",
+      "exit_code": 1,
+      "scope": "expected failure; cleanup path"
+    },
+    {
+      "name": "release-refuses-validation",
+      "status": "passed",
+      "exit_code": 1,
+      "scope": "expected failure; cleanup path"
+    }
+  ],
+  "gpu": {
+    "status": "passed",
+    "device": "NVIDIA GeForce RTX 4090",
+    "driver_version_raw": 2588573696,
+    "api_version_raw": 4211039,
+    "pointer_pixels": 12288,
+    "ray_checks": 24576,
+    "frames": 6,
+    "cycles": 3,
+    "texture_pixel_checks": 25500,
+    "contract_rejections": 63,
+    "validation_counter_scope": "after initialization through pre-device-teardown; harness scans whole-process logs",
+    "texture_extents": [
+      [
+        64,
+        64
+      ],
+      [
+        17,
+        9
+      ],
+      [
+        1,
+        1
+      ]
+    ],
+    "validation_enabled": true,
+    "validation_errors": 0,
+    "validation_warnings": 0,
+    "timing_scope": "correctness only; not a rendering benchmark",
+    "scope": "same-device pointer, hardware ray query and native texture/state roundtrip; not DLSS or DXR2"
+  },
+  "limits": [
+    "One RTX4090/Windows configuration",
+    "Headless same-queue offscreen extents; not window/swapchain resize",
+    "No actual DLSS SDK evaluation",
+    "No device-loss recovery or cross-queue ownership test",
+    "No independent spirv-val pass or performance benchmark"
+  ]
+}

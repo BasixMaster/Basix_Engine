@@ -22,5 +22,11 @@
     "nav": 758.359375,
     "themeControls": 1
   },
-  "checked_on": "2026-10-28"
+  "checked_on": "2026-10-28",
+  "roadmap_ui": {
+    "rows": 19,
+    "badges_match_ledger": true,
+    "mobile_overflow": false,
+    "status_search": true
+  }
 }

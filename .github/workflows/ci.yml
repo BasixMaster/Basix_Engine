@@ -18,5 +18,7 @@ jobs:
         run: ctest --test-dir build -C Release --output-on-failure
       - name: Rebuild public docs
         run: python tools/build_docs.py
+      - name: Check roadmap truthfulness and dependencies
+        run: python -m unittest discover -s tests -p test_roadmap.py
       - name: Check documentation
         run: python tools/check_docs.py

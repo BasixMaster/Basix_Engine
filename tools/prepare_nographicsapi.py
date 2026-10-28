@@ -26,7 +26,7 @@ def main():
    else:raise SystemExit('Unsupported archive entry: '+member.name)
  h=dst/'include/NoGraphicsAPI/NoGraphicsAPI.hpp';s=h.read_text()
  s=s.replace('    void* window = nullptr; // HWND', '    bool enable_ray_query = false; // Basix experimental Vulkan-only device contract.\n    void* window = nullptr; // HWND',1)
- s+='\nnamespace gpu {\nstruct NativeVulkanHandles { void* instance; void* physical_device; void* device; };\nNativeVulkanHandles basix_native_vulkan(Device* device) noexcept;\nvoid* basix_native_commands(CommandBuffer* commands) noexcept;\n}\n'
+ s+='\nnamespace gpu {\nstruct NativeVulkanHandles { void* instance; void* physical_device; void* device; bool validation_enabled; };\nstruct NativeVulkanTexture { void* device; uint64 image; uint32 format, width, height, depth, layers, usage; };\nNativeVulkanHandles basix_native_vulkan(Device* device) noexcept;\nvoid* basix_native_commands(CommandBuffer* commands) noexcept;\nNativeVulkanTexture basix_native_texture(Texture* texture) noexcept;\n}\n'
  h.write_text(s,encoding='utf-8')
  f=dst/'src/NoGraphicsAPI.cpp';s=f.read_text();needle='    const char* enabled_device_extensions[7]{};'
  if s.count(needle)!=1:raise SystemExit('Upstream patch context changed.')
@@ -64,7 +64,11 @@ def main():
         enabled_device_extensions[enabled_device_extension_count++] = VK_KHR_RAY_QUERY_EXTENSION_NAME;
     }
 '''+needle,1)
- s+='\nnamespace gpu {\nNativeVulkanHandles basix_native_vulkan(Device* d) noexcept { return {d->instance, d->physical_device, d->device}; }\nvoid* basix_native_commands(CommandBuffer* c) noexcept { return c->command_buffer; }\n}\n'
- f.write_text(s,encoding='utf-8');(dst/'BASIX_INTEROP_REVISION').write_text(PIN+'\n')
+ s=s.replace('    Format format = Format::rgba8_unorm;\n\n    ~Texture()', '    Format format = Format::rgba8_unorm;\n    TextureUsage basix_usage = TextureUsage::none;\n\n    ~Texture()',1)
+ s=s.replace('        .format = desc.format,\n', '        .format = desc.format,\n        .basix_usage = desc.usage,\n',1)
+ s=s.replace('struct Device\n{\n    VkInstance instance', 'struct Device\n{\n    bool basix_validation_enabled = false;\n    VkInstance instance',1)
+ s=s.replace('    const VkInstanceCreateInfo instance_info{', '    state->basix_validation_enabled = enabled_layer_count != 0;\n    const VkInstanceCreateInfo instance_info{',1)
+ s+='\nnamespace gpu {\nNativeVulkanHandles basix_native_vulkan(Device* d) noexcept { return {d->instance, d->physical_device, d->device, d->basix_validation_enabled}; }\nvoid* basix_native_commands(CommandBuffer* c) noexcept { return c->command_buffer; }\nNativeVulkanTexture basix_native_texture(Texture* t) noexcept { return {t->state->device, (uint64)t->image, (uint32)to_vk(t->format), t->width, t->height, t->depth, t->layer_count, (uint32)t->basix_usage}; }\n}\n'
+ f.write_text(s,encoding='utf-8');(dst/'BASIX_INTEROP_REVISION').write_text(PIN+'\n');(dst/'BASIX_INTEROP_PATCH_VERSION').write_text('2\n')
  print('Prepared experimental Vulkan RT interop from '+PIN)
 if __name__=='__main__':main()

@@ -2,9 +2,34 @@
   "schema_version": 1,
   "checked_on": "2026-10-28",
   "dependencies": {
-    "NoGraphicsAPI": {"repository":"https://github.com/sebbbi/NoGraphicsAPI.git","revision":"ffd9f2ab6b7442dcfbe0cb0051d84d0edb078d89","license":"MIT","local_patch":"tools/prepare_nographicsapi.py"},
-    "Vulkan-Headers": {"repository":"https://github.com/KhronosGroup/Vulkan-Headers.git","revision":"e3b1eec08173d6b825cd3ac88c885a63b621504a","tag":"vulkan-sdk-1.4.357.0","license":"Apache-2.0 OR MIT"},
-    "Slang": {"version":"2026.18.2","url":"https://github.com/shader-slang/slang/releases/download/v2026.18.2/slang-2026.18.2-windows-x86_64.zip","sha256":"747602aec6b3623658d55fea87492d71828e15d16802d7941204fde418ceee8e","license":"Apache-2.0 WITH LLVM-exception; inspect bundled dependency notices"}
+    "NoGraphicsAPI": {
+      "repository": "https://github.com/sebbbi/NoGraphicsAPI.git",
+      "revision": "ffd9f2ab6b7442dcfbe0cb0051d84d0edb078d89",
+      "license": "MIT",
+      "local_patch": "tools/prepare_nographicsapi.py",
+      "local_patch_version": 2
+    },
+    "Vulkan-Headers": {
+      "repository": "https://github.com/KhronosGroup/Vulkan-Headers.git",
+      "revision": "e3b1eec08173d6b825cd3ac88c885a63b621504a",
+      "tag": "vulkan-sdk-1.4.357.0",
+      "license": "Apache-2.0 OR MIT"
+    },
+    "Slang": {
+      "version": "2026.18.2",
+      "url": "https://github.com/shader-slang/slang/releases/download/v2026.18.2/slang-2026.18.2-windows-x86_64.zip",
+      "sha256": "747602aec6b3623658d55fea87492d71828e15d16802d7941204fde418ceee8e",
+      "license": "Apache-2.0 WITH LLVM-exception; inspect bundled dependency notices"
+    },
+    "Vulkan-ValidationLayers": {
+      "purpose": "optional local test tooling, not shipped runtime",
+      "release": "nightly checked 2026-10-28",
+      "url": "https://github.com/KhronosGroup/Vulkan-ValidationLayers/releases/download/nightly/Validation_Layers_Windows_64.zip",
+      "sha256": "0cc7c7275296d4fdd904d664f85e246debbadea10b26beba9ffac7ef4bc3cc96",
+      "dll_sha256": "249474155f7ed98c94f26c8a86c5d5da729dcabaaa1a7136d14fc68caf99213b",
+      "manifest_api": "1.4.366",
+      "license": "Apache-2.0; inspect package notices before redistribution"
+    }
   },
-  "policy":"CPU default build has no external dependencies. GPU experiment requires explicit locally installed/prepared dependencies. No proprietary SDK source or binaries are vendored."
+  "policy": "CPU default build has no external dependencies. GPU experiment requires explicit locally installed/prepared dependencies. No proprietary SDK source or binaries are vendored."
 }
