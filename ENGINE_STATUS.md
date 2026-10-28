@@ -13,7 +13,7 @@ Generated from `roadmap.json`. States describe only the named scope; no overall 
 | M1b-sdk · External SDK state restoration | completed | Actual optional signed Streamline2.14.16 SR evaluation on NoGraphicsAPI-owned Vulkan device; static constant radiance and same-command native/engine binding restoration. |
 | M1b-lifecycle · Repeated resource lifecycle | completed | Three actual device sessions, three resource cycles each, held asynchronous submissions, real incomplete-timeline retirement rejection and registry-incarnation isolation on the named local adapter. |
 | M1b-resize · Window resize and device loss | partial | Hidden Win32 swapchain resize, zero client extent and restoration pass. Actual OS minimize, device-loss recovery and visible presentation quality remain unverified. |
-| M2 · Reference renderer and materials | pending | Stable scene/material IDs, import, shared BSDF and progressive reference PT. |
+| M2 · Reference renderer and materials | partial | Stable scene/material IDs, import, shared BSDF and progressive reference PT. |
 | M3 · Many lights and reconstruction | pending | Original direct lighting/fallback denoising and optional RTXDI/SR/RR. A separate static SR interoperability spike is tested; integrated renderer lighting/temporal quality remains pending. |
 | M3-dlss · DLSS integration | partial | Actual static SR/interoperability smoke passes. Shared renderer guides, temporal quality, camera cuts/resize/toggles and RR remain unimplemented or unverified; FG separately scoped. |
 | G1 · Geometry and streaming contract | pending | Stable clusters, codec tags, residency generations, source triangle/material provenance and conventional BLAS; explicit surface correspondence for temporal LOD changes. |
@@ -25,8 +25,13 @@ Generated from `roadmap.json`. States describe only the named scope; no overall 
 | R · Optional rendering research | deferred | DGF/DGFS, LinAlg, neural caches, Work Graphs and future Work Lists are independently optional. |
 | R-temporal · Advanced temporal sampling | deferred | LOD-aware reuse, multilayer splatting, PT Enhanced and variable rate tracing; optional independent experiments. |
 | R-guiding · Optional path guiding | deferred | ReSTIR PG candidate generation with BSDF fallback and explicit path/grid memory budget. |
-| R-neural · Optional neural texture and residual cache | deferred | Independent texture inference and cache-plus-residual branches; MiniDXNN MIT reference, GPLv3 NIRC source excluded from MIT core. |
+| R-neural · Optional neural texture and residual cache | deferred | Independent texture inference and cache-plus-residual branches; MiniDXNN MIT reference, GPLv3 NIRC source excluded from MIT core. Vulkan-first matrix/vector adapters; DirectX LinAlg is a corresponding technique family, not a shared API. |
 | R-procedural · Procedural vegetation research | deferred | Deterministic compact vegetation grammar with compute/mesh fallback; Work Graphs mesh nodes optional D3D12 experiment. |
+| M2-material · Shared material oracle and GPU evaluation | completed | Original MIT Lambert and single-scatter isotropic GGX model; CPU sampling/PDF and paired GPU evaluation/PDF only. |
+| M2-reference · CPU progressive reference PT | completed | Stable scene/material IDs, analytic spheres/triangles, one-sided triangle emitters, NEE/power MIS/compensated RR and deterministic accumulation. |
+| M2-gpu · Vulkan progressive reference PT | pending | Pointer-root scene/material layout, GPU BSDF sampling, ordinary ray-query BLAS/TLAS and accumulation. |
+| M2-guides · Scene import and temporal guides | pending | Minimal importer with stable IDs, texture/material metadata, linear depth, camera/object motion and reset clips. |
+| V1-query · Vulkan extension capability inventory | completed | Physical-device feature/property queries for16 curated candidates plus NV/NVX name inventory; no logical device or advanced extension execution. |
 
 ## Milestone and status logbook
 
@@ -40,5 +45,7 @@ Entries retain their recorded order. Legacy notes remain visible without asserti
 | 2026-10-28 | General / legacy note | No structured transition recorded | Completed scoped repeated-device/in-flight lifecycle gate; hidden-window resize/restoration passed but resize/recovery parent remains partial. SDK and actual device loss stay open. |
 | 2026-10-28 | M1b-sdk | pending → completed | Completed bounded actual SR/resource-state interoperability with measured issue109 workaround; static fixture only.<br>Evidence: [docs/dlss-results.json](docs/dlss-results.json) |
 | 2026-10-28 | M3-dlss | pending → partial | Static SR seam passes; shared renderer temporal guides, resets/fallbacks and RR remain open.<br>Evidence: [docs/dlss-results.json](docs/dlss-results.json) |
+| 2026-10-28 | M2 | pending → partial | Completed scoped material oracle/GPU evaluation and CPU progressive reference. GPU PT, importer and motion guides remain pending; recovery gates unchanged.<br>Evidence: [docs/material-results.json](docs/material-results.json)<br>Evidence: [docs/reference-results.json](docs/reference-results.json) |
+| 2026-10-28 | General / legacy note | No structured transition recorded | Recorded queried Vulkan capabilities and technique counterparts. V1-query completed only for queries; G3 and neural extension execution remain pending/deferred.<br>Evidence: [docs/vulkan-capabilities.json](docs/vulkan-capabilities.json) |
 
 Build and test instructions: [IMPLEMENTATION.md](IMPLEMENTATION.md). Evidence and next tests are recorded per gate in [roadmap.json](roadmap.json) and shown in the documentation page.

@@ -189,15 +189,26 @@
     {
       "id": "M2",
       "title": "Reference renderer and materials",
-      "status": "pending",
+      "status": "partial",
       "scope": "Stable scene/material IDs, import, shared BSDF and progressive reference PT.",
       "acceptance": "Convergence, BSDF PDF/energy tests and motion-guide clips pass.",
       "prerequisites": [
         "M1b"
       ],
-      "next_test": "Start a minimal material/scene representation and analytic reference scene.",
-      "last_verified_on": null,
-      "evidence": []
+      "next_test": "Port the tested material sampling and progressive integrator to Vulkan ray queries; add scene import and camera/object motion-guide clips.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/reference-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "CPU reference only:61 transport checks, actual original scene and11 CLI validation runs; GPU/import/motion pending."
+        },
+        {
+          "path": "docs/material-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "70 CPU material checks;2048 GPU evaluation/PDF cases and no-op negative control; GPU sampling pending."
+        }
+      ]
     },
     {
       "id": "M3",
@@ -290,9 +301,15 @@
         "G1",
         "M1b"
       ],
-      "next_test": "Pin an actual usable API/runtime/driver combination and run the smallest cluster-AS oracle.",
-      "last_verified_on": null,
-      "evidence": []
+      "next_test": "Use the queried NV cluster feature/limits to build one CLAS→cluster BLAS→TLAS with matched ordinary-BLAS rays; move/retirement and performance remain open.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/vulkan-capabilities.json",
+          "checked_on": "2026-10-28",
+          "summary": "Physical-device queries only, no enabled advanced extension or GPU execution; reviewed loader warnings separate."
+        }
+      ]
     },
     {
       "id": "G4",
@@ -369,7 +386,7 @@
       "id": "R-neural",
       "title": "Optional neural texture and residual cache",
       "status": "deferred",
-      "scope": "Independent texture inference and cache-plus-residual branches; MiniDXNN MIT reference, GPLv3 NIRC source excluded from MIT core.",
+      "scope": "Independent texture inference and cache-plus-residual branches; MiniDXNN MIT reference, GPLv3 NIRC source excluded from MIT core. Vulkan-first matrix/vector adapters; DirectX LinAlg is a corresponding technique family, not a shared API.",
       "acceptance": "CPU/GPU scalar inference agreement first; separate material filtering/mip quality and cache residual convergence, training cost and dynamic recovery.",
       "prerequisites": [
         "M2"
@@ -392,6 +409,94 @@
       "last_verified_on": null,
       "evidence": [],
       "parent": "R"
+    },
+    {
+      "id": "M2-material",
+      "title": "Shared material oracle and GPU evaluation",
+      "status": "completed",
+      "scope": "Original MIT Lambert and single-scatter isotropic GGX model; CPU sampling/PDF and paired GPU evaluation/PDF only.",
+      "acceptance": "70 independent CPU checks and2048 paired GPU cases pass; no-op shader fails all8192 components.",
+      "prerequisites": [
+        "M0a"
+      ],
+      "next_test": "Keep this oracle while porting GPU sampling; texture filtering and model expansion are separate gates.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/material-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "70 CPU material checks;2048 GPU evaluation/PDF cases and no-op negative control; GPU sampling pending."
+        }
+      ],
+      "parent": "M2"
+    },
+    {
+      "id": "M2-reference",
+      "title": "CPU progressive reference PT",
+      "status": "completed",
+      "scope": "Stable scene/material IDs, analytic spheres/triangles, one-sided triangle emitters, NEE/power MIS/compensated RR and deterministic accumulation.",
+      "acceptance": "61 independent analytic/convergence/determinism/boundary checks; finite nonnegative actual scene image and CLI validation.",
+      "prerequisites": [
+        "M2-material"
+      ],
+      "next_test": "Use the CPU reference to validate the future Vulkan integrator; depth truncation is explicit.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/reference-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "CPU reference only:61 transport checks, actual original scene and11 CLI validation runs; GPU/import/motion pending."
+        }
+      ],
+      "parent": "M2"
+    },
+    {
+      "id": "M2-gpu",
+      "title": "Vulkan progressive reference PT",
+      "status": "pending",
+      "scope": "Pointer-root scene/material layout, GPU BSDF sampling, ordinary ray-query BLAS/TLAS and accumulation.",
+      "acceptance": "CPU/GPU sample/PDF and matched scene convergence, poisoned-output controls and full-process core/SyncVal.",
+      "prerequisites": [
+        "M2-reference",
+        "M1b"
+      ],
+      "next_test": "Start small scene GPU layout and seeded Lambert sampling; preserve ordinary BLAS baseline.",
+      "last_verified_on": null,
+      "evidence": [],
+      "parent": "M2"
+    },
+    {
+      "id": "M2-guides",
+      "title": "Scene import and temporal guides",
+      "status": "pending",
+      "scope": "Minimal importer with stable IDs, texture/material metadata, linear depth, camera/object motion and reset clips.",
+      "acceptance": "Imported scene identity and independent depth/motion clips agree; resolution changes/camera cuts invalidate history explicitly.",
+      "prerequisites": [
+        "M2-gpu"
+      ],
+      "next_test": "Define guide conventions before dynamic DLSS integration.",
+      "last_verified_on": null,
+      "evidence": [],
+      "parent": "M2"
+    },
+    {
+      "id": "V1-query",
+      "title": "Vulkan extension capability inventory",
+      "status": "completed",
+      "scope": "Physical-device feature/property queries for16 curated candidates plus NV/NVX name inventory; no logical device or advanced extension execution.",
+      "acceptance": "Queried bits/limits recorded under validation; all other warnings/errors fail;19 known loader environment warnings counted separately.",
+      "prerequisites": [
+        "M0a"
+      ],
+      "next_test": "Enumerate matrix/vector type-dimension tuples before selecting actual shader kernels. No CLAS/matrix execution accepted. ",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/vulkan-capabilities.json",
+          "checked_on": "2026-10-28",
+          "summary": "Physical-device queries only, no enabled advanced extension or GPU execution; reviewed loader warnings separate."
+        }
+      ]
     }
   ],
   "history": [
@@ -429,6 +534,24 @@
       "event": "Static SR seam passes; shared renderer temporal guides, resets/fallbacks and RR remain open.",
       "evidence": [
         "docs/dlss-results.json"
+      ]
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M2",
+      "from_status": "pending",
+      "to_status": "partial",
+      "event": "Completed scoped material oracle/GPU evaluation and CPU progressive reference. GPU PT, importer and motion guides remain pending; recovery gates unchanged.",
+      "evidence": [
+        "docs/material-results.json",
+        "docs/reference-results.json"
+      ]
+    },
+    {
+      "checked_on": "2026-10-28",
+      "event": "Recorded queried Vulkan capabilities and technique counterparts. V1-query completed only for queries; G3 and neural extension execution remain pending/deferred.",
+      "evidence": [
+        "docs/vulkan-capabilities.json"
       ]
     }
   ]

@@ -111,3 +111,22 @@ This is a static fixed-resolution interoperability gate on Windows/RTX4090/NVIDI
 ## Milestone and status logbook
 
 `roadmap.json` retains the original history and dated structured transitions with item ID, previous/new status, reason and evidence. The HTML roadmap and generated Markdown show the same logbook. Validation rejects broken transition chains, current states that contradict the latest recorded transition, unknown states/items and escaping/missing evidence paths. Research coverage and an existing adapter never substitute for executed engine acceptance tests.
+
+## Materials and CPU progressive reference (M2 partial)
+
+Default builds now include `basix_material`, `basix_reference` and `basix_reference_render`. CPU tests contain70 material checks and61 transport checks. Stable IDs, analytic spheres/triangles, one-sided triangle emitters, NEE, power MIS, compensated RR and deterministic accumulation form an original MIT oracle. The GGX model is single scatter with conservative approximate diffuse attenuation, not exact glTF/multiple-scattering compensation. Depth truncation is explicit.
+
+```text
+build/Release/basix_reference_render --width 256 --height 256 --spp 64 --batch 7 --seed 20261028 --output reference-output
+python tools/run_reference_validation.py --executable build/Release/basix_reference_render --output reference-validation
+```
+
+Single-configuration builds omit `Release/`; Windows executable suffix is optional. Outputs are linear RGB float32 PFM (little endian, bottom-up), a Reinhard+sRGB PPM preview and metadata. The CLI bounds image/sample/depth work and rejects invalid inputs. The validation runner tests eight rejected inputs, batch byte identity, HDR finite/nonnegative output, metadata and the actual preview transform. See `docs/reference-results.json`. Image timing is local CPU oracle cost, not a performance benchmark.
+
+The optional GPU build adds `basix_material_gpu`. Run a Debug build with `--validate --output material-output` and process-local Khronos/core/SyncVal configuration as above. It compares2048 exact uploaded float inputs with CPU double BRDF/PDF evaluation, using abs0.0003+rel0.001×|reference|; the isolated no-op control fails8192 poisoned outputs. `docs/material-results.json` records scope and results. GPU sampling, progressive PT, import, textures and motion guides remain pending.
+
+## Vulkan capability queries and cross-API concepts
+
+`basix_vulkan_caps --validate --output vulkan-capabilities.json` enumerates physical-device NV/NVX extensions and queries feature/property structures for16 curated candidates. It creates no logical device, enables no optional feature, and runs no advanced shader/AS operation. Matrix/vector supported type/dimension tuple enumeration remains pending. The sanitized local receipt is `docs/vulkan-capabilities.json`. The callback separately counts known loader environment warnings about installed Galaxy layer naming and layers explicitly disabled by the process filter; all other warning/error diagnostics fail. This is not a claim of zero total loader messages.
+
+Keep Vulkan first: DX LinAlg corresponds to the shader matrix/vector inference family; clustered geometry corresponds to CLAS→cluster BLAS→TLAS. Their native layouts, limits, shader semantics, synchronization and device-enabling contracts require separate adapters. Query evidence does not complete CLAS, SER, partitioned-AS, matrix/vector, DGC, micromap or decompression implementation. Prefer suitable KHR/EXT routes while preserving ordinary compute/ray fallbacks; the docs compare current contracts and candidate gates.

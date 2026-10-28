@@ -6,7 +6,9 @@
   "updated_on": "2026-10-28",
   "summary": [
     "Initial CPU/GPU foundation and scoped lifecycle/window tests have local correctness evidence; advanced rendering ideas are separately labeled proposals or author reports.",
-    "Actual static DLSS SR interoperability passes8cases with a measured descriptor-state workaround; temporal renderer quality remains unverified."
+    "Actual static DLSS SR interoperability passes8cases with a measured descriptor-state workaround; temporal renderer quality remains unverified.",
+    "Vulkan-first adoption map separates native extension contracts, portable replacements and enumeration/enabling/oracle/performance evidence; no advanced-extension execution measurements added.",
+    "M2 partial: tested material CPU/GPU evaluation and CPU progressive reference; Vulkan advanced feature queries recorded separately from execution."
   ],
   "questions": [
     {
@@ -1331,6 +1333,310 @@
       "topic": "rendering",
       "presentation_path": "index.html",
       "presentation_anchor": "S69"
+    },
+    {
+      "id": "S70",
+      "title": "VK_NV_cluster_acceleration_structure",
+      "url": "https://docs.vulkan.org/refpages/latest/refpages/source/VK_NV_cluster_acceleration_structure.html",
+      "notes": "Revision4 specifies CLAS, cluster BLAS and indirect build/move operations. Depends on KHR acceleration structures; query the cluster feature, geometry limits and alignment properties. No Basix CLAS execution result follows.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Official specification linked with original summary; specification prose CC-BY-4.0. No implementation or sample code copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S70"
+    },
+    {
+      "id": "S71",
+      "title": "VK_NV_cooperative_matrix2",
+      "url": "https://docs.vulkan.org/refpages/latest/refpages/source/VK_NV_cooperative_matrix2.html",
+      "notes": "Builds on KHR cooperative matrix with independently gated flexible dimensions, workgroup scope, conversions, reductions, per-element operations, tensor addressing and block loads. Enumerate dimensions/types and shared-memory limits.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Official specification linked with original summary; specification prose CC-BY-4.0. No implementation or sample code copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S71"
+    },
+    {
+      "id": "S72",
+      "title": "VK_NV_cooperative_vector",
+      "url": "https://docs.vulkan.org/refpages/latest/refpages/source/VK_NV_cooperative_vector.html",
+      "notes": "Per-invocation vectors support small matrix-vector inference. Cooperative-vector inference and training are separate features. Enumerate type tuples, stages and component limits; optimized matrix layouts require conversion.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Official specification linked with original summary; specification prose CC-BY-4.0. No implementation or sample code copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S72"
+    },
+    {
+      "id": "S73",
+      "title": "VK_EXT_ray_tracing_invocation_reorder",
+      "url": "https://docs.vulkan.org/refpages/latest/refpages/source/VK_EXT_ray_tracing_invocation_reorder.html",
+      "notes": "Ratified revision2, modified2026-04-02; successor to NV invocation reorder. Requires KHR ray-tracing pipelines, its feature and shader/compiler support. Query reordering hint and shader-binding-table record limit.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Official specification linked with original summary; specification prose CC-BY-4.0. No implementation or sample code copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S73"
+    },
+    {
+      "id": "S74",
+      "title": "VK_NV_ray_tracing_linear_swept_spheres",
+      "url": "https://docs.vulkan.org/refpages/latest/refpages/source/VK_NV_ray_tracing_linear_swept_spheres.html",
+      "notes": "Independent spheres and linearSweptSpheres features add dedicated geometry and pipeline requirements. Requires KHR ray-tracing pipelines. Hardware acceleration and performance on the named adapter remain untested.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Official specification linked with original summary; specification prose CC-BY-4.0. No implementation or sample code copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S74"
+    },
+    {
+      "id": "S75",
+      "title": "VK_NV_partitioned_acceleration_structure",
+      "url": "https://docs.vulkan.org/refpages/latest/refpages/source/VK_NV_partitioned_acceleration_structure.html",
+      "notes": "Partitioned instance structures support localized updates and partition translations. Requires KHR acceleration structures, its feature and maxPartitionCount query, dedicated build operations and descriptor integration.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Official specification linked with original summary; specification prose CC-BY-4.0. No implementation or sample code copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S75"
+    },
+    {
+      "id": "S76",
+      "title": "VK_EXT_device_generated_commands",
+      "url": "https://docs.vulkan.org/refpages/latest/refpages/source/VK_EXT_device_generated_commands.html",
+      "notes": "Ratified multi-vendor DGC route with feature and stage/binding/sequence/token limits. Requires BDA plus extended-flags or maintenance5, or Vulkan1.3. Preprocessing and synchronization remain application responsibilities.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Official specification linked with original summary; specification prose CC-BY-4.0. No implementation or sample code copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S76"
+    },
+    {
+      "id": "S77",
+      "title": "VK_NV_device_generated_commands_compute",
+      "url": "https://docs.vulkan.org/refpages/latest/refpages/source/VK_NV_device_generated_commands_compute.html",
+      "notes": "Older NV compute route depends on NV device-generated commands; compute, indirect-pipeline and capture-replay features are separate. EXT DGC is a separate integration, not a symbol rename.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Official specification linked with original summary; specification prose CC-BY-4.0. No implementation or sample code copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S77"
+    },
+    {
+      "id": "S78",
+      "title": "VK_KHR_compute_shader_derivatives",
+      "url": "https://docs.vulkan.org/refpages/latest/refpages/source/VK_KHR_compute_shader_derivatives.html",
+      "notes": "Portable successor to NV compute derivatives. Quad and linear derivative grouping are separate features. Invocation grouping must match the execution mode; arbitrary divergent ray neighborhoods do not define useful texture footprints.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Official specification linked with original summary; specification prose CC-BY-4.0. No implementation or sample code copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S78"
+    },
+    {
+      "id": "S79",
+      "title": "VK_EXT_memory_decompression",
+      "url": "https://docs.vulkan.org/refpages/latest/refpages/source/VK_EXT_memory_decompression.html",
+      "notes": "Ratified successor to NV memory decompression. Query feature, supported methods and indirect-count limit. Current method is GDeflate1.0; dedicated EXT usage/stage/access bits apply. Not a general texture or geometry decoder.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Official specification linked with original summary; specification prose CC-BY-4.0. No implementation or sample code copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S79"
+    },
+    {
+      "id": "S80",
+      "title": "VK_EXT_opacity_micromap",
+      "url": "https://docs.vulkan.org/refpages/latest/refpages/source/VK_EXT_opacity_micromap.html",
+      "notes": "Ratified EXT opacity micromaps encode subtriangle opacity to reduce alpha traversal work. Requires acceleration structures plus synchronization2 or Vulkan1.3. Query micromap feature and subdivision limits; preserve unknown-opacity behavior.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Official specification linked with original summary; specification prose CC-BY-4.0. No implementation or sample code copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S80"
+    },
+    {
+      "id": "S81",
+      "title": "VK_KHR_opacity_micromap",
+      "url": "https://docs.vulkan.org/refpages/latest/refpages/source/VK_KHR_opacity_micromap.html",
+      "notes": "Ratified successor modified2026-05-08 requires KHR device-address commands and acceleration structures. Uses AS-backed micromaps. Ray-query shaders declare OpacityMicromapIdKHR execution mode; ray pipelines require the OMM flag. Not a drop-in EXT alias.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Official specification linked with original summary; specification prose CC-BY-4.0. No implementation or sample code copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S81"
+    },
+    {
+      "id": "S82",
+      "title": "VK_AMDX_shader_enqueue",
+      "url": "https://docs.vulkan.org/refpages/latest/refpages/source/VK_AMDX_shader_enqueue.html",
+      "notes": "Revision2 remains provisional and explicitly discouraged for production. Compute shaders enqueue compute/mesh work through execution graphs. AMDX is not NV; NVIDIA support was not established. Graph/scratch/dependency constraints apply.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Official specification linked with original summary; specification prose CC-BY-4.0. No implementation or sample code copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S82"
+    },
+    {
+      "id": "S83",
+      "title": "VK_KHR_cooperative_matrix",
+      "url": "https://docs.vulkan.org/refpages/latest/refpages/source/VK_KHR_cooperative_matrix.html",
+      "notes": "Portable cooperative-matrix baseline with enumerated supported type/dimension/scope combinations and feature gates. NV matrix2 adds capabilities beyond this contract; cooperative vectors are a distinct execution abstraction.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Official specification linked with original summary; specification prose CC-BY-4.0. No implementation or sample code copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S83"
+    },
+    {
+      "id": "S84",
+      "title": "Vulkan-Docs licensing",
+      "url": "https://github.com/KhronosGroup/Vulkan-Docs/blob/main/LICENSE.adoc",
+      "notes": "Specification source documents use CC-BY-4.0; scripts/XML and other files have their own SPDX terms. Research prose and implementation dependencies must be tracked separately.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "License metadata linked and summarized; no specification text redistributed.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S84"
+    },
+    {
+      "id": "S85",
+      "title": "Vulkan generated header and license",
+      "url": "https://github.com/KhronosGroup/Vulkan-Headers/blob/main/include/vulkan/vulkan_core.h",
+      "notes": "Current generated header carries Apache-2.0 OR MIT. Latest registry declarations do not establish driver implementation or compatibility with the engine's pinned headers/compiler.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Apache-2.0 OR MIT in the linked generated header. Select and retain applicable notices for adopted files.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S85"
+    },
+    {
+      "id": "S86",
+      "title": "Basix Vulkan feature/property query",
+      "url": "https://github.com/BasixMaster/Basix_Engine/blob/main/docs/vulkan-capabilities.json",
+      "notes": "Physical-device queries for16 candidates; no logical device, advanced shader, CLAS build or performance result. RTX4090/NVIDIA617.42; validation clean apart from19 explicitly counted loader environment warnings.",
+      "kind": "local measured correctness",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Original Basix code and selected receipts MIT; no vendor runtime included.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S86"
+    },
+    {
+      "id": "S87",
+      "title": "Basix material conformance",
+      "url": "https://github.com/BasixMaster/Basix_Engine/blob/main/docs/material-results.json",
+      "notes": "70 CPU correctness checks and2048 GPU evaluation/PDF cases. No-op shader fails8192 sentinels; final working run passes with zero validation warnings/errors. No GPU sampling or textured-material acceptance.",
+      "kind": "local measured correctness",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Original Basix code and selected receipts MIT; no vendor runtime included.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S87"
+    },
+    {
+      "id": "S88",
+      "title": "Basix CPU reference PT",
+      "url": "https://github.com/BasixMaster/Basix_Engine/blob/main/docs/reference-results.json",
+      "notes": "61 analytic/transport/determinism/boundary checks plus actual256x256/64SPP original scene. CPU progressive NEE/MIS/RR; no GPU PT, import, textures or motion guides.",
+      "kind": "local measured correctness",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Original Basix code and selected receipts MIT; no vendor runtime included.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S88"
     }
   ],
   "findings": [
@@ -1966,6 +2272,112 @@
       ],
       "presentation_path": "index.html",
       "presentation_anchor": "summary"
+    },
+    {
+      "id": "F17",
+      "title": "Vulkan technique counterparts require independent native contracts",
+      "question_ids": [
+        "Q2",
+        "Q8"
+      ],
+      "topic": "rendering",
+      "claim": "KHR cooperative matrix/NV matrix2/vector and NV cluster AS address related technique families to DirectX LinAlg/DXR2, but APIs, layouts, shader semantics and runtime capability contracts are not interchangeable.",
+      "evidence_type": "primary documentation synthesis",
+      "confidence": "high",
+      "context": "Official Khronos registry/refpages checked2026-10-28; implementation remains pinned separately.",
+      "strengths": "Primary feature/dependency/property declarations and explicit distinction between NV, KHR, EXT and provisional AMDX routes.",
+      "limitations": "Mutable latest specifications; this source synthesis supplies no shader execution oracle or performance benchmark; the separate Basix receipt records queries only. Pinned headers/compiler may lack latest replacements.",
+      "implications": "Preserve ordinary ray/compute fallbacks, implement native adapters and advance each feature only through separately recorded enumeration, enablement, correctness and performance gates.",
+      "tags": [
+        "Vulkan",
+        "cluster geometry",
+        "linear algebra",
+        "native interop",
+        "roadmap"
+      ],
+      "evidence": [
+        {
+          "source_id": "S70",
+          "locator": "Extension dependencies, feature/property declarations and descriptions",
+          "relation": "supports",
+          "note": "Research contract only; no Basix execution claim."
+        },
+        {
+          "source_id": "S71",
+          "locator": "Extension dependencies, feature/property declarations and descriptions",
+          "relation": "supports",
+          "note": "Research contract only; no Basix execution claim."
+        },
+        {
+          "source_id": "S72",
+          "locator": "Extension dependencies, feature/property declarations and descriptions",
+          "relation": "supports",
+          "note": "Research contract only; no Basix execution claim."
+        },
+        {
+          "source_id": "S76",
+          "locator": "Extension dependencies, feature/property declarations and descriptions",
+          "relation": "supports",
+          "note": "Research contract only; no Basix execution claim."
+        },
+        {
+          "source_id": "S81",
+          "locator": "Extension dependencies, feature/property declarations and descriptions",
+          "relation": "supports",
+          "note": "Research contract only; no Basix execution claim."
+        },
+        {
+          "source_id": "S83",
+          "locator": "Extension dependencies, feature/property declarations and descriptions",
+          "relation": "supports",
+          "note": "Research contract only; no Basix execution claim."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
+    },
+    {
+      "id": "F18",
+      "title": "Reference material and CPU transport gates pass within narrow scopes",
+      "question_ids": [
+        "Q2"
+      ],
+      "topic": "rendering",
+      "claim": "GPU material evaluation/PDF matches a tested CPU model, and CPU transport passes analytic/convergence checks. Advanced Vulkan features have query evidence only.",
+      "evidence_type": "measured",
+      "confidence": "high",
+      "context": "2026-10-28 local Windows RTX4090/NVIDIA617.42; pinned headers/compiler and validation.",
+      "strengths": "Independent analytic CPU checks, poisoned GPU outputs/no-op negative control, deterministic batch and actual image checks.",
+      "limitations": "No GPU sampling/PT, importer, textures, motion guides, advanced-extension execution or performance comparison.",
+      "implications": "Keep M2 partial and optional CLAS/neural execution pending; port the reference to Vulkan before optimizing.",
+      "tags": [
+        "materials",
+        "reference PT",
+        "Vulkan",
+        "roadmap"
+      ],
+      "evidence": [
+        {
+          "source_id": "S86",
+          "locator": "Receipt scope and numeric results",
+          "relation": "supports",
+          "note": "Scoped local acceptance only."
+        },
+        {
+          "source_id": "S87",
+          "locator": "Receipt scope and numeric results",
+          "relation": "supports",
+          "note": "Scoped local acceptance only."
+        },
+        {
+          "source_id": "S88",
+          "locator": "Receipt scope and numeric results",
+          "relation": "supports",
+          "note": "Scoped local acceptance only."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
     }
   ],
   "actions": [
@@ -2058,7 +2470,26 @@
         "S66",
         "S67",
         "S68",
-        "S69"
+        "S69",
+        "S70",
+        "S71",
+        "S72",
+        "S73",
+        "S74",
+        "S75",
+        "S76",
+        "S77",
+        "S78",
+        "S79",
+        "S80",
+        "S81",
+        "S82",
+        "S83",
+        "S84",
+        "S85",
+        "S86",
+        "S87",
+        "S88"
       ],
       "outcome": "Primary-source architecture and license gates resolved; runtime tests remain pending."
     },
@@ -2137,6 +2568,31 @@
         "S69"
       ],
       "outcome": "Reproduced black output, independently validated legacy handoff and full engine-state restoration; broader DLSS quality remains pending."
+    },
+    {
+      "date": "2026-10-28",
+      "phase": "targeted extension research",
+      "engine": "Official Khronos registry and Vulkan refpages",
+      "query": "NV cluster matrix2 vector SER partitioned AS DGC derivatives decompression micromap shader enqueue",
+      "source_ids": [
+        "S70",
+        "S71",
+        "S72",
+        "S73",
+        "S74",
+        "S75",
+        "S76",
+        "S77",
+        "S78",
+        "S79",
+        "S80",
+        "S81",
+        "S82",
+        "S83",
+        "S84",
+        "S85"
+      ],
+      "outcome": "Prioritized optional native adapters, portable replacements and explicit feature/property/oracle/performance gates; provisional AMDX enqueue deferred."
     }
   ],
   "scope_changes": [
@@ -2144,7 +2600,9 @@
     "User added DXR2/clustered geometry, tetrahedral cages, alternative ideas and implementation authorization. Corrected contradictory DXR2 maturity wording; recorded local CPU/GPU correctness results.",
     "Added explicit machine-readable roadmap states/evidence and completed scoped M1 validation/native texture experiments; broader M1 remains partial.",
     "User supplied two discussions. Added selected public leads and primary verification; authenticated discussion/page8 remained inaccessible. No private content published.",
-    "Completed actual static SR interoperability after reproducing issue109; retained original failed oracle and startup-validation evidence. Added visible status logbook and scoped transitions."
+    "Completed actual static SR interoperability after reproducing issue109; retained original failed oracle and startup-validation evidence. Added visible status logbook and scoped transitions.",
+    "Added Vulkan-first feature chapter and technique mapping; latest KHR/EXT comparisons remain research, with no new implementation status promotion.",
+    "Implemented original material oracle and CPU progressive PT; recorded Vulkan feature/property queries without promoting advanced extension execution."
   ],
   "presentation_path": "index.html",
   "evidence_page": "index.html#sources",

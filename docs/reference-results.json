@@ -1,0 +1,139 @@
+{
+  "status": "passed",
+  "scene": "cornell",
+  "width": 256,
+  "height": 256,
+  "samples_per_pixel": 64,
+  "seed": 20261028,
+  "batch": 7,
+  "max_scattering_events": 8,
+  "rr_start": 3,
+  "vertical_fov_degrees": 40,
+  "next_event_estimation": true,
+  "power_heuristic_mis": true,
+  "russian_roulette": true,
+  "render_elapsed_ms": 15929.6651,
+  "mean_linear_luminance": 0.3450515280038968,
+  "linear_double_fnv1a64": "e61e2b38d117a581",
+  "linear_output": "linear.pfm; RGB float32 little-endian, bottom-up rows",
+  "preview": "preview.ppm; Reinhard then sRGB transfer",
+  "scope": "Original CPU progressive reference PT, analytic spheres/triangles, one-sided triangle emitters, NEE/MIS/RR. No GPU PT, importer, textures, motion guides or UE-parity acceptance.",
+  "checked_on": "2026-10-28",
+  "cpu_correctness_checks": 61,
+  "material_correctness_checks": 70,
+  "image_checks": {
+    "finite_nonnegative_components": 196608,
+    "minimum": 0.0,
+    "maximum": 12.0,
+    "preview_sha256": "ed165a225151e08d677639e10f370862c72c4dc52dc3549173dab545f5588b66"
+  },
+  "timing_scope": "One unoptimized CPU oracle workload on local host; elapsed time is not a GPU benchmark or cross-device performance result",
+  "cli_validation": {
+    "schema_version": 1,
+    "checked_on": "2026-10-28",
+    "status": "passed",
+    "executable_sha256": "045ba53d7e3663e59471ea0e93af7d31c5f0e78eb29f10faac287006ef4733ad",
+    "scope": "Original CPU reference PT CLI, deterministic accumulation and linear/preview export correctness.",
+    "not_tested": [
+      "GPU path tracing",
+      "importers",
+      "textures",
+      "motion guides",
+      "UE visual parity",
+      "performance acceptance"
+    ],
+    "invalid_cases_rejected": 8,
+    "batch_sizes": [
+      1,
+      8
+    ],
+    "pfm_and_ppm_byte_identical": true,
+    "image": {
+      "width": 64,
+      "height": 64,
+      "samples_per_pixel": 32,
+      "seed": 20261028,
+      "rgb_float_components": 12288,
+      "finite_nonnegative": true,
+      "spatially_nonconstant": true,
+      "min_linear_component": 1.046445504471194e-05,
+      "max_linear_component": 12.0,
+      "decoded_mean_linear_luminance": 0.3456236442598399,
+      "metadata_consistent": true,
+      "maximum_preview_byte_error": 0,
+      "render_elapsed_ms": 468.8341,
+      "timing_scope": "Observed local CPU render duration, not a benchmark or GPU result.",
+      "linear_sha256": "0a0d51f77bb4fb893b368a91a2d3aacad291e81f79744cfde218cd4a2c576681",
+      "preview_sha256": "7c0f1c847f0b7aadb5231652f5bff66bfcd4614b6a244108a1ab6d994b06ce9d"
+    },
+    "runs": [
+      {
+        "case": "invalid-scene",
+        "expected_exit": 1,
+        "actual_exit": 1,
+        "status": "passed"
+      },
+      {
+        "case": "nan-fov",
+        "expected_exit": 1,
+        "actual_exit": 1,
+        "status": "passed"
+      },
+      {
+        "case": "zero-spp",
+        "expected_exit": 1,
+        "actual_exit": 1,
+        "status": "passed"
+      },
+      {
+        "case": "zero-width",
+        "expected_exit": 1,
+        "actual_exit": 1,
+        "status": "passed"
+      },
+      {
+        "case": "oversized-spp",
+        "expected_exit": 1,
+        "actual_exit": 1,
+        "status": "passed"
+      },
+      {
+        "case": "negative-seed",
+        "expected_exit": 1,
+        "actual_exit": 1,
+        "status": "passed"
+      },
+      {
+        "case": "zero-depth",
+        "expected_exit": 1,
+        "actual_exit": 1,
+        "status": "passed"
+      },
+      {
+        "case": "zero-batch",
+        "expected_exit": 1,
+        "actual_exit": 1,
+        "status": "passed"
+      },
+      {
+        "case": "batch-1",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "status": "passed"
+      },
+      {
+        "case": "batch-8",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "status": "passed"
+      },
+      {
+        "case": "cornell-64",
+        "expected_exit": 0,
+        "actual_exit": 0,
+        "status": "passed"
+      }
+    ],
+    "errors": []
+  }
+}

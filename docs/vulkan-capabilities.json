@@ -1,0 +1,359 @@
+{
+  "schema_version": 1,
+  "checked_on": "2026-10-28",
+  "scope": "Enumeration and physical-device feature/property queries only; no logical device, shader, CLAS or performance test",
+  "loader_api_raw": 4211029,
+  "header_version": 357,
+  "validation_requested": true,
+  "devices": [
+    {
+      "name": "NVIDIA GeForce RTX 4090",
+      "vendor_id": 4318,
+      "device_id": 9860,
+      "api_version_raw": 4211039,
+      "driver_version_raw": 2588573696,
+      "nv_nvx_extensions": [
+        "VK_NV_clip_space_w_scaling",
+        "VK_NV_cluster_acceleration_structure",
+        "VK_NV_compute_occupancy_priority",
+        "VK_NV_compute_shader_derivatives",
+        "VK_NV_cooperative_matrix",
+        "VK_NV_cooperative_matrix2",
+        "VK_NV_cooperative_matrix_decode_vector",
+        "VK_NV_cooperative_vector",
+        "VK_NV_copy_memory_indirect",
+        "VK_NV_corner_sampled_image",
+        "VK_NV_coverage_reduction_mode",
+        "VK_NV_cuda_kernel_launch",
+        "VK_NV_dedicated_allocation",
+        "VK_NV_dedicated_allocation_image_aliasing",
+        "VK_NV_descriptor_pool_overallocation",
+        "VK_NV_device_diagnostic_checkpoints",
+        "VK_NV_device_diagnostics_config",
+        "VK_NV_device_generated_commands",
+        "VK_NV_device_generated_commands_compute",
+        "VK_NV_disk_cache_utils",
+        "VK_NV_external_compute_queue",
+        "VK_NV_external_memory",
+        "VK_NV_external_memory_win32",
+        "VK_NV_fill_rectangle",
+        "VK_NV_fragment_coverage_to_color",
+        "VK_NV_fragment_shader_barycentric",
+        "VK_NV_fragment_shading_rate_enums",
+        "VK_NV_framebuffer_mixed_samples",
+        "VK_NV_geometry_shader_passthrough",
+        "VK_NV_inherited_viewport_scissor",
+        "VK_NV_internal_handle",
+        "VK_NV_internal_nvpresent",
+        "VK_NV_linear_color_attachment",
+        "VK_NV_low_latency",
+        "VK_NV_low_latency2",
+        "VK_NV_memory_decompression",
+        "VK_NV_mesh_shader",
+        "VK_NV_optical_flow",
+        "VK_NV_partitioned_acceleration_structure",
+        "VK_NV_present_metering",
+        "VK_NV_push_constant_bank",
+        "VK_NV_raw_access_chains",
+        "VK_NV_ray_tracing",
+        "VK_NV_ray_tracing_invocation_reorder",
+        "VK_NV_ray_tracing_motion_blur",
+        "VK_NV_representative_fragment_test",
+        "VK_NV_sample_mask_override_coverage",
+        "VK_NV_scissor_exclusive",
+        "VK_NV_shader_atomic_float16_vector",
+        "VK_NV_shader_image_footprint",
+        "VK_NV_shader_sm_builtins",
+        "VK_NV_shader_subgroup_partitioned",
+        "VK_NV_shading_rate_image",
+        "VK_NV_viewport_array2",
+        "VK_NV_viewport_swizzle",
+        "VK_NV_win32_keyed_mutex",
+        "VK_NVX_binary_import",
+        "VK_NVX_image_view_handle",
+        "VK_NVX_multiview_per_view_attributes"
+      ],
+      "candidates": [
+        {
+          "extension": "VK_NV_cluster_acceleration_structure",
+          "advertised": true,
+          "spec_version": 4,
+          "feature_queried": true,
+          "device_enabled": false,
+          "gpu_oracle_tested": false,
+          "performance_measured": false,
+          "features": {
+            "clusterAccelerationStructure": 1
+          },
+          "properties": {
+            "maxVerticesPerCluster": 256,
+            "maxTrianglesPerCluster": 256,
+            "clusterScratchByteAlignment": 256,
+            "clusterByteAlignment": 128,
+            "clusterTemplateByteAlignment": 32,
+            "clusterBottomLevelByteAlignment": 256,
+            "clusterTemplateBoundsByteAlignment": 32,
+            "maxClusterGeometryIndex": 16777215
+          }
+        },
+        {
+          "extension": "VK_KHR_cooperative_matrix",
+          "advertised": true,
+          "spec_version": 2,
+          "feature_queried": true,
+          "device_enabled": false,
+          "gpu_oracle_tested": false,
+          "performance_measured": false,
+          "features": {
+            "cooperativeMatrix": 1,
+            "cooperativeMatrixRobustBufferAccess": 0
+          },
+          "properties": {
+            "cooperativeMatrixSupportedStages": 32
+          }
+        },
+        {
+          "extension": "VK_NV_cooperative_matrix2",
+          "advertised": true,
+          "spec_version": 1,
+          "feature_queried": true,
+          "device_enabled": false,
+          "gpu_oracle_tested": false,
+          "performance_measured": false,
+          "features": {
+            "cooperativeMatrixWorkgroupScope": 1,
+            "cooperativeMatrixFlexibleDimensions": 1,
+            "cooperativeMatrixReductions": 1,
+            "cooperativeMatrixConversions": 1,
+            "cooperativeMatrixPerElementOperations": 1,
+            "cooperativeMatrixTensorAddressing": 1,
+            "cooperativeMatrixBlockLoads": 1
+          },
+          "properties": {
+            "cooperativeMatrixWorkgroupScopeMaxWorkgroupSize": 256,
+            "cooperativeMatrixFlexibleDimensionsMaxDimension": 1024,
+            "cooperativeMatrixWorkgroupScopeReservedSharedMemory": 8192
+          }
+        },
+        {
+          "extension": "VK_NV_cooperative_vector",
+          "advertised": true,
+          "spec_version": 4,
+          "feature_queried": true,
+          "device_enabled": false,
+          "gpu_oracle_tested": false,
+          "performance_measured": false,
+          "features": {
+            "cooperativeVector": 1,
+            "cooperativeVectorTraining": 1
+          },
+          "properties": {
+            "cooperativeVectorSupportedStages": 16383,
+            "cooperativeVectorTrainingFloat16Accumulation": 1,
+            "cooperativeVectorTrainingFloat32Accumulation": 1,
+            "maxCooperativeVectorComponents": 1024
+          }
+        },
+        {
+          "extension": "VK_NV_ray_tracing_invocation_reorder",
+          "advertised": true,
+          "spec_version": 1,
+          "feature_queried": true,
+          "device_enabled": false,
+          "gpu_oracle_tested": false,
+          "performance_measured": false,
+          "features": {
+            "rayTracingInvocationReorder": 1
+          },
+          "properties": {
+            "rayTracingInvocationReorderReorderingHint": 1
+          }
+        },
+        {
+          "extension": "VK_EXT_ray_tracing_invocation_reorder",
+          "advertised": true,
+          "spec_version": 2,
+          "feature_queried": true,
+          "device_enabled": false,
+          "gpu_oracle_tested": false,
+          "performance_measured": false,
+          "features": {
+            "rayTracingInvocationReorder": 1
+          },
+          "properties": {
+            "rayTracingInvocationReorderReorderingHint": 1,
+            "maxShaderBindingTableRecordIndex": 4294967295
+          }
+        },
+        {
+          "extension": "VK_NV_partitioned_acceleration_structure",
+          "advertised": true,
+          "spec_version": 1,
+          "feature_queried": true,
+          "device_enabled": false,
+          "gpu_oracle_tested": false,
+          "performance_measured": false,
+          "features": {
+            "partitionedAccelerationStructure": 1
+          },
+          "properties": {
+            "maxPartitionCount": 16777215
+          }
+        },
+        {
+          "extension": "VK_NV_ray_tracing_linear_swept_spheres",
+          "advertised": false,
+          "spec_version": 0,
+          "feature_queried": false,
+          "device_enabled": false,
+          "gpu_oracle_tested": false,
+          "performance_measured": false,
+          "features": null,
+          "properties": null
+        },
+        {
+          "extension": "VK_NV_device_generated_commands_compute",
+          "advertised": true,
+          "spec_version": 2,
+          "feature_queried": true,
+          "device_enabled": false,
+          "gpu_oracle_tested": false,
+          "performance_measured": false,
+          "features": {
+            "deviceGeneratedCompute": 1,
+            "deviceGeneratedComputePipelines": 1,
+            "deviceGeneratedComputeCaptureReplay": 1
+          }
+        },
+        {
+          "extension": "VK_EXT_device_generated_commands",
+          "advertised": true,
+          "spec_version": 1,
+          "feature_queried": true,
+          "device_enabled": false,
+          "gpu_oracle_tested": false,
+          "performance_measured": false,
+          "features": {
+            "deviceGeneratedCommands": 1,
+            "dynamicGeneratedPipelineLayout": 1
+          },
+          "properties": {
+            "maxIndirectPipelineCount": 16384,
+            "maxIndirectShaderObjectCount": 16384,
+            "maxIndirectSequenceCount": 4194303,
+            "maxIndirectCommandsTokenCount": 32,
+            "maxIndirectCommandsTokenOffset": 4294967295,
+            "maxIndirectCommandsIndirectStride": 4294967295,
+            "supportedIndirectCommandsInputModes": 3,
+            "supportedIndirectCommandsShaderStages": 255,
+            "supportedIndirectCommandsShaderStagesPipelineBinding": 255,
+            "supportedIndirectCommandsShaderStagesShaderBinding": 255,
+            "deviceGeneratedCommandsTransformFeedback": 1,
+            "deviceGeneratedCommandsMultiDrawIndirectCount": 1
+          }
+        },
+        {
+          "extension": "VK_KHR_compute_shader_derivatives",
+          "advertised": true,
+          "spec_version": 1,
+          "feature_queried": true,
+          "device_enabled": false,
+          "gpu_oracle_tested": false,
+          "performance_measured": false,
+          "features": {
+            "computeDerivativeGroupQuads": 1,
+            "computeDerivativeGroupLinear": 1
+          },
+          "properties": {
+            "meshAndTaskShaderDerivatives": 0
+          }
+        },
+        {
+          "extension": "VK_NV_compute_shader_derivatives",
+          "advertised": true,
+          "spec_version": 1,
+          "feature_queried": true,
+          "device_enabled": false,
+          "gpu_oracle_tested": false,
+          "performance_measured": false,
+          "features": {
+            "computeDerivativeGroupQuads": 1,
+            "computeDerivativeGroupLinear": 1
+          }
+        },
+        {
+          "extension": "VK_NV_memory_decompression",
+          "advertised": true,
+          "spec_version": 1,
+          "feature_queried": true,
+          "device_enabled": false,
+          "gpu_oracle_tested": false,
+          "performance_measured": false,
+          "features": {
+            "memoryDecompression": 1
+          },
+          "properties": {
+            "decompressionMethods": 1,
+            "maxDecompressionIndirectCount": 2147483647
+          }
+        },
+        {
+          "extension": "VK_EXT_memory_decompression",
+          "advertised": true,
+          "spec_version": 1,
+          "feature_queried": true,
+          "device_enabled": false,
+          "gpu_oracle_tested": false,
+          "performance_measured": false,
+          "features": {
+            "memoryDecompression": 1
+          },
+          "properties": {
+            "decompressionMethods": 1,
+            "maxDecompressionIndirectCount": 2147483647
+          }
+        },
+        {
+          "extension": "VK_EXT_opacity_micromap",
+          "advertised": true,
+          "spec_version": 2,
+          "feature_queried": true,
+          "device_enabled": false,
+          "gpu_oracle_tested": false,
+          "performance_measured": false,
+          "features": {
+            "micromap": 1,
+            "micromapCaptureReplay": 0,
+            "micromapHostCommands": 0
+          },
+          "properties": {
+            "maxOpacity2StateSubdivisionLevel": 12,
+            "maxOpacity4StateSubdivisionLevel": 12
+          }
+        },
+        {
+          "extension": "VK_KHR_opacity_micromap",
+          "advertised": true,
+          "spec_version": 1,
+          "feature_queried": true,
+          "device_enabled": false,
+          "gpu_oracle_tested": false,
+          "performance_measured": false,
+          "features": {
+            "micromap": 1
+          },
+          "properties": {
+            "maxOpacity2StateSubdivisionLevel": 12,
+            "maxOpacity4StateSubdivisionLevel": 12,
+            "maxOpacityLossy4StateSubdivisionLevel": 12,
+            "maxMicromapTriangles": 4294967292
+          }
+        }
+      ]
+    }
+  ],
+  "validation_errors": 0,
+  "validation_warnings": 0,
+  "reviewed_loader_environment_warnings": 20,
+  "loader_warning_scope": "Only Loader Message warning IDs for pre-existing Galaxy layer naming and layers explicitly disabled by the process filter; all other warnings/errors fail"
+}

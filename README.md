@@ -12,7 +12,7 @@ cmake --build build --config Release
 ctest --test-dir build -C Release --output-on-failure
 ```
 
-No external dependency is required for the default C++20 cage-math target. The optional GPU experiment requires explicitly prepared NoGraphicsAPI/Vulkan/Slang dependencies; see IMPLEMENTATION.md and [the lock file](dependencies.lock.json).
+No external dependency is required for the default C++20 cage, material and CPU reference-renderer targets. The optional GPU experiment requires explicitly prepared NoGraphicsAPI/Vulkan/Slang dependencies; see IMPLEMENTATION.md and [the lock file](dependencies.lock.json).
 
 Local checks: **78 CPU cage checks**, **4,096 GPU pointer-root pixels**, and **8,192 hardware-ray results** passed on the stated MSVC/RTX4090 configuration. These are correctness checks, not performance or visual-parity benchmarks. GitHub CPU/docs CI passed on Linux and Windows for the implementation commit; GPU checks remain local and other GPU vendors are unverified.
 
@@ -54,3 +54,5 @@ Original Basix code/docs use [MIT](LICENSE). NoGraphicsAPI is MIT at the reviewe
 The CPU cage code is an original mathematical experiment, not copied from AMD or the independent Apache-2.0 reference. All new candidate dependencies remain research-only until an exact adoption revision and complete notice/dependency audit is performed.
 
 The optional actual SDK test and eight-case receipt are documented in [IMPLEMENTATION.md](IMPLEMENTATION.md) and [docs/dlss-results.json](docs/dlss-results.json). NVIDIA runtime binaries remain separately supplied. The roadmap also displays a dated status logbook; structured transitions must agree with current states and preserve evidence.
+
+M2 is now partial:70 CPU material checks,61 CPU transport checks and2,048 GPU BRDF/PDF cases pass. The original CPU scene preview and scoped receipts are in [the reference chapter](docs/index.html#reference-renderer). GPU progressive PT, importer and temporal guides remain pending. [Vulkan feature queries](docs/vulkan-capabilities.json) confirm candidate support only; CLAS/matrix/vector execution remains unimplemented.

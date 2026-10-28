@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "cases": 2048,
+  "components": 8192,
+  "lambert_cases": 408,
+  "ggx_cases": 1640,
+  "failed_components": 0,
+  "absolute_tolerance": 0.0003,
+  "relative_tolerance": 0.001,
+  "max_absolute_error": 3055.67098522,
+  "max_relative_error": 0.000392354756076,
+  "max_error_over_tolerance": 0.000591045943316,
+  "validation_enabled": true,
+  "validation_errors": 0,
+  "validation_warnings": 0,
+  "scope": "Paired CPU-double/GPU-float BRDF and directional-PDF conformance on exact uploaded floats; Lambert and single-scatter isotropic GGX. Independent physics checks are CPU-only. No GPU sampling, material textures, renderer image quality or cross-device claim.",
+  "checked_on": "2026-10-28",
+  "device": "RTX4090 / NVIDIA617.42",
+  "negative_control": {
+    "operation": "Isolated no-op shader; canonical executable/shader untouched",
+    "exit_code": 1,
+    "failed_components": 8192,
+    "validation_errors": 0,
+    "validation_warnings": 0
+  },
+  "cpu_checks": 70
+}
