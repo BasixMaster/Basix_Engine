@@ -7,7 +7,7 @@
       "revision": "ffd9f2ab6b7442dcfbe0cb0051d84d0edb078d89",
       "license": "MIT",
       "local_patch": "tools/prepare_nographicsapi.py",
-      "local_patch_version": 5
+      "local_patch_version": 6
     },
     "Vulkan-Headers": {
       "repository": "https://github.com/KhronosGroup/Vulkan-Headers.git",

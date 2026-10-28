@@ -99,6 +99,14 @@ void progressive_and_validation(){
     for(size_t i=0;i<a.size();++i){same=same&&a[i].x==b[i].x&&a[i].y==b[i].y&&a[i].z==b[i].z;valid=valid&&finite(a[i])&&a[i].x>=0&&a[i].y>=0&&a[i].z>=0;lit=lit||max_component(a[i])>0;}
     check(same&&whole.samples_per_pixel()==8&&chunked.samples_per_pixel()==8,"chunked accumulation is bit-identical to one batch");
     check(valid&&lit,"Cornell-like scene has finite nonnegative nonblack radiance");
+    auto float_config=config;float_config.integrator.random_bits=24;
+    ProgressiveRenderer float_whole(cornell_scene(),{},float_config),float_chunked(cornell_scene(),{},float_config);
+    float_whole.add_samples(8);float_chunked.add_samples(1);float_chunked.add_samples(3);float_chunked.add_samples(4);
+    const auto fa=float_whole.linear_image(),fb=float_chunked.linear_image();bool float_same=true,float_valid=true,changed=false;
+    for(size_t i=0;i<fa.size();++i){float_same=float_same&&near(fa[i],fb[i],0);float_valid=float_valid&&finite(fa[i])&&fa[i].x>=0&&fa[i].y>=0&&fa[i].z>=0;changed=changed||!near(fa[i],a[i],0);}
+    check(float_same&&float_whole.samples_per_pixel()==8&&float_chunked.samples_per_pixel()==8,"24-bit camera/path streams preserve bit-identical chunked accumulation");
+    check(float_valid&&changed,"24-bit stream is finite and distinct from default 53-bit stream");
+    check(config.integrator.random_bits==53,"default random precision remains 53 bits");
     auto reordered=cornell_scene();std::reverse(reordered.materials.begin(),reordered.materials.end());std::reverse(reordered.triangles.begin(),reordered.triangles.end());std::reverse(reordered.spheres.begin(),reordered.spheres.end());
     ProgressiveRenderer stable(reordered,{},config);stable.add_samples(8);const auto c=stable.linear_image();bool identical=true;
     for(size_t i=0;i<a.size();++i)identical=identical&&near(a[i],c[i],0);
@@ -114,6 +122,11 @@ void progressive_and_validation(){
     rejects([&]{whole.add_samples(0);},"zero sample batch rejected");
     rejects([&]{whole.add_samples(1000001);},"unbounded sample count rejected");
     IntegratorSettings bad_settings;bad_settings.max_depth=0;rejects([&]{radiance(World(area_scene()),{{0,0,.5},{0,0,-1}},bad_settings,0);},"invalid path depth rejected");
+    for(const auto bits:{0u,23u,25u,52u,54u,64u}){
+        auto invalid_bits=config;invalid_bits.integrator.random_bits=bits;
+        rejects([&]{ProgressiveRenderer x(cornell_scene(),{},invalid_bits);},"unsupported camera random precision rejected");
+        rejects([&]{radiance(World(area_scene()),{{0,0,.5},{0,0,-1}},invalid_bits.integrator,0);},"unsupported path random precision rejected");
+    }
 }
 }
 int main(){geometry();lights();transport();progressive_and_validation();std::cout<<"CPU reference PT: "<<checks<<" checks, "<<failures<<" failures\n";return failures?1:0;}

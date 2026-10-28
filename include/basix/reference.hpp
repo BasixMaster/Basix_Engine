@@ -20,6 +20,9 @@ struct IntegratorSettings {
     // Maximum scattering events; the final segment still sees emission/environment.
     std::uint32_t max_depth=8,rr_start=3;
     bool next_event_estimation=true,multiple_importance_sampling=true,russian_roulette=true;
+    // Top 24 bits permit an exactly representable [0,1) GPU-float stream.
+    // Default 53 preserves the original CPU reference sequence.
+    std::uint32_t random_bits=53;
 };
 struct RenderConfig { std::uint32_t width=64,height=64; std::uint64_t seed=1; IntegratorSettings integrator{}; };
 

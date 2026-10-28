@@ -23,7 +23,13 @@ std::uint64_t hash(std::uint64_t x) {
     x+=0x9e3779b97f4a7c15ULL;x=(x^(x>>30))*0xbf58476d1ce4e5b9ULL;
     x=(x^(x>>27))*0x94d049bb133111ebULL;return x^(x>>31);
 }
-struct Rng { std::uint64_t key,counter=0;double next() { return double(hash(key+counter++*0x9e3779b97f4a7c15ULL)>>11)*0x1.0p-53; } };
+struct Rng {
+    std::uint64_t key,counter=0;std::uint32_t bits=53;
+    double next() {
+        const auto value=hash(key+counter++*0x9e3779b97f4a7c15ULL);
+        return bits==24?double(value>>40)*0x1.0p-24:double(value>>11)*0x1.0p-53;
+    }
+};
 struct Frame {
     Vec3 x,y,z;
     explicit Frame(Vec3 n):z(n) { x=normalize(cross(std::abs(n.z)<.999?Vec3{0,0,1}:Vec3{0,1,0},n));y=cross(z,x); }
@@ -70,7 +76,7 @@ bool validate(const Camera& c) {
         length(cross(normalize(forward),normalize(c.up)))>1e-8&&std::isfinite(c.vertical_fov_degrees)&&
         c.vertical_fov_degrees>=1&&c.vertical_fov_degrees<=175;
 }
-bool validate(const IntegratorSettings& s) { return s.max_depth>=1&&s.max_depth<=64&&s.rr_start>=1&&s.rr_start<=64; }
+bool validate(const IntegratorSettings& s) { return s.max_depth>=1&&s.max_depth<=64&&s.rr_start>=1&&s.rr_start<=64&&(s.random_bits==24||s.random_bits==53); }
 double power_heuristic(double a,double b) {
     if(!(a>0)||!std::isfinite(a))return 0;
     if(!(b>0)||!std::isfinite(b))return 1;
@@ -146,7 +152,7 @@ Vec3 direct_lighting(const World& world,const Hit& hit,Vec3 wo,const LightSample
 }
 Vec3 radiance(const World& world,const Ray& initial,const IntegratorSettings& settings,std::uint64_t key) {
     if(!validate(settings)||!valid_ray(initial))throw std::invalid_argument("Invalid path settings or ray");
-    Rng rng{key};Ray ray=initial;const double initial_length=length(ray.direction);ray.direction=ray.direction/initial_length;
+    Rng rng{key,0,settings.random_bits};Ray ray=initial;const double initial_length=length(ray.direction);ray.direction=ray.direction/initial_length;
     ray.t_min*=initial_length;ray.t_max*=initial_length;
     if(!valid_ray(ray))throw std::invalid_argument("Initial ray interval exceeds representable distance");
     // Path rays are normalized internally. Scaling their initial t interval
@@ -210,7 +216,7 @@ void ProgressiveRenderer::add_samples(std::uint32_t count) {
     const Vec3 forward=normalize(camera_.target-camera_.origin),right=normalize(cross(forward,camera_.up)),up=cross(right,forward);
     const double tangent=std::tan(camera_.vertical_fov_degrees*std::numbers::pi/360),aspect=double(config_.width)/config_.height;
     for(std::uint64_t sample_index=samples_;sample_index<samples_+count;++sample_index)for(std::uint32_t y=0;y<config_.height;++y)for(std::uint32_t x=0;x<config_.width;++x) {
-        const std::uint64_t pixel=std::uint64_t(y)*config_.width+x,key=hash(config_.seed^hash(pixel)^hash(sample_index+0x4b1d3f857ef01a29ULL));Rng rng{key};
+        const std::uint64_t pixel=std::uint64_t(y)*config_.width+x,key=hash(config_.seed^hash(pixel)^hash(sample_index+0x4b1d3f857ef01a29ULL));Rng rng{key,0,config_.integrator.random_bits};
         const double camera_u=rng.next(),camera_v=rng.next();
         const double px=(2*(double(x)+camera_u)/config_.width-1)*aspect*tangent,py=(1-2*(double(y)+camera_v)/config_.height)*tangent;
         const Ray ray{camera_.origin,normalize(forward+right*px+up*py)};

@@ -36,6 +36,7 @@ def main():
     uint32 basix_device_extension_count = 0;
     bool (*basix_configure_features)(void* physical, void* vulkan12, void* vulkan13, void* user) noexcept = nullptr;
     void* basix_feature_user = nullptr;
+    bool basix_require_shader_int64 = false;
     bool enable_ray_query = false;''',1)
  s+='\nnamespace gpu { uint32 basix_graphics_queue_family(Device* device) noexcept; }\n'
  h.write_text(s,encoding='utf-8')
@@ -128,8 +129,15 @@ def main():
             enabled_features.vulkan14.pushDescriptor = VK_TRUE;
         }
     }
+    if (desc.basix_require_shader_int64)
+    {
+        VkPhysicalDeviceFeatures available{};
+        vkGetPhysicalDeviceFeatures(state->physical_device, &available);
+        if (!available.shaderInt64) return fail_device_creation(state, Error::unsupported, "Basix PT requires shaderInt64");
+        enabled_features.core.features.shaderInt64 = VK_TRUE;
+    }
     const VkDeviceCreateInfo device_info{''',1)
  s+='\nnamespace gpu { uint32 basix_graphics_queue_family(Device* d) noexcept { return d->queues[0].family_index; } }\n'
- f.write_text(s,encoding='utf-8');(dst/'BASIX_INTEROP_REVISION').write_text(PIN+'\n');(dst/'BASIX_INTEROP_PATCH_VERSION').write_text('5\n')
+ f.write_text(s,encoding='utf-8');(dst/'BASIX_INTEROP_REVISION').write_text(PIN+'\n');(dst/'BASIX_INTEROP_PATCH_VERSION').write_text('6\n')
  print('Prepared experimental Vulkan RT interop from '+PIN)
 if __name__=='__main__':main()

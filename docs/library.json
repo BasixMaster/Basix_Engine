@@ -8,7 +8,8 @@
     "Initial CPU/GPU foundation and scoped lifecycle/window tests have local correctness evidence; advanced rendering ideas are separately labeled proposals or author reports.",
     "Actual static DLSS SR interoperability passes8cases with a measured descriptor-state workaround; temporal renderer quality remains unverified.",
     "Vulkan-first adoption map separates native extension contracts, portable replacements and enumeration/enabling/oracle/performance evidence; no advanced-extension execution measurements added.",
-    "M2 partial: tested material CPU/GPU evaluation and CPU progressive reference; Vulkan advanced feature queries recorded separately from execution."
+    "M2 partial: tested material CPU/GPU evaluation and CPU progressive reference; Vulkan advanced feature queries recorded separately from execution.",
+    "Scoped progressive Vulkan PT passes11 cases; GPU sampling remains partial with18 retained grazing failures and maximum paired transport-weight discrepancy15.688%."
   ],
   "questions": [
     {
@@ -1637,6 +1638,54 @@
       "topic": "rendering",
       "presentation_path": "index.html",
       "presentation_anchor": "S88"
+    },
+    {
+      "id": "S89",
+      "title": "Vulkan core shaderInt64 feature",
+      "url": "https://docs.vulkan.org/refpages/latest/refpages/source/VkPhysicalDeviceFeatures.html",
+      "notes": "Int64 SPIR-V arithmetic requires the shaderInt64 device feature. Basix first validation caught its omission; preparation patch6 adds a separately requested, queried/checked pre-device enable for the PT RNG. Default non-PT targets do not require it.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Official specification linked with original summary; specification prose CC-BY-4.0.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S89"
+    },
+    {
+      "id": "S90",
+      "title": "Basix GPU sampling: retained partial result",
+      "url": "https://github.com/BasixMaster/Basix_Engine/blob/main/docs/sampling-results.json",
+      "notes": "4096 cases include4095 strict validity comparisons and one explicit exact-horizon classification. Directions/validity and evaluation at actual returned directions pass. The original same-variates sample oracle still fails18 cases; maximum transport-weight difference15.688%. Strict mode rejects it; no-op output is rejected.",
+      "kind": "local measured partial / failure evidence",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Original Basix code and selected numeric receipts MIT.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S90"
+    },
+    {
+      "id": "S91",
+      "title": "Basix progressive Vulkan PT acceptance",
+      "url": "https://github.com/BasixMaster/Basix_Engine/blob/main/docs/progressive-results.json",
+      "notes": "Eleven-case harness:seven fixed-scene variants with matched24-bit CPU streams and four expected rejections. Ordinary triangle BLAS/TLAS and ray queries; primary hits, ordered accumulation and reset checks. Worst scoped global nRMSE0.0000529705 and low-radiance nRMSE0.00023302. Larger256x256 preview is separately marked as having no CPU image comparison.",
+      "kind": "local measured scoped correctness",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Original Basix code, fixture and image MIT; no vendor implementation or game asset copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S91"
     }
   ],
   "findings": [
@@ -2378,19 +2427,57 @@
       ],
       "presentation_path": "index.html",
       "presentation_anchor": "summary"
+    },
+    {
+      "id": "F19",
+      "title": "Scoped GPU scene correctness does not close the grazing material gate",
+      "question_ids": [
+        "Q2"
+      ],
+      "topic": "rendering",
+      "claim": "Seven ordinary Vulkan PT scene variants agree with the CPU24 reference and four rejection controls pass. Separately,18 extreme grazing same-variates material samples fail and remain visible in strict mode.",
+      "evidence_type": "measured partial with retained failure",
+      "confidence": "high",
+      "context": "2026-10-28 Windows RTX4090/NVIDIA617.42; pinned Slang/Vulkan/validation and preparation patch6.",
+      "strengths": "Independent primary/CPU image oracles, unequal light areas, explicit variant settings, poisoned output, batch/reset identity, retained strict failure and full-process validation.",
+      "limitations": "Fixed unit-scale scene only; no independent GPU distribution/energy, robust thin gaps, import/textures/motion, dynamic DLSS or performance comparison.",
+      "implications": "Keep M2-gpu partial; investigate stable grazing sampling arithmetic and independent distribution/energy checks before broader temporal integration.",
+      "tags": [
+        "Vulkan",
+        "reference PT",
+        "numerical conditioning",
+        "GPU sampling",
+        "roadmap"
+      ],
+      "evidence": [
+        {
+          "source_id": "S90",
+          "locator": "Receipt metrics, cases and explicit limits",
+          "relation": "supports",
+          "note": "Scoped scene pass and material failure are separate claims."
+        },
+        {
+          "source_id": "S91",
+          "locator": "Receipt metrics, cases and explicit limits",
+          "relation": "supports",
+          "note": "Scoped scene pass and material failure are separate claims."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
     }
   ],
   "actions": [
     {
       "id": "A1",
-      "title": "Build reference renderer and broaden recovery/temporal integration",
+      "title": "Resolve grazing transport and add renderer guides",
       "priority": "high",
       "finding_ids": [
-        "F16"
+        "F19"
       ],
-      "rationale": "Static hardware rays and actual SR seams now pass; shared material/motion guides and real recovery remain open.",
+      "rationale": "A scoped Vulkan progressive scene now runs, but18 grazing samples remain outside the original paired material criterion.",
       "prerequisites": "Choose GPU/driver targets and optional SDK terms.",
-      "success_criterion": "Reference material/PT outputs, camera/object motion, SDK resets/resize and separately scoped failure recovery pass independent tests.",
+      "success_criterion": "Retained sampling criterion passes a justified numerical implementation plus independent GPU distribution/energy tests; then import/depth/motion/reset clips pass.",
       "presentation_path": "index.html",
       "presentation_anchor": "roadmap"
     }
@@ -2489,7 +2576,10 @@
         "S85",
         "S86",
         "S87",
-        "S88"
+        "S88",
+        "S89",
+        "S90",
+        "S91"
       ],
       "outcome": "Primary-source architecture and license gates resolved; runtime tests remain pending."
     },
@@ -2602,7 +2692,8 @@
     "User supplied two discussions. Added selected public leads and primary verification; authenticated discussion/page8 remained inaccessible. No private content published.",
     "Completed actual static SR interoperability after reproducing issue109; retained original failed oracle and startup-validation evidence. Added visible status logbook and scoped transitions.",
     "Added Vulkan-first feature chapter and technique mapping; latest KHR/EXT comparisons remain research, with no new implementation status promotion.",
-    "Implemented original material oracle and CPU progressive PT; recorded Vulkan feature/property queries without promoting advanced extension execution."
+    "Implemented original material oracle and CPU progressive PT; recorded Vulkan feature/property queries without promoting advanced extension execution.",
+    "Added actual Vulkan progressive transport and11-case scene harness while retaining the18-case grazing failure as a partial implementation gate. CPU53 default preserved; optional24-bit matched stream and checked shaderInt64 requirement added."
   ],
   "presentation_path": "index.html",
   "evidence_page": "index.html#sources",

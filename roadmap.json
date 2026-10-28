@@ -195,7 +195,7 @@
       "prerequisites": [
         "M1b"
       ],
-      "next_test": "Port the tested material sampling and progressive integrator to Vulkan ray queries; add scene import and camera/object motion-guide clips.",
+      "next_test": "Resolve grazing GPU sampling and independent energy/distribution gates, then implement import and depth/motion-guide clips; recovery remains separate.",
       "last_verified_on": "2026-10-28",
       "evidence": [
         {
@@ -207,6 +207,16 @@
           "path": "docs/material-results.json",
           "checked_on": "2026-10-28",
           "summary": "70 CPU material checks;2048 GPU evaluation/PDF cases and no-op negative control; GPU sampling pending."
+        },
+        {
+          "path": "docs/progressive-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Actual scoped Vulkan progressive PT; parent remains partial."
+        },
+        {
+          "path": "docs/sampling-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Original grazing sample/transport criterion still fails18 cases."
         }
       ]
     },
@@ -434,8 +444,8 @@
       "id": "M2-reference",
       "title": "CPU progressive reference PT",
       "status": "completed",
-      "scope": "Stable scene/material IDs, analytic spheres/triangles, one-sided triangle emitters, NEE/power MIS/compensated RR and deterministic accumulation.",
-      "acceptance": "61 independent analytic/convergence/determinism/boundary checks; finite nonnegative actual scene image and CLI validation.",
+      "scope": "Stable scene/material IDs, analytic spheres/triangles, one-sided triangle emitters, NEE/power MIS/compensated RR and deterministic accumulation. Optional24-bit exact uniform stream now supports matched GPU comparisons; default53-bit output is preserved.",
+      "acceptance": "76 CPU reference checks pass; prior53-bit image golden hashes unchanged and24-bit batching deterministic.",
       "prerequisites": [
         "M2-material"
       ],
@@ -446,6 +456,11 @@
           "path": "docs/reference-results.json",
           "checked_on": "2026-10-28",
           "summary": "CPU reference only:61 transport checks, actual original scene and11 CLI validation runs; GPU/import/motion pending."
+        },
+        {
+          "path": "docs/progressive-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "76 CPU checks and preserved53-bit golden output;24-bit reference used for scoped Vulkan comparison."
         }
       ],
       "parent": "M2"
@@ -453,16 +468,27 @@
     {
       "id": "M2-gpu",
       "title": "Vulkan progressive reference PT",
-      "status": "pending",
-      "scope": "Pointer-root scene/material layout, GPU BSDF sampling, ordinary ray-query BLAS/TLAS and accumulation.",
+      "status": "partial",
+      "scope": "Pointer-root triangle scene/material layout, ordinary Vulkan BLAS/TLAS ray-query progressive PT and shared GPU sampling; fixed-scene transport passes while18 extreme grazing same-variates sample cases remain outside the original criterion.",
       "acceptance": "CPU/GPU sample/PDF and matched scene convergence, poisoned-output controls and full-process core/SyncVal.",
       "prerequisites": [
         "M2-reference",
         "M1b"
       ],
-      "next_test": "Start small scene GPU layout and seeded Lambert sampling; preserve ordinary BLAS baseline.",
-      "last_verified_on": null,
-      "evidence": [],
+      "next_test": "Resolve near-grazing half-vector/transport conditioning without weakening the retained oracle, and add independent GPU distribution/energy and thin-gap/large-coordinate checks.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/progressive-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Eleven-case scoped scene harness passes; no general renderer or performance acceptance."
+        },
+        {
+          "path": "docs/sampling-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Partial sampling: original18 failures retained; direction/returned-tuple diagnostics and no-op control measured."
+        }
+      ],
       "parent": "M2"
     },
     {
@@ -495,6 +521,46 @@
           "path": "docs/vulkan-capabilities.json",
           "checked_on": "2026-10-28",
           "summary": "Physical-device queries only, no enabled advanced extension or GPU execution; reviewed loader warnings separate."
+        }
+      ]
+    },
+    {
+      "id": "M2-gpu-scene",
+      "title": "Fixed-scene Vulkan progressive PT",
+      "status": "completed",
+      "scope": "Original unit-scale triangle fixture, one identity instance; NEE/MIS/RR, ordinary AS, primary rays, accumulation and reset only.",
+      "acceptance": "Seven CPU24 scene comparisons,2560 primary rays, finite nonnegative HDR, exact ordered batch/reset identity and four expected rejections under full-process validation.",
+      "prerequisites": [
+        "M2-reference"
+      ],
+      "next_test": "Preserve these scene oracles while improving sampling robustness and adding new geometry/guide modes.",
+      "last_verified_on": "2026-10-28",
+      "parent": "M2-gpu",
+      "evidence": [
+        {
+          "path": "docs/progressive-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Eleven-case fixed-scene gate passed; larger preview has no CPU image comparison."
+        }
+      ]
+    },
+    {
+      "id": "M2-gpu-numerics",
+      "title": "Grazing sampling robustness and distributions",
+      "status": "partial",
+      "scope": "Direction/validity and returned-tuple contracts measured; original same-variates sample criterion fails18 of4096 extreme cases, maximum paired weight discrepancy15.688%.",
+      "acceptance": "Justified numerical implementation passes the retained original criterion and independent GPU distribution/energy checks without changing tolerance or resampling null events.",
+      "prerequisites": [
+        "M2-material"
+      ],
+      "next_test": "Investigate stable unit-direction/half-vector/Jacobian formulations, preserve strict failure mode and add distribution/energy oracles.",
+      "last_verified_on": "2026-10-28",
+      "parent": "M2-gpu",
+      "evidence": [
+        {
+          "path": "docs/sampling-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Partial evidence with original failed criterion and narrower passing diagnostics; strict mode still rejects."
         }
       ]
     }
@@ -552,6 +618,32 @@
       "event": "Recorded queried Vulkan capabilities and technique counterparts. V1-query completed only for queries; G3 and neural extension execution remain pending/deferred.",
       "evidence": [
         "docs/vulkan-capabilities.json"
+      ]
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M2-gpu",
+      "from_status": "pending",
+      "to_status": "in_progress",
+      "event": "Implementing shared GPU BSDF sampling and ordinary Vulkan ray-query progressive renderer; scoped acceptance underway, grazing-conditioning failures retained."
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M2-gpu",
+      "from_status": "in_progress",
+      "to_status": "partial",
+      "event": "Scoped Vulkan progressive scene passes; retained18-case extreme-grazing sample failure prevents completing the broader GPU transport gate.",
+      "evidence": [
+        "docs/progressive-results.json",
+        "docs/sampling-results.json"
+      ]
+    },
+    {
+      "checked_on": "2026-10-28",
+      "event": "Recorded separate completed M2-gpu-scene and partial M2-gpu-numerics subgates. Checked optional shaderInt64 requirement after first validation rejection; original model/tolerances and failed control preserved.",
+      "evidence": [
+        "docs/progressive-results.json",
+        "docs/sampling-results.json"
       ]
     }
   ]

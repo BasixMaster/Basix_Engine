@@ -13,11 +13,10 @@
     "single theme picker",
     "anchor navigation",
     "no JS errors",
-    "milestone rows and badges match ledger",
-    "history event coverage and SDK/logbook search",
-    "research MiniDXNN/splatting search",
-    "in-flight implementation search",
-    "research/logbook mobile light/dark and body overflow"
+    "Vulkan matrix2, grazing and progressive reference chapter search",
+    "milestone row/status counts",
+    "all history event text coverage",
+    "mobile research/logbook overflow"
   ],
   "mobile": {
     "width": 390,
@@ -27,7 +26,7 @@
     "themeControls": 1
   },
   "checked_on": "2026-10-28",
-  "roadmap_rows": 28,
-  "logbook_events": 8,
+  "roadmap_rows": 30,
+  "logbook_events": 11,
   "research_chapters": 20
 }

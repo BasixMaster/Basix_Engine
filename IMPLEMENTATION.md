@@ -123,10 +123,37 @@ python tools/run_reference_validation.py --executable build/Release/basix_refere
 
 Single-configuration builds omit `Release/`; Windows executable suffix is optional. Outputs are linear RGB float32 PFM (little endian, bottom-up), a Reinhard+sRGB PPM preview and metadata. The CLI bounds image/sample/depth work and rejects invalid inputs. The validation runner tests eight rejected inputs, batch byte identity, HDR finite/nonnegative output, metadata and the actual preview transform. See `docs/reference-results.json`. Image timing is local CPU oracle cost, not a performance benchmark.
 
-The optional GPU build adds `basix_material_gpu`. Run a Debug build with `--validate --output material-output` and process-local Khronos/core/SyncVal configuration as above. It compares2048 exact uploaded float inputs with CPU double BRDF/PDF evaluation, using abs0.0003+rel0.001×|reference|; the isolated no-op control fails8192 poisoned outputs. `docs/material-results.json` records scope and results. GPU sampling, progressive PT, import, textures and motion guides remain pending.
+The optional GPU build adds `basix_material_gpu`. Run a Debug build with `--validate --output material-output` and process-local Khronos/core/SyncVal configuration as above. It compares2048 exact uploaded float inputs with CPU double BRDF/PDF evaluation, using abs0.0003+rel0.001×|reference|; the isolated no-op control fails8192 poisoned outputs. `docs/material-results.json` records scope and results. Later GPU sampling and progressive scene results are scoped below; import, textures and motion guides remain pending.
 
 ## Vulkan capability queries and cross-API concepts
 
 `basix_vulkan_caps --validate --output vulkan-capabilities.json` enumerates physical-device NV/NVX extensions and queries feature/property structures for16 curated candidates. It creates no logical device, enables no optional feature, and runs no advanced shader/AS operation. Matrix/vector supported type/dimension tuple enumeration remains pending. The sanitized local receipt is `docs/vulkan-capabilities.json`. The callback separately counts known loader environment warnings about installed Galaxy layer naming and layers explicitly disabled by the process filter; all other warning/error diagnostics fail. This is not a claim of zero total loader messages.
 
 Keep Vulkan first: DX LinAlg corresponds to the shader matrix/vector inference family; clustered geometry corresponds to CLAS→cluster BLAS→TLAS. Their native layouts, limits, shader semantics, synchronization and device-enabling contracts require separate adapters. Query evidence does not complete CLAS, SER, partitioned-AS, matrix/vector, DGC, micromap or decompression implementation. Prefer suitable KHR/EXT routes while preserving ordinary compute/ray fallbacks; the docs compare current contracts and candidate gates.
+
+## Progressive Vulkan PT and retained sampling limitation (M2-gpu partial)
+
+Preparation patch6 adds an explicitly requested, queried/checked `basix_require_shader_int64` device requirement for the PT counter RNG. First validation rejected Int64 SPIR-V without that enable. Re-prepare a new NoGraphicsAPI tree and reconfigure; old patch5 prepared copies are rejected. Non-PT targets leave the new requirement false. CPU/default builds remain offline with no GPU dependencies.
+
+The GPU build now includes `basix_progressive_gpu` and `basix_material_sampling_gpu`. `shaders/basix_material.slang` is the shared float material contract. The native ray adapter uses a conventional AS descriptor and8-byte push-constant BDA root. Device, command pool/timeline and mapped scene/output heap belong to NoGraphicsAPI; no upstream public RT API is implied. ABI assertions and reflected layouts cover Root176/Triangle64/Material48.
+
+```text
+build-gpu/Debug/basix_progressive_gpu --validate --width 32 --height 32 --spp 1024 --output progressive-output
+python tools/run_progressive_validation.py --exe build-gpu/Debug/basix_progressive_gpu --shader build-gpu/shaders/progressive_pt.spv --validation-layer-dir PATH_TO_PINNED_VVL --output progressive-validation
+build-gpu/Debug/basix_material_sampling_gpu --validate --require-paired-transport --output sampling-strict
+```
+
+Set process-local validation variables as documented above. Single-configuration builds omit `Debug/`. `--require-paired-transport` currently **exits1**: the original same-variates CPU/GPU sample criterion still fails18 of4096 extreme grazing cases. Maximum paired importance-weight difference is15.688%. It remains a failing acceptance gate. Near-cancelling `wo+wi` half-vector reconstruction amplifies float direction rounding; no shader/model/tolerance was changed to hide it. Normal sampling mode can exit0 only for separately named direction/validity and returned-tuple diagnostics, and its receipt/stdout explicitly say **partial**. Independent GPU distribution/energy acceptance remains open.
+
+The scene harness passes seven variants and four expected rejections. It checks actual requested settings, exact executable/shader hashes, primary hits (shared-edge ties require actual edge proximity), finite/nonnegative decoded HDR, batch1/batch8 identity and reset. CPU image comparisons use the optional24-bit stream; CPU53 default golden images remain unchanged. GPU shader/no-dispatch output poisoning and invalid epoch tests reject stale/untouched results. Root/pipeline/AS/heap lifetimes retire after completed timeline submissions; full-process logs include initialization and teardown.
+
+The fixed original box scene uses unequal-area emitter triangles, one identity TLAS instance and unit-scale float offsets. Thin gaps, large coordinates, transformed instances, import/textures, motion/DLSS integration and cross-device quality remain unverified. `--no-cpu-comparison` permits a bounded larger preview; its CPU error metrics are null, and its scope is distinct. Dispatch/readback host elapsed is not isolated GPU time or a comparative performance claim. See `docs/progressive-results.json`, `docs/sampling-results.json` and the visible roadmap logbook.
+
+
+The canonical sampling harness reproduces all three outcomes with supplied local tools and no downloads:
+
+```text
+python tools/run_sampling_validation.py --exe build-gpu/Debug/basix_material_sampling_gpu --shader build-gpu/shaders/material_sampling.spv --slangc PATH_TO_PINNED_SLANGC --validation-layer-dir PATH_TO_PINNED_VVL --output sampling-validation
+```
+
+It records exact hashes, normal partial status, strict rejection and an isolated compiled no-op control. Known loader notices caused by the process's explicit implicit-layer disable filter are narrowly counted separately; all other warning/error/backend diagnostics fail. Raw logs and scratch shaders remain in the chosen work directory. The selected public receipt excludes local paths. Actual static DLSS SR was rechecked after patch6: all8cases still pass, including3real SR frames with the original image oracle. This does not add motion or temporal DLSS acceptance.

@@ -28,10 +28,12 @@ Generated from `roadmap.json`. States describe only the named scope; no overall 
 | R-neural · Optional neural texture and residual cache | deferred | Independent texture inference and cache-plus-residual branches; MiniDXNN MIT reference, GPLv3 NIRC source excluded from MIT core. Vulkan-first matrix/vector adapters; DirectX LinAlg is a corresponding technique family, not a shared API. |
 | R-procedural · Procedural vegetation research | deferred | Deterministic compact vegetation grammar with compute/mesh fallback; Work Graphs mesh nodes optional D3D12 experiment. |
 | M2-material · Shared material oracle and GPU evaluation | completed | Original MIT Lambert and single-scatter isotropic GGX model; CPU sampling/PDF and paired GPU evaluation/PDF only. |
-| M2-reference · CPU progressive reference PT | completed | Stable scene/material IDs, analytic spheres/triangles, one-sided triangle emitters, NEE/power MIS/compensated RR and deterministic accumulation. |
-| M2-gpu · Vulkan progressive reference PT | pending | Pointer-root scene/material layout, GPU BSDF sampling, ordinary ray-query BLAS/TLAS and accumulation. |
+| M2-reference · CPU progressive reference PT | completed | Stable scene/material IDs, analytic spheres/triangles, one-sided triangle emitters, NEE/power MIS/compensated RR and deterministic accumulation. Optional24-bit exact uniform stream now supports matched GPU comparisons; default53-bit output is preserved. |
+| M2-gpu · Vulkan progressive reference PT | partial | Pointer-root triangle scene/material layout, ordinary Vulkan BLAS/TLAS ray-query progressive PT and shared GPU sampling; fixed-scene transport passes while18 extreme grazing same-variates sample cases remain outside the original criterion. |
 | M2-guides · Scene import and temporal guides | pending | Minimal importer with stable IDs, texture/material metadata, linear depth, camera/object motion and reset clips. |
 | V1-query · Vulkan extension capability inventory | completed | Physical-device feature/property queries for16 curated candidates plus NV/NVX name inventory; no logical device or advanced extension execution. |
+| M2-gpu-scene · Fixed-scene Vulkan progressive PT | completed | Original unit-scale triangle fixture, one identity instance; NEE/MIS/RR, ordinary AS, primary rays, accumulation and reset only. |
+| M2-gpu-numerics · Grazing sampling robustness and distributions | partial | Direction/validity and returned-tuple contracts measured; original same-variates sample criterion fails18 of4096 extreme cases, maximum paired weight discrepancy15.688%. |
 
 ## Milestone and status logbook
 
@@ -47,5 +49,8 @@ Entries retain their recorded order. Legacy notes remain visible without asserti
 | 2026-10-28 | M3-dlss | pending → partial | Static SR seam passes; shared renderer temporal guides, resets/fallbacks and RR remain open.<br>Evidence: [docs/dlss-results.json](docs/dlss-results.json) |
 | 2026-10-28 | M2 | pending → partial | Completed scoped material oracle/GPU evaluation and CPU progressive reference. GPU PT, importer and motion guides remain pending; recovery gates unchanged.<br>Evidence: [docs/material-results.json](docs/material-results.json)<br>Evidence: [docs/reference-results.json](docs/reference-results.json) |
 | 2026-10-28 | General / legacy note | No structured transition recorded | Recorded queried Vulkan capabilities and technique counterparts. V1-query completed only for queries; G3 and neural extension execution remain pending/deferred.<br>Evidence: [docs/vulkan-capabilities.json](docs/vulkan-capabilities.json) |
+| 2026-10-28 | M2-gpu | pending → in progress | Implementing shared GPU BSDF sampling and ordinary Vulkan ray-query progressive renderer; scoped acceptance underway, grazing-conditioning failures retained. |
+| 2026-10-28 | M2-gpu | in progress → partial | Scoped Vulkan progressive scene passes; retained18-case extreme-grazing sample failure prevents completing the broader GPU transport gate.<br>Evidence: [docs/progressive-results.json](docs/progressive-results.json)<br>Evidence: [docs/sampling-results.json](docs/sampling-results.json) |
+| 2026-10-28 | General / legacy note | No structured transition recorded | Recorded separate completed M2-gpu-scene and partial M2-gpu-numerics subgates. Checked optional shaderInt64 requirement after first validation rejection; original model/tolerances and failed control preserved.<br>Evidence: [docs/progressive-results.json](docs/progressive-results.json)<br>Evidence: [docs/sampling-results.json](docs/sampling-results.json) |
 
 Build and test instructions: [IMPLEMENTATION.md](IMPLEMENTATION.md). Evidence and next tests are recorded per gate in [roadmap.json](roadmap.json) and shown in the documentation page.
