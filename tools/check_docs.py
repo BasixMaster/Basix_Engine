@@ -2,7 +2,7 @@
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlsplit,unquote
-import json,sqlite3
+import json,sqlite3,re
 ROOT=Path(__file__).resolve().parents[1]
 class Parser(HTMLParser):
  def __init__(self):super().__init__();self.ids=[];self.links=[];self.scripts=[];self.sections=0
@@ -15,7 +15,7 @@ class Parser(HTMLParser):
    if u:self.scripts.append(u)
   if tag=='section':self.sections+=1
 def main():
- p=ROOT/'docs/index.html'; text=p.read_text(encoding='utf-8'); parsed=Parser();parsed.feed(text)
+ p=ROOT/'docs/index.html'; text=p.read_text(encoding='utf-8'); text=re.sub(r'<!-- private-cost-meter:start -->.*?<!-- private-cost-meter:end -->','',text,flags=re.S); parsed=Parser();parsed.feed(text)
  errors=[]
  if len(parsed.ids)!=len(set(parsed.ids)):errors.append('duplicate IDs')
  for link in parsed.links+parsed.scripts:

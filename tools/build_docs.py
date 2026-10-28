@@ -174,7 +174,7 @@ def main():
  DOC.mkdir(parents=True,exist_ok=True)
  nav=''.join('<a href="#'+s['id']+'"><span class="doc-nav-number">'+f'{i:02}'+'</span> '+s['title']+'</a>' for i,s in enumerate(sections,1))
  body=''.join('<section class="doc-panel" id="'+s['id']+'"><h2>'+s['title']+'</h2>'+s['body']+'</section>' for s in sections)
- page='''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Basix Engine · Rendering research</title><link rel="icon" href="identity.svg"><link rel="stylesheet" href="shell.css"><link rel="stylesheet" href="theme.css"><link rel="stylesheet" href="basix.css"><script src="theme.js"></script><script defer src="shell.js"></script></head><body><a class="doc-skip" href="#main">Skip to content</a><header class="doc-header"><a class="doc-brand" href="index.html"><img src="identity.svg" alt=""><span><strong>Basix Engine</strong><small>Rendering research · 28 Oct 2026</small></span></a><nav class="doc-actions" aria-label="Page actions"><a href="#summary">Overview</a><button data-doc-back type="button">Back</button><a href="https://github.com/BasixMaster/Basix_Engine">GitHub</a></nav><label class="doc-search">Search all docs<input data-doc-search type="search" placeholder="MegaLights, license, DXR…" aria-controls="doc-results"></label><div data-doc-theme-host></div></header><div class="doc-layout"><aside class="doc-sidebar"><details open><summary>01 · Research chapters</summary><nav aria-label="On this page">'''+nav+'''</nav></details></aside><main id="main" class="doc-main"><div class="hero"><p>RESEARCH / ARCHITECTURE / DEVELOPMENT</p><h1>A small GPU API.<br>A detailed world.</h1><p>Designing an MIT game engine for rich geometry, many lights and robust ray tracing.</p><div class="tags"><span>UE5.8 / UE6</span><span>Vulkan / DX12</span><span>RT / PT / DLSS</span><span>MIT core</span></div></div><div id="doc-results" class="doc-results" hidden></div>'''+body+'''<footer class="doc-footer">Original Basix documentation under MIT. Third-party source material and SDKs retain their own terms.</footer></main></div></body></html>'''
+ page='''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Basix Engine · Rendering research</title><link rel="icon" href="identity.svg"><link rel="stylesheet" href="shell.css"><link rel="stylesheet" href="theme.css"><link rel="stylesheet" href="basix.css"><script src="theme.js"></script><script defer src="shell.js"></script></head><body><a class="doc-skip" href="#main">Skip to content</a><header class="doc-header"><a class="doc-brand" href="index.html"><img src="identity.svg" alt=""><span><strong>Basix Engine</strong><small>Rendering research · 28 Oct 2026</small></span></a><nav class="doc-actions" aria-label="Page actions"><a href="#summary">Overview</a><button data-doc-back type="button">Back</button><a href="https://github.com/BasixMaster/Basix_Engine">GitHub</a></nav><label class="doc-search">Search all docs<input data-doc-search type="search" placeholder="MegaLights, license, DXR…" aria-controls="doc-results"></label><div data-doc-theme-host></div></header><div class="doc-layout"><aside class="doc-sidebar"><details open><summary>01 · Research chapters</summary><nav aria-label="On this page">'''+nav+'''</nav></details></aside><main id="main" class="doc-main"><div class="hero"><img class="hero-art" src="banner.svg" alt="" aria-hidden="true"><p>RESEARCH / ARCHITECTURE / DEVELOPMENT</p><h1>A small GPU API.<br>A detailed world.</h1><p>Designing an MIT game engine for rich geometry, many lights and robust ray tracing.</p><div class="tags"><span>UE5.8 / UE6</span><span>Vulkan / DX12</span><span>RT / PT / DLSS</span><span>MIT core</span></div></div><div id="doc-results" class="doc-results" hidden></div>'''+body+'''<footer class="doc-footer">Original Basix documentation under MIT. Third-party source material and SDKs retain their own terms.</footer></main></div></body></html>'''
  (DOC/'index.html').write_text(page,encoding='utf-8')
  pins={name:dict(repository=repo,revision=sha,license=lic,license_url=f'https://github.com/{repo}/blob/{sha}/{path}',adoption='research-only; not vendored') for name,(repo,sha,path,lic) in PINS.items()}
  (DOC/'dependencies.json').write_text(json.dumps(dict(checked_on=DATE,components=pins),indent=2)+'\n',encoding='utf-8')
@@ -207,4 +207,19 @@ def main():
   for kind in ['questions','sources','findings','actions']:
    db.executemany('INSERT INTO records VALUES (?,?,?,?)',[(r['id'],kind,r['title'],json.dumps(r,ensure_ascii=False)) for r in library[kind]])
  print(f'Built {len(sections)} chapters, {len(sources)} sources and searchable evidence.')
-if __name__=='__main__': main()
+if __name__=='__main__':
+ import argparse, importlib.util
+ parser=argparse.ArgumentParser(description=__doc__)
+ parser.add_argument('--private-meter',action='store_true',help='Attach the registered local meter; exclude this private build from exports.')
+ args=parser.parse_args()
+ main()
+ if args.private_meter:
+  adapter=next((p/'shared-performance-cost-meter/integration.py' for p in ROOT.parents if (p/'shared-performance-cost-meter/integration.py').is_file()),None)
+  if adapter is None: raise SystemExit('No local shared meter adapter found. Meter not attached.')
+  spec=importlib.util.spec_from_file_location('basix_private_meter',adapter)
+  mod=importlib.util.module_from_spec(spec);spec.loader.exec_module(mod)
+  page=DOC/'index.html'
+  if mod.resolve_binding(page) is None: raise SystemExit('No registered live snapshot found. Meter not attached.')
+  page.write_text(mod.decorate(page.read_text(encoding='utf-8'),page),encoding='utf-8')
+  print('Attached private chat meter; exclude private blocks from publication.')
+

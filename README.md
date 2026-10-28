@@ -28,6 +28,8 @@ python tools/build_docs.py
 python tools/check_docs.py
 ```
 
+For a registered private local chat meter, use `python tools/build_docs.py --private-meter`. It uses the owning workspace adapter and this page’s binding. Default builds stay meter-free; strip private blocks through the owning sanitized export before publication. The SVG identity and banner are original Basix artwork.
+
 The editable research source is `tools/build_docs.py`. Structured evidence lives in [docs/evidence/library.json](docs/evidence/library.json), with a SQLite FTS index alongside it. Exact inspected dependency revisions are in [docs/dependencies.json](docs/dependencies.json). Documentation verification results are in [docs/verification.json](docs/verification.json).
 
 Browser checks also passed for offline search, anchors, mobile overflow, saved/system themes and desktop/mobile light/dark views; see [browser verification](docs/browser-verification.json). To repeat, provide Node.js and Playwright, install its Chromium browser, then run `node tools/check_browser.cjs`. Alternatively set `PLAYWRIGHT_CHANNEL=msedge` to use an installed Edge. Screenshots and the fresh browser receipt are written under ignored `work/`.

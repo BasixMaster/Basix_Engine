@@ -3,3 +3,4 @@ __pycache__/
 work/
 build/
 .DS_Store
+_private/
