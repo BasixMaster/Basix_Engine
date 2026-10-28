@@ -14,7 +14,7 @@ ctest --test-dir build -C Release --output-on-failure
 
 No external dependency is required for the default C++20 cage-math target. The optional GPU experiment requires explicitly prepared NoGraphicsAPI/Vulkan/Slang dependencies; see IMPLEMENTATION.md and [the lock file](dependencies.lock.json).
 
-Local checks: **78 CPU cage checks**, **4,096 GPU pointer-root pixels**, and **8,192 hardware-ray results** passed on the stated MSVC/RTX4090 configuration. These are correctness checks, not performance or visual-parity benchmarks. Remote CI and other vendors remain unverified.
+Local checks: **78 CPU cage checks**, **4,096 GPU pointer-root pixels**, and **8,192 hardware-ray results** passed on the stated MSVC/RTX4090 configuration. These are correctness checks, not performance or visual-parity benchmarks. GitHub CPU/docs CI passed on Linux and Windows for the implementation commit; GPU checks remain local and other GPU vendors are unverified.
 
 ## Research documentation
 

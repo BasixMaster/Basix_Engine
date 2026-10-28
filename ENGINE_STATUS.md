@@ -6,7 +6,7 @@
 - Explicit NoGraphicsAPI revision and clean-copy patch preparation, with experimental Vulkan ray-query/native command access.
 - NoGraphicsAPI Slang GPU-pointer/root smoke: 4,096 pixels match CPU arithmetic.
 - Same-device Vulkan ordinary BLAS/TLAS and hardware ray query: 8,192 results for a static and translated triangle match analytic geometry.
-- Local MSVC/RTX4090 configuration passes CTest. CI definitions are included; remote CI has not been claimed as run.
+- Local MSVC/RTX4090 configuration passes CTest. GitHub CPU/docs CI passed on Linux and Windows for implementation commit923d10b; GPU execution remains a local RTX4090 result.
 
 ## Next gates
 

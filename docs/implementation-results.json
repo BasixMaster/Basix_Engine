@@ -18,7 +18,12 @@
   "vulkan_headers": "1.4.357",
   "nvidia_driver": "617.42",
   "cross_vendor": "not run",
-  "remote_ci": "not run",
+  "remote_ci": {
+    "status": "passed",
+    "scope": "CPU cage and public docs; Ubuntu and Windows runners",
+    "commit": "923d10b390aef25e3b014e01a3d455bf8c58fb94",
+    "url": "https://github.com/BasixMaster/Basix_Engine/actions/runs/40677723983"
+  },
   "remaining": [
     "validation layer",
     "native textures and SDK states",

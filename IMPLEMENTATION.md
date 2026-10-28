@@ -43,4 +43,4 @@ Run `basix_gpu_spike --output DIRECTORY` for PPM images and a JSON result. The d
 - Cage clipping of source triangles, shared-vertex provenance, cage generation, serialized assets, multi-tet GPU traversal and deformation motion vectors remain open.
 - Clustered geometry, PTLAS, DGF/DGFS, meshlet streaming and Work Lists are idea-pool items, with distinct availability and adoption gates in the research page.
 
-CI runs the offline CPU and public-documentation targets; GPU CI requires a separately configured physical runner. Local success is not cross-vendor validation or proof that CI has run remotely.
+CI runs the offline CPU and public-documentation targets; GPU CI requires a separately configured physical runner. CPU/docs CI for implementation commit923d10b passed on Linux and Windows in [run40677723983](https://github.com/BasixMaster/Basix_Engine/actions/runs/40677723983). GPU success remains local, with no cross-vendor validation.
