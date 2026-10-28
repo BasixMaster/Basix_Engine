@@ -1,0 +1,1 @@
+window.__FULL_DOC_SEARCH_ADDON_FILES__=[];

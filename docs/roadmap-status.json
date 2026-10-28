@@ -223,33 +223,49 @@
     {
       "id": "M3",
       "title": "Many lights and reconstruction",
-      "status": "pending",
-      "scope": "Original direct lighting/fallback denoising and optional RTXDI/SR/RR. A separate static SR interoperability spike is tested; integrated renderer lighting/temporal quality remains pending.",
+      "status": "partial",
+      "scope": "Actual authored-scene guides and same-device dynamic optional SR lifecycle pass bounded reconstruction subgates. Many-light/RTXDI, temporal/detail quality, RR/FG and broader reconstruction remain pending. Only DLSS-related M3 work is authorized; notify the user before other M3 implementation.",
       "acceptance": "Equal-error captures, temporal tests, separate licensing and a non-DLSS path.",
       "prerequisites": [
         "M2"
       ],
-      "next_test": "Establish brute-force light/reference baseline; compare existing RTXDI3.1 compatibility-guided reuse before custom sampling. Keep equal-time error and temporal-correlation tests.",
-      "last_verified_on": null,
-      "evidence": []
+      "next_test": "Prioritize independent DLSS temporal/detail-quality sequences and ROI/reference criteria; preserve accepted guide/lifecycle/refusal controls. Notify the user before any non-DLSS M3 implementation.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/dlss-renderer-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Eight-case bounded lifecycle gate: Debug/Release10SDK+1fallback, injected history recovery, no-runtime11bilinear frames, raw conversion checks and required failure controls; temporal quality unaccepted."
+        }
+      ]
     },
     {
       "id": "M3-dlss",
       "title": "DLSS integration",
       "status": "partial",
-      "scope": "Actual static SR/interoperability smoke passes. Shared renderer guides, temporal quality, camera cuts/resize/toggles and RR remain unimplemented or unverified; FG separately scoped.",
+      "scope": "Static SR interoperability, actual authored-scene guide correctness and bounded Debug/Release moving-renderer SR lifecycle pass. Independent temporal/detail quality remains pending; SR is not PT denoising and RR/FG remain separate. Only DLSS-related M3 work is authorized; notify the user before other M3 implementation.",
       "acceptance": "Actual SDK evaluation, support checks, guide correctness, resets and fallback pass.",
       "prerequisites": [
         "M1b-sdk",
         "M2"
       ],
-      "next_test": "Implement reference-renderer depth/motion/material guides, then dynamic SR/reset/fallback sequences before RR.",
+      "next_test": "Prioritize M3-dlss-temporal-quality with fixed replay, high-quality reference and predeclared temporal/detail ROIs, preserving guides/lifecycle/fallback controls. Do not start RTXDI/many-light or other non-DLSS M3 without advance user notice.",
       "last_verified_on": "2026-10-28",
       "evidence": [
         {
           "path": "docs/dlss-results.json",
           "checked_on": "2026-10-28",
           "summary": "Static SR gate only; no temporal/detail acceptance follows."
+        },
+        {
+          "path": "docs/reconstruction-guides-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Bounded guide correctness only."
+        },
+        {
+          "path": "docs/dlss-renderer-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Bounded dynamic lifecycle and fallback only; temporal/detail quality open."
         }
       ],
       "parent": "M3"
@@ -263,7 +279,7 @@
       "prerequisites": [
         "M1a"
       ],
-      "next_test": "Prototype a small original geometry manifest and provenance tests.",
+      "next_test": "Prototype a small original geometry manifest with stable triangle/material/cluster IDs, topology-template keys and provenance tests; keep conventional BLAS before optional native Vulkan CLAS/PTLAS adapters.",
       "last_verified_on": null,
       "evidence": []
     },
@@ -505,12 +521,12 @@
       "id": "M2-guides",
       "title": "Scene import and temporal guides",
       "status": "pending",
-      "scope": "Minimal importer with stable IDs, texture/material metadata, linear depth, camera/object motion and reset clips.",
+      "scope": "Broad importer/scene integration with stable IDs, texture/material metadata, linear depth, camera/object motion and reset clips. A narrower authored-scene DLSS guide gate is active separately under M3-dlss-guide; it does not complete this importer scope.",
       "acceptance": "Imported scene identity and independent depth/motion clips agree; resolution changes/camera cuts invalidate history explicitly.",
       "prerequisites": [
         "M2-gpu"
       ],
-      "next_test": "Define guide conventions before dynamic DLSS integration.",
+      "next_test": "Retain the narrower authored-scene DLSS guide conventions when later accepting imported scene identity/materials and reset clips; importer implementation remains pending.",
       "last_verified_on": null,
       "evidence": [],
       "parent": "M2"
@@ -709,7 +725,7 @@
       "prerequisites": [
         "M2-gpu-instance-catalog"
       ],
-      "next_test": "Design and validate transform-conditioned uncertainty and range acceptance before imported assets/textures and temporal DLSS depth/motion guides; retain opt-in bounded rays and prior controls.",
+      "next_test": "Prioritize scoped DLSS depth/motion/material guide conventions and dynamic SR/reset/fallback after the completed bounded uncertainty/range gate. General hardware/cross-device and asynchronous recovery remain partial without indefinitely blocking guide preparation; imported assets remain future work.",
       "last_verified_on": "2026-10-28",
       "evidence": [
         {
@@ -758,6 +774,120 @@
           "summary": "Ten-run selected bounded acceptance: 48 positive probes, six rendered phases at16x16/256SPP and128x64/16SPP, eight fault/no-op rejection controls, independent actual transform/bounds checks; CPU instances68/reference85 checks pass."
         }
       ]
+    },
+    {
+      "id": "M2-gpu-instance-uncertainty",
+      "title": "Transform-conditioned arithmetic uncertainty and range gate",
+      "status": "completed",
+      "parent": "M2-gpu-instances",
+      "scope": "Bounded per-triangle uncertainty/range policy passes78CPUchecks,96actual GPU fixtures and six96case rejection controls; separate transform/control renderer suites and reflected208/80/16ABI pass. Only representation has the stated exact-real arithmetic enclosure; forward/object/inverse terms retain explicit conditional FP32/hardware assumptions.",
+      "acceptance": "Independent high-precision checks enclose the exact-real representation model and audit conditional forward/object/inverse policy arithmetic, including cancellation and finite/range/conditioning boundaries. Reject unsupported inputs before upload. Actual GPU boundary/transform, near-parallel fixtures/domain refusals and the bounded-domain distance argument and rendered scenes pass unchanged limits with reflected ABI; keep API-unspecified hardware traversal allowance and normal-FP32-intermediate assumptions explicit. Preserve earlier default, bounded-ray and shared-BLAS/update acceptance.",
+      "prerequisites": [
+        "M2-gpu-instances-shared",
+        "M2-gpu-instances-updates"
+      ],
+      "next_test": "Prioritize scoped DLSS depth/motion/material guide conventions, then dynamic SR/reset/fallback; retain transform/control image and domain refusal regressions. Universal hardware/cross-device proof, arbitrary ranges and async recovery remain separate partial obligations.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/transform-ray-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Selected7run gate:96positive/576negative cases,24exact vertices/24edges,Decimal90numeric oracle; CPU78checks/24analytic anchors, reflectedRoot208/Triangle80/Instance16, two10run renderer/control suites and7early selector refusals. Model/hardware limitations retained."
+        }
+      ]
+    },
+    {
+      "id": "M3-dlss-guide",
+      "title": "Authored-scene DLSS depth, motion and material guides",
+      "status": "completed",
+      "parent": "M3-dlss",
+      "scope": "Actual eight-frame authored-scene GPU depth/motion/material guides pass independent convention/raw-readback acceptance, CPU110checks and reflected128/96/64ABI. This does not complete general importing or SDK temporal/detail quality.",
+      "acceptance": "Actual per-frame GPU depth, camera/object motion and material-related guide outputs agree with independent scene/projection/reprojection conventions, including units, coordinate handedness, jitter, pixel-center/sign/scale, invalid/background values, stable IDs and reset boundaries. Known wrong-sign/scale/history/no-op controls reject; preserve prior color/transport and static SDK acceptance. No guide presence or API tag alone proves correctness.",
+      "prerequisites": [
+        "M1b-sdk",
+        "M2-gpu-instance-uncertainty"
+      ],
+      "next_test": "Preserve guide conventions/clipping/fault controls during independent temporal/detail-quality acceptance; general importer remains separate.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/reconstruction-guides-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Seven-run guide gate:8frames/20304pixels,4017hits/16287misses/1632motions, six fault/no-op rejections; CPU110 and actual ABI/shader byte identity."
+        }
+      ]
+    },
+    {
+      "id": "M3-dlss-dynamic",
+      "title": "Dynamic DLSS SR, resets, resize and fallback",
+      "status": "partial",
+      "parent": "M3-dlss",
+      "scope": "Actual same-device renderer-to-SR input/output resize, reset/toggle and SDK-absent fallback pass the bounded lifecycle child. Independent temporal/detail quality remains pending; SR is not accepted as a PT denoiser and RR/FG remain separate.",
+      "acceptance": "Actual SDK SR consumes accepted guides and current renderer radiance across moving camera/object frames, reset/camera-cut and resize/toggle/fallback sequences; independent input/output/identity, resource lifetime and clean whole-process Vulkan/SDK diagnostics pass with predeclared temporal/detail criteria and negative/no-op controls. Keep SDK terms separate from MIT core.",
+      "prerequisites": [
+        "M3-dlss-guide",
+        "M1b-sdk"
+      ],
+      "next_test": "Prioritize independent DLSS temporal/detail-quality sequences and ROI/reference criteria; preserve accepted guide/lifecycle/refusal controls. Notify the user before any non-DLSS M3 implementation.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/dlss-renderer-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Eight-case bounded lifecycle gate: Debug/Release10SDK+1fallback, injected history recovery, no-runtime11bilinear frames, raw conversion checks and required failure controls; temporal quality unaccepted."
+        }
+      ]
+    },
+    {
+      "id": "M3-dlss-dynamic-lifecycle",
+      "title": "Bounded renderer-to-SR lifecycle and no-runtime fallback",
+      "status": "completed",
+      "parent": "M3-dlss-dynamic",
+      "scope": "Selected eight-case Debug/Release moving-renderer integration passes11-frame SR/reset/resize/toggle and no-runtime fallback profiles, raw guide/input/native/engine/HDR checks and required lifecycle refusals. No temporal/detail quality claim.",
+      "acceptance": "Accepted guide conventions feed actual SDK SR across moving frames, dynamic input extent, camera cut/reset, output resize and off/on toggles. Independent raw guide/input/native/engine/HDR conversion checks and every fallback RGB pass; known no-op/conversion/lifecycle faults reject, no-runtime path loads no SDK DLL, whole-process core/SyncVal and reviewed minimal-runtime SDK logs pass through teardown. Preserve static SDK/control and original renderer acceptance.",
+      "prerequisites": [
+        "M3-dlss-guide",
+        "M1b-sdk"
+      ],
+      "next_test": "Prioritize independent DLSS temporal/detail-quality sequences and ROI/reference criteria; preserve accepted guide/lifecycle/refusal controls. Notify the user before any non-DLSS M3 implementation.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/dlss-renderer-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Eight-case bounded lifecycle gate: Debug/Release10SDK+1fallback, injected history recovery, no-runtime11bilinear frames, raw conversion checks and required failure controls; temporal quality unaccepted."
+        }
+      ]
+    },
+    {
+      "id": "M3-dlss-temporal-quality",
+      "title": "Independent DLSS temporal and detail quality",
+      "status": "pending",
+      "parent": "M3-dlss-dynamic",
+      "scope": "Separate future temporal/detail acceptance on fixed authored-scene sequences; accepted guides and SDK lifecycle are prerequisites rather than quality results. No PT denoising/RR/FG or performance claim.",
+      "acceptance": "Freeze deterministic camera/object/jitter/exposure replays, independently converged reference images and predeclared ROI/temporal criteria for static detail, motion, thin geometry, disocclusion, ghosting/history trails, cuts/resets and resize/toggles. Measure reference error and temporal stability with valid-visibility/disocclusion treatment, preserve raw failures and compare SDK output against original non-SDK reconstruction. Define noise/reconstruction ownership explicitly; SDK liveness or input/output equality cannot satisfy quality.",
+      "prerequisites": [
+        "M3-dlss-guide",
+        "M3-dlss-dynamic-lifecycle"
+      ],
+      "next_test": "Define reference/ROI sequence metrics and thresholds before experiments: cuts, disocclusion, moving thin geometry, glossy motion and lighting changes. Log native/output resolution and final reconstructed error. Retain accepted guide/lifecycle/fallback controls; keep non-DLSS M3 pending.",
+      "last_verified_on": null,
+      "evidence": []
+    },
+    {
+      "id": "R-rt-performance",
+      "title": "Optional RT performance and AS scheduling experiments",
+      "status": "deferred",
+      "parent": "R",
+      "scope": "Per-signal GPU/VRAM budgets, AS refit/rebuild/compaction scheduling, compact hit-data/material LOD and optional SER/OMM/cache experiments. Vulkan first; no driver installation or engine change in the research update.",
+      "acceptance": "Matched content and final-image/temporal quality at equal time; account for scratch/persistent AS memory, update starvation, offscreen shadow/reflection contributors and fallback differences. Keep biased approximations explicit.",
+      "prerequisites": [
+        "M2",
+        "G1"
+      ],
+      "next_test": "Define representative alpha-heavy, glossy, dynamic-light and streamed scenes plus GPU timer/VRAM measurements before selecting one bottleneck. Preserve the reference estimator.",
+      "last_verified_on": null,
+      "evidence": []
     }
   ],
   "history": [
@@ -966,6 +1096,92 @@
       "evidence": [
         "docs/shared-instance-results.json"
       ]
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M2-gpu-instance-uncertainty",
+      "from_status": "pending",
+      "to_status": "in_progress",
+      "event": "Started transform-conditioned uncertainty/range design and implementation after bounded shared-instance subgates. Acceptance must separate arithmetic enclosure guarantees from an empirical, API-unspecified hardware traversal allowance. No results promoted."
+    },
+    {
+      "checked_on": "2026-10-28",
+      "event": "Recorded user continuation constraint: prioritize DLSS-related M3 guides/dynamic SR; notify the user before starting other M3 implementation, including RTXDI/many-light work. Existing M3 states are unchanged."
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M2-gpu-instance-uncertainty",
+      "from_status": "in_progress",
+      "to_status": "completed",
+      "event": "Completed only the bounded transform uncertainty/range gate after canonical7run acceptance,78CPUchecks, actual ABI reflection and separate renderer/control acceptance. Representation enclosure remains distinct from conditional FP32/hardware policies; unchanged image limits expose a larger paired error. General parent remains partial and next priority is scoped DLSS guides/dynamic SR.",
+      "evidence": [
+        "docs/transform-ray-results.json"
+      ]
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M3-dlss-guide",
+      "from_status": "pending",
+      "to_status": "in_progress",
+      "event": "Started the explicitly authorized DLSS-only continuation: actual authored-scene guide generation and independent depth/motion/material conventions. Dynamic SDK SR/reset/resize remains a separate pending gate; no new DLSS pass claimed."
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M3-dlss-dynamic",
+      "from_status": "pending",
+      "to_status": "in_progress",
+      "event": "Started actual moving renderer/guide-to-SDK integration on the owned Vulkan device with input/output resize, reset, toggle and original bilinear fallback; canonical lifecycle and temporal/detail acceptance remain separate."
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M3-dlss-dynamic-lifecycle",
+      "from_status": "pending",
+      "to_status": "in_progress",
+      "event": "Scoped actual renderer-to-SR lifecycle and no-runtime fallback separately from dynamic temporal/detail quality. Canonical acceptance is pending; SR is not accepted as a PT denoiser or RR/FG."
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M3",
+      "from_status": "pending",
+      "to_status": "partial",
+      "event": "Recorded verified DLSS guide/lifecycle subgates while temporal/detail quality and non-DLSS many-light implementation remain pending.",
+      "evidence": [
+        "docs/dlss-renderer-results.json"
+      ]
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M3-dlss-guide",
+      "from_status": "in_progress",
+      "to_status": "completed",
+      "event": "Completed only the bounded authored-scene guide gate after canonical7run and independent CPU/ABI checks.",
+      "evidence": [
+        "docs/reconstruction-guides-results.json"
+      ]
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M3-dlss-dynamic",
+      "from_status": "in_progress",
+      "to_status": "partial",
+      "event": "Recorded verified DLSS guide/lifecycle subgates while temporal/detail quality and non-DLSS many-light implementation remain pending.",
+      "evidence": [
+        "docs/dlss-renderer-results.json"
+      ]
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M3-dlss-dynamic-lifecycle",
+      "from_status": "in_progress",
+      "to_status": "completed",
+      "event": "Completed only bounded renderer-to-SR lifecycle and no-runtime fallback after canonical8case acceptance, including strict Release first-failure fix and history recovery.",
+      "evidence": [
+        "docs/dlss-renderer-results.json"
+      ]
+    },
+    {
+      "checked_on": "2026-10-28",
+      "event": "Evaluated NVIDIA Whitepapers at 20463fd355c817a50381343d9d12b7ac811d2e39 and Microsoft 28 October preview release; corrected DX12 availability, refined G1 and pending DLSS temporal quality acceptance, added deferred RT performance experiments. No implementation state promoted."
     }
   ]
 }

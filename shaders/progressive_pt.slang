@@ -6,7 +6,7 @@
 #include "basix_ray_spawn.slang"
 
 struct Triangle {
- float3 a;uint material;float3 b;uint id;float3 c;float area;float3 normal;float pad;
+ float3 a;uint material;float3 b;uint id;float3 c;float area;float3 normal;float pad;float3 transformError;float errorPad;
 };
 struct Instance {uint firstTriangle;uint triangleCount;uint stableId;uint epoch;};
 struct Root {
@@ -21,14 +21,17 @@ struct Root {
  uint64_t seed;float totalLightArea;uint mode;
  float4 cameraOrigin;float4 cameraForward;float4 cameraRight;float4 cameraUp;float4 environment;
  Instance* instances;uint instanceCount;uint sceneEpoch;
+ float4 rayDomain;
 };
 struct Push {Root* data;};
 // Storage layout is the host's C ABI contract; compare reflected SPIR-V offsets
 // and native sizeof/offsetof rather than assuming a constant-buffer packing rule.
+#ifndef BASIX_TRANSPORT_ONLY
 [[vk::push_constant]] ConstantBuffer<Push> push;
+#endif
 [[vk::binding(0,0)]] RaytracingAccelerationStructure scene;
 
-static const uint PT_NEE=1,PT_MIS=2,PT_RR=4,PT_VISIBLE=8,PT_BOUNDED_RAYS=16,PT_INSTANCED=32;
+static const uint PT_NEE=1,PT_MIS=2,PT_RR=4,PT_VISIBLE=8,PT_BOUNDED_RAYS=16,PT_INSTANCED=32,PT_TRANSFORM_RAYS=64;
 static const float PT_RAY_MAX=1e30f;
 
 
@@ -70,16 +73,18 @@ float3 ptOffset(float3 p,float3 normal,float3 direction){return p+normal*((dot(n
 
 // This extent allowance is an empirical identity-instance Vulkan policy, not
 // a vendor-independent traversal error proof. Its tested domain is explicit.
-BasixRayPoint ptTrianglePoint(Triangle triangle,float2 bary){
+BasixRayPoint ptTrianglePoint(Root* root,Triangle triangle,float2 bary){
  float extent=ptMax(abs(triangle.b-triangle.a)+abs(triangle.c-triangle.a));
  float allowance=(7.f*0.000000059604644775390625f)/(1-7.f*0.000000059604644775390625f)*extent;
- BasixRayPoint point=basixTrianglePoint(triangle.a,triangle.b,triangle.c,bary.x,bary.y,float3(allowance));if(triangle.pad<0)point.normal=-point.normal;return point;
+ float3 extra=float3(allowance);if((root.flags&PT_TRANSFORM_RAYS)!=0){if(!ptFiniteNonnegative(triangle.transformError))return (BasixRayPoint)0;extra=float3(basixRayUp(extra.x+triangle.transformError.x),basixRayUp(extra.y+triangle.transformError.y),basixRayUp(extra.z+triangle.transformError.z));}
+ BasixRayPoint point=basixTrianglePoint(triangle.a,triangle.b,triangle.c,bary.x,bary.y,extra);if(triangle.pad<0)point.normal=-point.normal;return point;
 }
 struct PtHit {float t;float2 bary;float3 position;float3 pointError;float3 normal;float3 outward;uint index;uint material;uint front;uint found;uint error;uint instanceId;uint primitive;};
-PtHit ptTrace(Root* root,float3 origin,float3 direction,float maximum){
+PtHit ptTrace(Root* root,float3 origin,float3 direction,float maximum,float minimum=0){
  PtHit hit=(PtHit)0;
- if(!(maximum>0)||!isfinite(maximum)||!all(isfinite(origin))||!all(isfinite(direction))){hit.error=1;return hit;}
- RayDesc ray;ray.Origin=origin;ray.Direction=direction;ray.TMin=0;ray.TMax=maximum;
+ if(!(maximum>0)||!isfinite(maximum)||!isfinite(minimum)||minimum<0||minimum>maximum||!all(isfinite(origin))||!all(isfinite(direction))){hit.error=1;return hit;}
+ if((root.flags&PT_TRANSFORM_RAYS)!=0){float norm2=dot(direction,direction);if(!all(isfinite(root.rayDomain.xy))||root.rayDomain.x<=0||root.rayDomain.y<4*root.rayDomain.x||any(abs(origin)>root.rayDomain.x)||any(abs(direction)>1)||!isfinite(norm2)||abs(norm2-1)>1e-4f){hit.error=1;return hit;}maximum=min(maximum,root.rayDomain.y);}
+ RayDesc ray;ray.Origin=origin;ray.Direction=direction;ray.TMin=minimum;ray.TMax=maximum;
  RayQuery<RAY_FLAG_FORCE_OPAQUE> query;query.TraceRayInline(scene,0,255,ray);while(query.Proceed()){}
  if(query.CommittedStatus()!=COMMITTED_TRIANGLE_HIT)return hit;
  hit.primitive=query.CommittedPrimitiveIndex();hit.index=hit.primitive;hit.t=query.CommittedRayT();
@@ -96,7 +101,7 @@ PtHit ptTrace(Root* root,float3 origin,float3 direction,float maximum){
  Triangle triangle=root.triangles[hit.index];
  if(triangle.material>=root.materialCount||!all(isfinite(triangle.normal))||dot(triangle.normal,triangle.normal)<=0){hit.error=1;return hit;}
  hit.position=origin+direction*hit.t;hit.outward=normalize(triangle.normal);
- if((root.flags&PT_BOUNDED_RAYS)!=0){BasixRayPoint point=ptTrianglePoint(triangle,hit.bary);if(point.valid==0){hit.error=1;return hit;}hit.position=point.position;hit.pointError=point.error;hit.outward=point.normal;}
+ if((root.flags&PT_BOUNDED_RAYS)!=0){BasixRayPoint point=ptTrianglePoint(root,triangle,hit.bary);if(point.valid==0){hit.error=1;return hit;}hit.position=point.position;hit.pointError=point.error;hit.outward=point.normal;}
 hit.front=dot(direction,hit.outward)<0?1:0;
  hit.normal=hit.front!=0?hit.outward:-hit.outward;hit.material=triangle.material;hit.found=1;return hit;
 }
@@ -119,7 +124,7 @@ PtLight ptLightSample(Root* root,float3 reference,float select,float u1,float u2
  Triangle t=root.triangles[index];if(t.material>=root.materialCount){result.error=1;return result;}
  BasixMaterial material=root.materials[t.material];if(!basixMaterialValid(material)||dot(t.normal,t.normal)<=0){result.error=1;return result;}
  float r=sqrt(u1);result.position=t.a*(1-r)+t.b*(r*(1-u2))+t.c*(r*u2);result.normal=normalize(t.normal);
- if((root.flags&PT_BOUNDED_RAYS)!=0){BasixRayPoint point=ptTrianglePoint(t,float2(r*(1-u2),r*u2));if(point.valid==0){result.error=1;return result;}result.position=point.position;result.pointError=point.error;result.normal=point.normal;}
+ if((root.flags&PT_BOUNDED_RAYS)!=0){BasixRayPoint point=ptTrianglePoint(root,t,float2(r*(1-u2),r*u2));if(point.valid==0){result.error=1;return result;}result.position=point.position;result.pointError=point.error;result.normal=point.normal;}
 
  float3 delta=result.position-reference;result.distance=length(delta);if(!(result.distance>0)||!isfinite(result.distance))return result;
  result.wi=delta/result.distance;float cosine=dot(result.normal,-result.wi);if(!(cosine>0))return result;
@@ -153,11 +158,11 @@ float3 ptDirect(Root* root,PtHit hit,float3 wo,PtLight light,bool mis){
  float weight=mis?ptPower(light.pdf,ptPdf(root,material,localWo,localWi)):1;
  return f*light.emission*(localWi.z*weight/light.pdf);
 }
-float3 ptRadiance(Root* root,float3 origin,float3 direction,uint64_t key){
+float3 ptRadiance(Root* root,float3 origin,float3 direction,uint64_t key,float primaryMin=0,float primaryMax=PT_RAY_MAX){
  PtRng rng={key,0};float3 throughput=float3(1),radiance=float3(0),previous=float3(0);float previousPdf=0;
  bool nee=(root.flags&PT_NEE)!=0,mis=(root.flags&PT_MIS)!=0,rr=(root.flags&PT_RR)!=0;
  for(uint depth=0;depth<=root.maxDepth;++depth){
-  PtHit hit=ptTrace(root,origin,direction,PT_RAY_MAX);if(hit.error!=0)return ptInvalid();
+  PtHit hit=ptTrace(root,origin,direction,depth==0?primaryMax:PT_RAY_MAX,depth==0?primaryMin:0);if(hit.error!=0)return ptInvalid();
   if(hit.found==0){radiance+=throughput*root.environment.xyz;break;}
   BasixMaterial material=root.materials[hit.material];if(!basixMaterialValid(material))return ptInvalid();
   if(hit.front!=0&&ptMax(material.emission)>0){
@@ -188,6 +193,7 @@ float3 ptCamera(Root* root,uint2 pixel,float cameraU,float cameraV){
  return normalize(root.cameraForward.xyz+root.cameraRight.xyz*x+root.cameraUp.xyz*y);
 }
 
+#ifndef BASIX_TRANSPORT_ONLY
 [numthreads(8,8,1)]
 void computeMain(uint3 id:SV_DispatchThreadID){
  Root* root=push.data;if(root==nullptr||id.x>=root.width||id.y>=root.height)return;
@@ -212,14 +218,14 @@ void computeMain(uint3 id:SV_DispatchThreadID){
   float3 start=ptSpawn(root,first,root.cameraRight.xyz);PtHit second=ptTrace(root,start,root.cameraRight.xyz,PT_RAY_MAX);
   root.accumulation[0]=float4(start,ptMax(first.pointError));
   root.accumulation[1]=float4(second.t,float(second.index),float(second.found),float(second.error));
-  root.accumulation[2]=float4(first.pointError,1);return;
+  root.accumulation[2]=float4(first.pointError,1);root.accumulation[3]=first.found!=0&&first.index<root.triangleCount?float4(root.triangles[first.index].transformError,1):float4(ptNaN());return;
  }
  if(root.mode==2||root.mode==3){
   PtHit first=ptTrace(root,root.cameraOrigin.xyz,root.cameraForward.xyz,PT_RAY_MAX);
   if(first.error!=0||first.found==0){root.debugHits[pixel]=float4(ptNaN());return;}
   if(root.mode==3)first.pointError=float3(-1); // Isolated invalid-spawn rejection fixture.
   PtHit second;float3 start=ptSpawn(root,first,root.cameraRight.xyz);
-  if(root.cameraRight.w!=0){Triangle target=root.triangles[root.triangleCount-1];BasixRayPoint point=ptTrianglePoint(target,float2(.25,.5));PtLight light=(PtLight)0;light.position=point.position;light.normal=point.normal;light.pointError=point.error;if(root.cameraRight.w==2)light.position=first.position+root.cameraRight.xyz*(length(point.position-first.position)*1e-9f);second=ptConnection(root,first,light);}
+  if(root.cameraRight.w!=0){Triangle target=root.triangles[root.triangleCount-1];BasixRayPoint point=ptTrianglePoint(root,target,float2(.25,.5));PtLight light=(PtLight)0;light.position=point.position;light.normal=point.normal;light.pointError=point.error;if(root.cameraRight.w==2)light.position=first.position+root.cameraRight.xyz*(length(point.position-first.position)*1e-9f);second=ptConnection(root,first,light);}
   else second=ptTrace(root,start,root.cameraRight.xyz,PT_RAY_MAX);
   root.debugHits[pixel]=second.error!=0?float4(ptNaN()):float4(float(first.index),second.found!=0?float(second.index):-1,second.found!=0?second.t:-1,1);
   root.accumulation[pixel]=float4(start,ptMax(first.pointError));return;
@@ -230,7 +236,7 @@ void computeMain(uint3 id:SV_DispatchThreadID){
   root.debugHits[pixel]=hit.error!=0?float4(ptNaN()):(hit.found!=0?float4(hit.t,float(hit.index),float(hit.material),float(hit.front)):float4(-1,-1,-1,0));return;
  }
  if(root.mode!=0||root.maxDepth<1||root.maxDepth>64||root.rrStart<1||root.rrStart>64||
-    (root.flags&~63u)!=0||root.sampleCount==0||root.sampleCount>16777215u||root.sampleStart>16777215u-root.sampleCount||
+    (root.flags&~127u)!=0||root.sampleCount==0||root.sampleCount>16777215u||root.sampleStart>16777215u-root.sampleCount||
     !ptFiniteNonnegative(root.environment.xyz)){
   root.accumulation[pixel]=float4(ptNaN());return;
  }
@@ -245,3 +251,5 @@ void computeMain(uint3 id:SV_DispatchThreadID){
  }
  root.accumulation[pixel]=sum;
 }
+
+#endif

@@ -14,6 +14,7 @@ struct alignas(16) Triangle {
  float bx,by,bz;std::uint32_t id;
  float cx,cy,cz,area;
  float nx,ny,nz,pad;
+ float error_x,error_y,error_z,error_pad;
 };
 struct alignas(16) Instance {std::uint32_t first_triangle,triangle_count,stable_id,epoch;};
 static_assert(sizeof(Instance)==16);
@@ -27,10 +28,12 @@ struct alignas(16) Root {
  std::uint64_t seed;float total_light_area;std::uint32_t mode;
  Float4 camera_origin,camera_forward,camera_right,camera_up,environment;
  std::uint64_t instances;std::uint32_t instance_count,scene_epoch;
+ Float4 ray_domain;
 };
+static_assert(offsetof(Triangle,error_x)==64&&offsetof(Root,ray_domain)==192);
 static_assert(sizeof(Material)==48&&offsetof(Material,metallic)==16&&offsetof(Material,model)==32);
-static_assert(sizeof(Triangle)==64&&offsetof(Triangle,material)==12&&offsetof(Triangle,id)==28&&offsetof(Triangle,nx)==48);
-static_assert(sizeof(Root)==192&&offsetof(Root,material_count)==40&&offsetof(Root,light_count)==48);
+static_assert(sizeof(Triangle)==80&&offsetof(Triangle,material)==12&&offsetof(Triangle,id)==28&&offsetof(Triangle,nx)==48);
+static_assert(sizeof(Root)==208&&offsetof(Root,material_count)==40&&offsetof(Root,light_count)==48);
 static_assert(offsetof(Root,sample_count)==64&&offsetof(Root,seed)==80&&offsetof(Root,camera_origin)==96);
 static_assert(offsetof(Root,environment)==160&&offsetof(Root,instances)==176&&offsetof(Root,instance_count)==184&&sizeof(Float4)==16);
 }

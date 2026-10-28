@@ -38,7 +38,7 @@ def _state():
                                                            'bounded_rays', 'validation_enabled'))
                   and candidate.get('validation_errors') == 0
                   and candidate.get('validation_warnings') == 0
-                  and candidate.get('root_bytes') == 192
+                  and candidate.get('root_bytes') == 208
                   and candidate.get('instance_bytes') == 16
                   and numeric.get('cases') == 24
                   and numeric.get('failed_cases') == 0
@@ -99,7 +99,7 @@ def apply(sections, sources, source, section, table, cite):
 <p>A reflected transform reverses geometric winding. Reversing the shared BLAS would affect every instance, so the new path retains object and shader vertex order and carries a per-instance orientation sign. The CPU reference has an explicit <code>reverse_orientation</code> flag for authored geometric/emitting sides; its default remains false. Its intersection and emitter normals follow that flag without changing triangle sample order.</p>
 <p>The first shared rendered experiment passed its declared image limits but showed a larger paired discrepancy because a reference-only vertex swap also changed sampled emitter locations for the same random values. Explicit authored orientation preserves both physical sides and sample correspondence. The BRDF, declared image limits and legacy default are unchanged. Separate offline suites cover 68 instance checks and 85 CPU reference checks, including the new authored-side cases.</p>''' + cite('S104')
     body += table(['Data / check', 'Bounded contract'], [
-        ('GPU root / instance record', 'Root 192 bytes; instance record 16 bytes: first triangle, count, stable ID and epoch. Earlier 176-byte root receipts describe the prior ABI.'),
+        ('GPU root / instance record', 'Current selected control: Root208 bytes, Triangle80 bytes; instance record16 bytes: first triangle, count, stable ID and epoch. Historical shared-v3 receipts used Root192; earlier176-byte receipts describe the preceding ABI. Added transform fields do not imply the opt-in policy is enabled.'),
         ('Identity and material probes', '24 targeted rays: three epochs × two objects × two local primitives × two sides. Stable IDs 10000123 and 90000007 are checked as integers; the latter exceeds exact float32 integer range.'),
         ('Stable primitive identity', 'Each instance has a separate primitive-ID base. Hardware local primitive, dense world-triangle index, stable global primitive ID and material-table index are checked separately.'),
         ('Epoch sequence', 'Initial A/B slots; moved geometry with the same slots; restored geometry with B/A slots. Motion-only update and slot remapping therefore have separate evidence.'),

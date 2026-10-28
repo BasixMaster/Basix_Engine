@@ -180,11 +180,11 @@ def row_outcome(row):
     return bool(passed)
 
 
-def contract(result, fault='', *, all_failed=False, width=16, height=16, spp=256, batch=64):
+def contract(result, fault='', *, all_failed=False, width=16, height=16, spp=256, batch=64, transform_rays=False):
     expected = dict(fault=fault, instances_per_scene=2, blas_per_scene=1, probe_cases=24,
                     width=width, height=height, spp=spp, batch=batch, bounded_rays=True,
                     validation_enabled=True, validation_errors=0, validation_warnings=0,
-                    root_bytes=192, instance_bytes=16, probe_blas_identity=True, probe_tlas_identity=True,
+                    root_bytes=208, triangle_bytes=80, transform_rays=transform_rays, instance_bytes=16, probe_blas_identity=True, probe_tlas_identity=True,
                     seed=20261028, sampler='vndf_sampled_state_v1', max_depth=8, random_bits=24,
                     next_event_estimation=True, multiple_importance_sampling=True, russian_roulette=True)
     require(all(result.get(k) == v for k, v in expected.items()),
@@ -266,6 +266,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ('exe', 'shader', 'slangc', 'validation-layer-dir', 'output'):
         parser.add_argument('--' + name, type=Path, required=True)
+    parser.add_argument('--transform-rays', action='store_true')
     args = parser.parse_args()
     exe, shader, slangc, layer, out = (p.resolve() for p in
         (args.exe, args.shader, args.slangc, args.validation_layer_dir, args.output))
@@ -277,7 +278,7 @@ def main():
                   validation_manifest=layer / 'VkLayer_khronos_validation.json',
                   harness=Path(__file__).resolve(), scanner=ROOT / 'tools/run_visible_validation.py')
     for name in ('dependencies.lock.json', 'src/progressive_gpu.cpp', 'src/progressive_shared_tests.inl',
-                 'src/instances.cpp', 'src/reference.cpp', 'src/material.cpp', 'src/material_vndf.cpp',
+                 'src/instances.cpp', 'src/transform_uncertainty.cpp', 'include/basix/transform_uncertainty.hpp', 'src/reference.cpp', 'src/material.cpp', 'src/material_vndf.cpp',
                  'src/ray_spawn.cpp', 'include/basix/instances.hpp', 'include/basix/reference.hpp',
                  'include/basix/progressive_gpu_abi.hpp', 'include/basix/ray_spawn.hpp',
                  'shaders/progressive_pt.slang', 'shaders/basix_material.slang',
@@ -308,6 +309,8 @@ def main():
         command = [str(exe), '--validate', '--shared-instances', '--bounded-rays',
                    '--width', str(width), '--height', str(height), '--spp', str(spp), '--batch', str(batch),
                    '--shader-dir', str(directory), '--output', str(target)]
+        if args.transform_rays:
+            command += ['--transform-rays']
         if fault:
             command += ['--shared-fault', fault]
         process = subprocess.run(command, env=local, stdout=subprocess.PIPE,
@@ -316,7 +319,7 @@ def main():
         require(process.returncode == (1 if fault else 0), name + ': unexpected process exit')
         reviewed = scan(process.stdout, name, trace)
         result = json.loads((target / 'shared-instance-result.json').read_text(encoding='utf-8'))
-        checked = contract(result, fault, all_failed=all_failed, width=width, height=height, spp=spp, batch=batch)
+        checked = contract(result, fault, all_failed=all_failed, width=width, height=height, spp=spp, batch=batch, transform_rays=args.transform_rays)
         require(('FAIL: Shared-instance acceptance failed' if fault else 'PASS shared instances:24probes,3renderedepochs,2TLASupdatesper-scene;')
                 in process.stdout, name + ': acceptance/rejection diagnostic missing')
         if not fault:
@@ -347,7 +350,7 @@ def main():
     run('compiled-no-op', scratch, 'orientation', all_failed=True)
     after = {name: sha(path) for name, path in inputs.items()}
     require(before == after, 'Frozen shared-instance inputs changed during validation')
-    receipt = dict(checked_on='2026-10-28', status='passed', harness_checks_passed=True,
+    receipt = dict(checked_on='2026-10-28', transform_rays=args.transform_rays, status='passed', harness_checks_passed=True,
         cases=cases, results=results, independent_numeric=numeric, hdr=hdr_by_case['candidate'], hdr_by_case=hdr_by_case,
         input_sha256=before, input_hashes_unchanged=True, no_op_shader_sha256=sha(target),
         slang_version=match.group(1), loader_confirmed_validation=True,

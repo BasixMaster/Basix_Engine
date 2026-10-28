@@ -13,7 +13,9 @@
     "Distinct visible-GGX sampled-state proposal passes canonical sampling and fixed-scene transport gates; legacy NDF grazing failures remain recorded and broader M2 stays partial.",
     "Opt-in triangle error-box ray spawning passes its scoped canonical fixture gate; legacy offsets remain the default and broader M2 is partial.",
     "Hardware edge/vertex and fixed TLAS-instance catalog passes its selected boundary gate; bounded rays remain opt-in and broader M2 stays partial.",
-    "Two-object shared-BLAS identity and synchronized updates pass the selected bounded gate; empirical uncertainty and broader renderer integration remain open."
+    "Two-object shared-BLAS identity and synchronized updates pass the selected bounded gate; empirical uncertainty and broader renderer integration remain open.",
+    "Transform-conditioned uncertainty/range work separates deterministic representation enclosure from conditional FP32/hardware policies; the selected bounded gate passes.",
+    "Authored-scene guide and dynamic optional SR lifecycle pass selected bounded acceptance; temporal/detail quality and RR/FG remain unaccepted."
   ],
   "questions": [
     {
@@ -232,6 +234,19 @@
       "coverage": "Selected public pages1–7 and primary leads covered; page8/authenticated discussion and two large PDFs not available in full.",
       "presentation_path": "index.html",
       "presentation_anchor": "research-map"
+    },
+    {
+      "id": "Q10",
+      "title": "Which NVIDIA whitepaper ideas change Basix priorities?",
+      "priority": "high",
+      "rationale": "Resolve new preview availability, then preserve Vulkan contracts, MIT boundaries and independent performance/quality gates.",
+      "status": "answered within research scope",
+      "depends_on": [
+        "Q2",
+        "Q8"
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "research-map"
     }
   ],
   "sources": [
@@ -399,7 +414,7 @@
       "id": "S11",
       "title": "Agility SDK release table",
       "url": "https://devblogs.microsoft.com/directx/directx12agility/",
-      "notes": "Retail 1.619.6 listed September 14, 2026; preview 1.721.3 listed July 30, 2026. SDK availability does not imply driver/hardware feature support.",
+      "notes": "Retail 1.619.6 listed September 14, 2026; preview 1.721.3 listed July 30, 2026. SDK availability does not imply driver/hardware feature support. Superseded preview availability: 28 October release S115 documents 1.722.0-preview; earlier table observation is historical.",
       "kind": "official documentation",
       "published_on": "",
       "checked_on": "2026-10-28",
@@ -447,7 +462,7 @@
       "id": "S14",
       "title": "DirectX specification status index",
       "url": "https://microsoft.github.io/DirectX-Specs/",
-      "notes": "Raytracing2 explicitly marked work in progress, not in preview yet. Prefer explicit maturity status over old forecast language.",
+      "notes": "Raytracing2 explicitly marked work in progress, not in preview yet. Prefer explicit maturity status over old forecast language. Freshness correction: S115 now establishes an announced consumable preview and prerequisites. Earlier draft/index observations are historical; Basix has not installed or executed this DX12 path.",
       "kind": "official documentation",
       "published_on": "",
       "checked_on": "2026-10-28",
@@ -463,7 +478,7 @@
       "id": "S15",
       "title": "DXR Part 2 draft",
       "url": "https://github.com/microsoft/DirectX-Specs/blob/master/d3d/Raytracing2.md",
-      "notes": "GitHub draft v0.38; rendered version S32 says preview while index S14 says not-preview. Matching public SDK/driver combination not established. Preserve source disagreement.",
+      "notes": "GitHub draft v0.38; rendered version S32 says preview while index S14 says not-preview. Matching public SDK/driver combination not established. Preserve source disagreement. Freshness correction: S115 now establishes an announced consumable preview and prerequisites. Earlier draft/index observations are historical; Basix has not installed or executed this DX12 path.",
       "kind": "official documentation",
       "published_on": "2026-09-08",
       "checked_on": "2026-10-28",
@@ -735,7 +750,7 @@
       "id": "S32",
       "title": "DXR2 rendered functional specification",
       "url": "https://microsoft.github.io/DirectX-Specs/d3d/Raytracing2.html",
-      "notes": "v0.38 Intro says currently in preview. CLAS, cluster BLAS, PTLAS and indirect AS operations are specified; placeholder capability names remain. Conflicts with index maturity wording; no matching consumable SDK/driver pair established.",
+      "notes": "v0.38 Intro says currently in preview. CLAS, cluster BLAS, PTLAS and indirect AS operations are specified; placeholder capability names remain. Conflicts with index maturity wording; no matching consumable SDK/driver pair established. Freshness correction: S115 now establishes an announced consumable preview and prerequisites. Earlier draft/index observations are historical; Basix has not installed or executed this DX12 path.",
       "kind": "official documentation",
       "published_on": "2026-09-08",
       "checked_on": "2026-10-28",
@@ -751,7 +766,7 @@
       "id": "S33",
       "title": "SM6.10 preview announcement",
       "url": "https://devblogs.microsoft.com/directx/shader-model-6-10-agilitysdk-720-preview/",
-      "notes": "April announcement exposes ClusterID but says clustered geometry not ready and tentatively targets fall. Neither intrinsic support nor spec text proves a complete runtime.",
+      "notes": "April announcement exposes ClusterID but says clustered geometry not ready and tentatively targets fall. Neither intrinsic support nor spec text proves a complete runtime. Freshness correction: S115 now establishes an announced consumable preview and prerequisites. Earlier draft/index observations are historical; Basix has not installed or executed this DX12 path.",
       "kind": "official documentation",
       "published_on": "2026-04-27",
       "checked_on": "2026-10-28",
@@ -1930,6 +1945,182 @@
       "topic": "rendering",
       "presentation_path": "index.html",
       "presentation_anchor": "S106"
+    },
+    {
+      "id": "S107",
+      "title": "Basix transform-conditioned arithmetic and ray-domain acceptance",
+      "url": "https://github.com/BasixMaster/Basix_Engine/blob/main/docs/transform-ray-results.json",
+      "notes": "The selected gate passes 96 transform-ray fixtures, including 24 observed vertices and 24 edges, and six 96-case rejection controls. CPU 78 checks, reflected shader ABI and separately selected renderer/control acceptance remain distinct evidence. Representation enclosure and conditional arithmetic/hardware policies are not interchangeable.",
+      "kind": "measured scoped correctness and conditional policy",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Original Basix implementation and selected sanitized evidence MIT; private raw logs/telemetry excluded.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S107"
+    },
+    {
+      "id": "S108",
+      "title": "Physically Based Rendering: Managing Rounding Error",
+      "url": "https://pbr-book.org/4ed/Shapes/Managing_Rounding_Error",
+      "notes": "The textbook develops arithmetic error bounds for ray intersections and conservative origin placement. Excessive offsets can miss nearby detail, motivating explicit bounds and scope rather than a universal fixed epsilon. Its arithmetic analyses do not certify an unspecified Vulkan hardware implementation.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Primary textbook linked and paraphrased; no source implementation copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S108"
+    },
+    {
+      "id": "S109",
+      "title": "Vulkan specification: Ray Traversal",
+      "url": "https://docs.vulkan.org/spec/latest/chapters/raytraversal.html",
+      "notes": "Traversal transforms rays into invertible instance space. Intersection determination is implementation specific and may introduce floating-point inaccuracies. The watertightness discussion concerns shared edges/vertices within an instance under identical transforms; it does not supply a universal transform/intersector error constant.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Official specification linked and paraphrased; no implementation copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S109"
+    },
+    {
+      "id": "S110",
+      "title": "Basix authored-scene GPU reconstruction guide acceptance",
+      "url": "https://github.com/BasixMaster/Basix_Engine/blob/main/docs/reconstruction-guides-results.json",
+      "notes": "The selected seven-run gate passes eight guide frames and 20,304 pixels with independent geometry/projection/raw-readback checks. 110 CPU checks and reflected 128/96/64 ABI pass; six expected fault/no-op runs reject. This establishes bounded guide correctness, not SDK temporal reconstruction quality.",
+      "kind": "measured scoped correctness",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Original Basix math, shader and adapters MIT; private raw logs/telemetry excluded.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S110"
+    },
+    {
+      "id": "S111",
+      "title": "Basix moving renderer to optional DLSS SR lifecycle acceptance",
+      "url": "https://github.com/BasixMaster/Basix_Engine/blob/main/docs/dlss-renderer-results.json",
+      "notes": "The selected eight-case gate passes actual Debug/Release moving-renderer SR, input/output resize, reset/toggle, nonprojectable-history recovery and SDK-absent fallback, including independent raw conversion checks and lifecycle negatives. Temporal/detail quality, PT denoising, RR and FG remain unaccepted.",
+      "kind": "measured scoped correctness",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Original adapter MIT; separately supplied Streamline/DLSS runtime retains its own terms and is not vendored.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S111"
+    },
+    {
+      "id": "S112",
+      "title": "Pinned Streamline 2.14.16 DLSS integration guide",
+      "url": "https://github.com/NVIDIA-RTX/Streamline/blob/625db07d4bca5abc67d781c42af7e7fb0761f1b6/docs/ProgrammingGuideDLSS.md",
+      "notes": "The pinned guide specifies adapter support checks, optimal input sizing, resource tags and extents, per-frame options/constants, reset and lifecycle responsibilities. Required SR resources include render-resolution color, depth and motion plus output color. Basix independently validates its numerical conventions and actual tagged buffers; API presence does not certify reconstruction quality.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Official pinned programming guide linked and paraphrased; no SDK implementation or runtime binaries copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S112"
+    },
+    {
+      "id": "S113",
+      "title": "NVIDIA clustered geometry and partitioned TLAS whitepaper",
+      "url": "https://github.com/NVIDIA-RTX/Whitepapers/blob/20463fd355c817a50381343d9d12b7ac811d2e39/dx_clusters_and_ptlas/README.md",
+      "notes": "Read complete English paper at pinned revision. Explains topology templates and sparse partition updates; announces DX12 preview and NVIDIA 621.01 support. Forest scale and game examples are vendor demonstrations, not Basix results.",
+      "kind": "vendor technical whitepaper",
+      "published_on": "2026-10-28",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "CC BY 4.0 text; Microsoft/Remedy images have separate notices. Original Basix summary only; no paper images or code copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S113"
+    },
+    {
+      "id": "S114",
+      "title": "NVIDIA real-time path tracing performance whitepaper",
+      "url": "https://github.com/NVIDIA-RTX/Whitepapers/blob/20463fd355c817a50381343d9d12b7ac811d2e39/pt_performance_whitepaper/README.md",
+      "notes": "Read complete English paper including case studies and references. End-to-end budgets, AS policy, hot/cold hit data, material LOD, sampling, caches, reconstruction, live state and mixed tracing. Vendor recommendations need scene-specific experiments.",
+      "kind": "vendor technical whitepaper",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "CC BY 4.0. Original Basix summary only; source timings and figures are not reproduced or relabeled as Basix measurements.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S114"
+    },
+    {
+      "id": "S115",
+      "title": "Microsoft clustered geometry and PTLAS preview release",
+      "url": "https://devblogs.microsoft.com/directx/clas-ptlas-preview/",
+      "notes": "Full release article read 28 October. Agility 1.722.0-preview, DXC 1.10.2605.37-preview, Developer Mode, experimental enablement and capability query. CLAS dependency invalidation and ordered build barriers are explicit. Its comparison table has a pending correction for an unnecessary conventional build flag; do not use that table as a speedup forecast.",
+      "kind": "official documentation",
+      "published_on": "2026-10-28",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S115"
+    },
+    {
+      "id": "S116",
+      "title": "NVIDIA whitepaper license and image exceptions",
+      "url": "https://github.com/NVIDIA-RTX/Whitepapers/blob/20463fd355c817a50381343d9d12b7ac811d2e39/dx_clusters_and_ptlas/LICENSE",
+      "notes": "Folder-specific CC BY 4.0 with separately copyrighted Gears of War and CONTROL images. Root LICENSE delegates to folder terms; paper access does not grant an MIT code or SDK license.",
+      "kind": "license",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Link only; no third-party media redistributed.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S116"
+    },
+    {
+      "id": "S117",
+      "title": "Microsoft Agility SDK 1.620 retail and 1.722 preview overview",
+      "url": "https://devblogs.microsoft.com/directx/agilitysdk-1-620-retail-and-1-722-preview/",
+      "notes": "Complete release overview and feature-support appendix read. Separates retail SDK/API availability from per-feature driver support; SM6.10 remains preview with a December retail target. DXCGC graph runtime interfaces do not make SM6.10 Linear Algebra retail.",
+      "kind": "official documentation",
+      "published_on": "2026-10-28",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S117"
     }
   ],
   "findings": [
@@ -2072,7 +2263,7 @@
         "Q5"
       ],
       "topic": "rendering",
-      "claim": "DXR1.2 is retail and LinAlg is preview. DXR2 detail spec says preview while index/SDK evidence conflicts; actual consumable SDK/driver support remains unverified. UE6 is a future target.",
+      "claim": "DXR1.2 is retail; LinAlg and the 28 October clustered geometry/PTLAS release are preview paths. Basix remains Vulkan first; the announced DX12 path has not been executed locally. UE6 remains a future target.",
       "evidence_type": "reported",
       "confidence": "high",
       "context": "Public source review as of 2026-10-28",
@@ -2114,6 +2305,12 @@
           "locator": "Linked document and source notes",
           "relation": "supports",
           "note": "Supports the scoped claim, not a Basix runtime result."
+        },
+        {
+          "source_id": "S115",
+          "locator": "Availability and prerequisites",
+          "relation": "updates",
+          "note": "New preview release supersedes earlier index/spec availability conflict."
         }
       ],
       "presentation_path": "index.html",
@@ -2908,6 +3105,200 @@
       ],
       "presentation_path": "index.html",
       "presentation_anchor": "summary"
+    },
+    {
+      "id": "F24",
+      "title": "Arithmetic enclosure and hardware traversal policy need separate acceptance",
+      "question_ids": [
+        "Q2"
+      ],
+      "topic": "rendering",
+      "claim": "Uploaded-FP32 representation error can be enclosed under an explicit real model; forward/object/inverse allowances remain conditional policies with finite range, conditioning and intermediate arithmetic assumptions.",
+      "evidence_type": "measured scoped correctness and conditional policy",
+      "confidence": "high within stated scope",
+      "context": "Original MIT opt-in transform uncertainty work; default domain 32/128; selected 96-case/six-control gate, CPU 78 checks and separate renderer/control suites pass.",
+      "strengths": "Explicit budget components, upward FP32 outputs, input-domain refusals and separate arithmetic versus hardware evidence.",
+      "limitations": "No universal Vulkan intersector bound; chosen CPU inverse is not the hardware inverse. Normal intermediates, nearby-feature separation, other devices and performance remain unproved.",
+      "implications": "Keep transform rays opt-in; require independent arithmetic, GPU range/visibility and unchanged image acceptance before scoped completion. Next M3 focus remains DLSS guides/dynamic SR.",
+      "tags": [
+        "Vulkan",
+        "rounding error",
+        "transform uncertainty",
+        "ray domain",
+        "conditional policy"
+      ],
+      "evidence": [
+        {
+          "source_id": "S107",
+          "locator": "Model, primary arithmetic reference or traversal specification",
+          "relation": "supports",
+          "note": "Arithmetic guarantees and hardware observations remain distinct."
+        },
+        {
+          "source_id": "S108",
+          "locator": "Model, primary arithmetic reference or traversal specification",
+          "relation": "supports",
+          "note": "Arithmetic guarantees and hardware observations remain distinct."
+        },
+        {
+          "source_id": "S109",
+          "locator": "Model, primary arithmetic reference or traversal specification",
+          "relation": "supports",
+          "note": "Arithmetic guarantees and hardware observations remain distinct."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
+    },
+    {
+      "id": "F25",
+      "title": "Depth and motion guides need independent projection semantics",
+      "question_ids": [
+        "Q2"
+      ],
+      "topic": "rendering",
+      "claim": "Pixel axes, jitter, current-to-previous sign/units, previous rigid surface points and clipped depth must be checked independently of SDK tags and finite output.",
+      "evidence_type": "measured scoped correctness",
+      "confidence": "high within stated scope",
+      "context": "Original MIT authored-scene renderer/guide adapter; optional pinned SDK has separate terms.",
+      "strengths": "Independent scene/projection/raw-buffer checks; explicit guide convention, lifecycle and no-runtime fallback boundaries.",
+      "limitations": "Bounded authored scene and one GPU; no temporal/detail quality, PT denoising, RR/FG, cross-device or performance acceptance.",
+      "implications": "Preserve guide/lifecycle gates and define independent temporal/detail sequence criteria. Keep non-DLSS M3 pending.",
+      "tags": [
+        "DLSS",
+        "motion vectors",
+        "depth",
+        "reprojection",
+        "Vulkan",
+        "fallback"
+      ],
+      "evidence": [
+        {
+          "source_id": "S110",
+          "locator": "Selected authored-scene evidence or pinned SDK programming contract",
+          "relation": "supports",
+          "note": "Numerical correctness, API lifecycle and reconstruction quality are distinct."
+        },
+        {
+          "source_id": "S112",
+          "locator": "Selected authored-scene evidence or pinned SDK programming contract",
+          "relation": "supports",
+          "note": "Numerical correctness, API lifecycle and reconstruction quality are distinct."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
+    },
+    {
+      "id": "F26",
+      "title": "Actual SR lifecycle is distinct from temporal PT reconstruction quality",
+      "question_ids": [
+        "Q2"
+      ],
+      "topic": "rendering",
+      "claim": "Same-device GPU renderer input, native images, resets/resize/toggles and optional fallback establish integration behavior; output liveness does not establish denoising or temporal/detail quality.",
+      "evidence_type": "measured scoped correctness",
+      "confidence": "high within stated scope",
+      "context": "Original MIT authored-scene renderer/guide adapter; optional pinned SDK has separate terms.",
+      "strengths": "Independent scene/projection/raw-buffer checks; explicit guide convention, lifecycle and no-runtime fallback boundaries.",
+      "limitations": "Bounded authored scene and one GPU; no temporal/detail quality, PT denoising, RR/FG, cross-device or performance acceptance.",
+      "implications": "Preserve guide/lifecycle gates and define independent temporal/detail sequence criteria. Keep non-DLSS M3 pending.",
+      "tags": [
+        "DLSS",
+        "motion vectors",
+        "depth",
+        "reprojection",
+        "Vulkan",
+        "fallback"
+      ],
+      "evidence": [
+        {
+          "source_id": "S111",
+          "locator": "Selected authored-scene evidence or pinned SDK programming contract",
+          "relation": "supports",
+          "note": "Numerical correctness, API lifecycle and reconstruction quality are distinct."
+        },
+        {
+          "source_id": "S112",
+          "locator": "Selected authored-scene evidence or pinned SDK programming contract",
+          "relation": "supports",
+          "note": "Numerical correctness, API lifecycle and reconstruction quality are distinct."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
+    },
+    {
+      "id": "F27",
+      "title": "CLAS templates and PTLAS target separate update costs",
+      "question_ids": [
+        "Q10"
+      ],
+      "topic": "rendering",
+      "claim": "Reusable topology reduces local geometry-build work; sparse partition updates reduce scene-wide instance work. Their lifetime and synchronization dependencies still require explicit backend integration.",
+      "evidence_type": "primary-source research and Basix design inference",
+      "confidence": "high for documented contracts; unmeasured for Basix benefit",
+      "context": "Vulkan-first NoGraphicsAPI foundation with native RT/SDK adapters.",
+      "strengths": "Complete source read, preview announcement corroboration and explicit adoption gates.",
+      "limitations": "No advanced AS execution, new GPU profile or image-quality experiment in this update.",
+      "implications": "Keep optional optimizations deferred; proceed with the pending DLSS temporal/detail-quality definition.",
+      "tags": [
+        "whitepapers",
+        "CLAS",
+        "PTLAS",
+        "path tracing",
+        "Vulkan",
+        "DLSS"
+      ],
+      "evidence": [
+        {
+          "source_id": "S113",
+          "locator": "Named sections in complete English paper / preview release",
+          "relation": "supports",
+          "note": "Source guidance and local implementation are distinct."
+        },
+        {
+          "source_id": "S115",
+          "locator": "Named sections in complete English paper / preview release",
+          "relation": "supports",
+          "note": "Source guidance and local implementation are distinct."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
+    },
+    {
+      "id": "F28",
+      "title": "Performance recommendations require final-image acceptance",
+      "question_ids": [
+        "Q10"
+      ],
+      "topic": "rendering",
+      "claim": "Per-signal budgets, compact hit data and selective AS updates are candidates for measured experiments. Current DLSS integration acceptance does not establish temporal image quality or PT denoising.",
+      "evidence_type": "primary-source research and Basix design inference",
+      "confidence": "high for documented contracts; unmeasured for Basix benefit",
+      "context": "Vulkan-first NoGraphicsAPI foundation with native RT/SDK adapters.",
+      "strengths": "Complete source read, preview announcement corroboration and explicit adoption gates.",
+      "limitations": "No advanced AS execution, new GPU profile or image-quality experiment in this update.",
+      "implications": "Keep optional optimizations deferred; proceed with the pending DLSS temporal/detail-quality definition.",
+      "tags": [
+        "whitepapers",
+        "CLAS",
+        "PTLAS",
+        "path tracing",
+        "Vulkan",
+        "DLSS"
+      ],
+      "evidence": [
+        {
+          "source_id": "S114",
+          "locator": "Named sections in complete English paper / preview release",
+          "relation": "supports",
+          "note": "Source guidance and local implementation are distinct."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
     }
   ],
   "actions": [
@@ -3041,7 +3432,18 @@
         "S103",
         "S104",
         "S105",
-        "S106"
+        "S106",
+        "S107",
+        "S108",
+        "S109",
+        "S110",
+        "S111",
+        "S112",
+        "S113",
+        "S114",
+        "S115",
+        "S116",
+        "S117"
       ],
       "outcome": "Primary-source architecture and license gates resolved; runtime tests remain pending."
     },
@@ -3145,6 +3547,20 @@
         "S85"
       ],
       "outcome": "Prioritized optional native adapters, portable replacements and explicit feature/property/oracle/performance gates; provisional AMDX enqueue deferred."
+    },
+    {
+      "date": "2026-10-28",
+      "phase": "targeted update",
+      "engine": "Pinned NVIDIA repository and Microsoft release articles",
+      "query": "NVIDIA Whitepapers cluster templates PTLAS performance reconstruction Agility 1.620 1.722 SM6.10",
+      "source_ids": [
+        "S113",
+        "S114",
+        "S115",
+        "S116",
+        "S117"
+      ],
+      "outcome": "Read both English papers, licenses and Microsoft overview/support matrix; corrected preview maturity while preserving SM6.10 preview status; added proposed gates without implementation promotion."
     }
   ],
   "scope_changes": [
@@ -3159,7 +3575,10 @@
     "Added original visible-GGX sampled-state proposal, factored disk-rim arithmetic and independent GPU probability/null/energy acceptance. Legacy NDF failure and CPU default are preserved; no advanced Vulkan extension or performance claim is promoted.",
     "Added original opt-in triangle error-box spawning, camera-relative fixture conversion and scoped layered-triangle/connection acceptance. Actual uploaded gaps, failed controls and failure-path corrections are retained; empirical traversal policy is not promoted to a universal Vulkan bound.",
     "Added hardware edge/vertex observations, a fixed actual TLAS transform catalog and an independent Decimal input/geometry oracle. Catalog acceptance remains distinct from general instance management, arbitrary transform bounds and temporal rendering.",
-    "Added bounded two-object shared-BLAS metadata, authored orientation independent of vertex order, three-epoch identity/remapping checks and synchronous in-place TLAS update acceptance. Root ABI extends from176to192bytes; earlier receipts stay scoped to their original versions. No general hardware-error, asynchronous update or performance claim is promoted."
+    "Added bounded two-object shared-BLAS metadata, authored orientation independent of vertex order, three-epoch identity/remapping checks and synchronous in-place TLAS update acceptance. Root ABI extends from176to192bytes; earlier receipts stay scoped to their original versions. No general hardware-error, asynchronous update or performance claim is promoted.",
+    "Added transform-conditioned arithmetic/range policy with explicit model/hardware limits. Selected bounded acceptance completes its child only; general parent remains partial and defaults are unchanged.",
+    "Added DLSS-only authored-scene guide and renderer-lifecycle work with selected bounded passing gates. No SDK quality or non-DLSS M3 completion inferred.",
+    "Evaluated the user-supplied NVIDIA whitepaper repository; no non-DLSS M3 implementation or driver installation authorized by this research addition."
   ],
   "presentation_path": "index.html",
   "evidence_page": "index.html#sources",
