@@ -475,7 +475,7 @@
         "M2-reference",
         "M1b"
       ],
-      "next_test": "Implement general multi-instance metadata/updates, then imported geometry and temporal guide conventions; retain the original NDF failing control and explicit bounded-ray adoption decision.",
+      "next_test": "Broaden transform-conditioned uncertainty/ranges beyond the completed shared-BLAS identity and synchronous-update subgates, then imported geometry/textures and temporal guide conventions; retain the original NDF failing control and explicit bounded-ray adoption decision.",
       "last_verified_on": "2026-10-28",
       "evidence": [
         {
@@ -604,12 +604,12 @@
       "title": "Triangle spawn and connection robustness",
       "status": "partial",
       "parent": "M2-gpu",
-      "scope": "Opt-in triangle spawning, hardware boundary hits and a fixed nonidentity transform catalog have scoped evidence. General instance/error propagation, arbitrary transforms, subnormal behavior and other devices remain unaccepted; legacy offset default retained.",
+      "scope": "Opt-in triangle spawning, hardware boundary hits, fixed nonidentity catalog and bounded shared-BLAS identity/synchronous updates have scoped evidence. General transform-conditioned uncertainty/ranges, subnormal behavior and other devices remain unaccepted; legacy offset default retained.",
       "acceptance": "Separate analytic geometry, shader fault controls and progressive integration gates; exact hardware barycentric boundaries and transformed geometry must pass before default adoption.",
       "prerequisites": [
         "M2-gpu-vndf"
       ],
-      "next_test": "General per-instance metadata and transform-conditioned uncertainty through M2-gpu-instances before a broader adoption decision.",
+      "next_test": "Validate transform-conditioned uncertainty and ranges through the partial M2-gpu-instances parent before broader bounded-ray adoption; preserve fixed and shared-instance receipts.",
       "last_verified_on": "2026-10-28",
       "evidence": [
         {
@@ -689,7 +689,7 @@
       "prerequisites": [
         "M2-gpu-ray-boundaries"
       ],
-      "next_test": "Implement instance-index metadata/remapping and transform-update lifetimes with arbitrary finite matrix validation; then imported scenes and temporal guides.",
+      "next_test": "Retain fixed catalog and four controls alongside completed bounded shared-instance subgates; general transform uncertainty/ranges, asset importing and temporal guides remain separate.",
       "last_verified_on": "2026-10-28",
       "evidence": [
         {
@@ -702,16 +702,62 @@
     {
       "id": "M2-gpu-instances",
       "title": "General instance metadata and transform updates",
-      "status": "pending",
+      "status": "partial",
       "parent": "M2-gpu",
-      "scope": "Stable instance/primitive mapping for multiple objects sharing BLAS data, transform-conditioned ray-spawn uncertainty, validated invertible matrices and safe metadata/AS update lifetimes.",
+      "scope": "Bounded shared-BLAS identity/authored sides and synchronous in-place transform updates pass their two scoped subgates. General transform-conditioned uncertainty/ranges, scalable metadata and asynchronous resource lifetimes remain unaccepted.",
       "acceptance": "Multi-instance shared-BLAS scenes, mirrored authored sides, per-instance primitive/material IDs, transform updates and independent intersection/visibility oracles pass under validation; reject singular/nonfinite matrices and stale metadata.",
       "prerequisites": [
         "M2-gpu-instance-catalog"
       ],
-      "next_test": "Define and implement instance metadata keyed by actual TLAS instance identity; verify two objects sharing one BLAS before importer/guide integration.",
-      "last_verified_on": null,
-      "evidence": []
+      "next_test": "Design and validate transform-conditioned uncertainty and range acceptance before imported assets/textures and temporal DLSS depth/motion guides; retain opt-in bounded rays and prior controls.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/shared-instance-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Ten-run selected bounded acceptance: 48 positive probes, six rendered phases at16x16/256SPP and128x64/16SPP, eight fault/no-op rejection controls, independent actual transform/bounds checks; CPU instances68/reference85 checks pass."
+        }
+      ]
+    },
+    {
+      "id": "M2-gpu-instances-shared",
+      "title": "Bounded shared-BLAS identity and authored sides",
+      "status": "completed",
+      "parent": "M2-gpu-instances",
+      "scope": "Two objects share one unchanged BLAS; dense custom slots, stable instance/primitive IDs, material overrides and authored sides remain correct across three epochs and reordered slots. Render-only separation removes coplanar fixture overlap; actual matrices/bounds are independently checked.",
+      "acceptance": "Independent 24-case numeric probe catalog and three rendered CPU/GPU epochs pass at unchanged image limits; integer IDs survive slot reorder, reflected authored sides and light sampling stay aligned, targeted metadata/orientation/distance and actual no-op controls reject.",
+      "prerequisites": [
+        "M2-gpu-instance-catalog"
+      ],
+      "next_test": "Preserve 48 positive probes, six rendered epochs and metadata/orientation/distance/no-op controls while broadening transform-conditioned uncertainty/ranges.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/shared-instance-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Ten-run selected bounded acceptance: 48 positive probes, six rendered phases at16x16/256SPP and128x64/16SPP, eight fault/no-op rejection controls, independent actual transform/bounds checks; CPU instances68/reference85 checks pass."
+        }
+      ]
+    },
+    {
+      "id": "M2-gpu-instances-updates",
+      "title": "Synchronous in-place TLAS updates and before-write refusals",
+      "status": "completed",
+      "parent": "M2-gpu-instances",
+      "scope": "Fixed two-instance TLAS on one owned queue, two in-place updates per fixture and held-submission refusal-before-write checks. No asynchronous/multiqueue or device-loss acceptance.",
+      "acceptance": "Initial ALLOW_UPDATE build and two compatible updates retain BLAS/TLAS identities; update/record/poison reject while held before changing referenced root/table bytes, then proceed after release and timeline completion. Independent moved/restored rendering and skipped-update control pass.",
+      "prerequisites": [
+        "M2-gpu-instances-shared"
+      ],
+      "next_test": "Retain synchronous identity/update and before-write refusal controls; design asynchronous/multiqueue lifetime and device-loss recovery as separate acceptance scopes.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/shared-instance-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Ten-run selected bounded acceptance: 48 positive probes, six rendered phases at16x16/256SPP and128x64/16SPP, eight fault/no-op rejection controls, independent actual transform/bounds checks; CPU instances68/reference85 checks pass."
+        }
+      ]
     }
   ],
   "history": [
@@ -854,6 +900,71 @@
       "evidence": [
         "docs/ray-boundary-results.json",
         "docs/instance-progressive-results.json"
+      ]
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M2-gpu-instances",
+      "from_status": "pending",
+      "to_status": "in_progress",
+      "event": "Implementing shared-BLAS IDs/materials/orientation, explicit metadata epochs and actual in-place TLAS updates; independent numeric and lifecycle acceptance underway.",
+      "evidence": [
+        "include/basix/instances.hpp",
+        "src/progressive_shared_tests.inl"
+      ]
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M2-gpu-instances-shared",
+      "from_status": "pending",
+      "to_status": "in_progress",
+      "event": "Scoped active shared-instance work without claiming final acceptance. The small validation suite passes locally; the larger-preview near-tie discrepancy remains under investigation.",
+      "evidence": [
+        "include/basix/instances.hpp",
+        "src/progressive_shared_tests.inl",
+        "tools/run_shared_instance_validation.py"
+      ]
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M2-gpu-instances-updates",
+      "from_status": "pending",
+      "to_status": "in_progress",
+      "event": "Scoped active shared-instance work without claiming final acceptance. The small validation suite passes locally; the larger-preview near-tie discrepancy remains under investigation.",
+      "evidence": [
+        "include/basix/instances.hpp",
+        "src/progressive_shared_tests.inl",
+        "tools/run_shared_instance_validation.py"
+      ]
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M2-gpu-instances",
+      "from_status": "in_progress",
+      "to_status": "partial",
+      "event": "Completed bounded shared-instance identity and synchronous-update acceptance; general transform uncertainty/ranges and asynchronous lifetime obligations remain open.",
+      "evidence": [
+        "docs/shared-instance-results.json"
+      ]
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M2-gpu-instances-shared",
+      "from_status": "in_progress",
+      "to_status": "completed",
+      "event": "Completed the explicitly bounded subgate after the final ten-run harness and renderer regressions passed. Retained initial emitter-sampling mismatch and coplanar cross-instance preview failure lessons; strict oracles and image limits unchanged.",
+      "evidence": [
+        "docs/shared-instance-results.json"
+      ]
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M2-gpu-instances-updates",
+      "from_status": "in_progress",
+      "to_status": "completed",
+      "event": "Completed the explicitly bounded subgate after the final ten-run harness and renderer regressions passed. Retained initial emitter-sampling mismatch and coplanar cross-instance preview failure lessons; strict oracles and image limits unchanged.",
+      "evidence": [
+        "docs/shared-instance-results.json"
       ]
     }
   ]

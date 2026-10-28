@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: MIT
 // Original bounded triangle-only GPU transport experiment. Ordinary Vulkan ray
 // queries run on the NoGraphicsAPI-owned device through an explicit native scope.
-// One identity TLAS instance: committed primitive indices address triangles[].
+// Optional instance metadata maps hardware custom indices to world triangle spans.
 #include "basix_material_vndf.slang"
 #include "basix_ray_spawn.slang"
 
 struct Triangle {
  float3 a;uint material;float3 b;uint id;float3 c;float area;float3 normal;float pad;
 };
+struct Instance {uint firstTriangle;uint triangleCount;uint stableId;uint epoch;};
 struct Root {
  BasixMaterial* materials;
  Triangle* triangles;
@@ -19,6 +20,7 @@ struct Root {
  uint sampleCount;uint maxDepth;uint rrStart;uint flags;
  uint64_t seed;float totalLightArea;uint mode;
  float4 cameraOrigin;float4 cameraForward;float4 cameraRight;float4 cameraUp;float4 environment;
+ Instance* instances;uint instanceCount;uint sceneEpoch;
 };
 struct Push {Root* data;};
 // Storage layout is the host's C ABI contract; compare reflected SPIR-V offsets
@@ -26,7 +28,7 @@ struct Push {Root* data;};
 [[vk::push_constant]] ConstantBuffer<Push> push;
 [[vk::binding(0,0)]] RaytracingAccelerationStructure scene;
 
-static const uint PT_NEE=1,PT_MIS=2,PT_RR=4,PT_VISIBLE=8,PT_BOUNDED_RAYS=16;
+static const uint PT_NEE=1,PT_MIS=2,PT_RR=4,PT_VISIBLE=8,PT_BOUNDED_RAYS=16,PT_INSTANCED=32;
 static const float PT_RAY_MAX=1e30f;
 
 
@@ -71,16 +73,24 @@ float3 ptOffset(float3 p,float3 normal,float3 direction){return p+normal*((dot(n
 BasixRayPoint ptTrianglePoint(Triangle triangle,float2 bary){
  float extent=ptMax(abs(triangle.b-triangle.a)+abs(triangle.c-triangle.a));
  float allowance=(7.f*0.000000059604644775390625f)/(1-7.f*0.000000059604644775390625f)*extent;
- return basixTrianglePoint(triangle.a,triangle.b,triangle.c,bary.x,bary.y,float3(allowance));
+ BasixRayPoint point=basixTrianglePoint(triangle.a,triangle.b,triangle.c,bary.x,bary.y,float3(allowance));if(triangle.pad<0)point.normal=-point.normal;return point;
 }
-struct PtHit {float t;float2 bary;float3 position;float3 pointError;float3 normal;float3 outward;uint index;uint material;uint front;uint found;uint error;};
+struct PtHit {float t;float2 bary;float3 position;float3 pointError;float3 normal;float3 outward;uint index;uint material;uint front;uint found;uint error;uint instanceId;uint primitive;};
 PtHit ptTrace(Root* root,float3 origin,float3 direction,float maximum){
  PtHit hit=(PtHit)0;
  if(!(maximum>0)||!isfinite(maximum)||!all(isfinite(origin))||!all(isfinite(direction))){hit.error=1;return hit;}
  RayDesc ray;ray.Origin=origin;ray.Direction=direction;ray.TMin=0;ray.TMax=maximum;
  RayQuery<RAY_FLAG_FORCE_OPAQUE> query;query.TraceRayInline(scene,0,255,ray);while(query.Proceed()){}
  if(query.CommittedStatus()!=COMMITTED_TRIANGLE_HIT)return hit;
- hit.index=query.CommittedPrimitiveIndex();hit.t=query.CommittedRayT();
+ hit.primitive=query.CommittedPrimitiveIndex();hit.index=hit.primitive;hit.t=query.CommittedRayT();
+ if((root.flags&PT_INSTANCED)!=0){
+  uint slot=query.CommittedRayInstanceCustomIndex();
+  if(root.instances==nullptr||slot>=root.instanceCount||root.sceneEpoch==0){hit.error=1;return hit;}
+  Instance instance=root.instances[slot];
+  if(instance.epoch!=root.sceneEpoch||instance.triangleCount==0||instance.firstTriangle>root.triangleCount||instance.triangleCount>root.triangleCount-instance.firstTriangle||hit.primitive>=instance.triangleCount){hit.error=1;return hit;}
+  hit.index=instance.firstTriangle+hit.primitive;hit.instanceId=instance.stableId;
+ }
+
  if(hit.index>=root.triangleCount||!isfinite(hit.t)||hit.t<0){hit.error=1;return hit;}
  hit.bary=query.CommittedTriangleBarycentrics();
  Triangle triangle=root.triangles[hit.index];
@@ -182,6 +192,15 @@ float3 ptCamera(Root* root,uint2 pixel,float cameraU,float cameraV){
 void computeMain(uint3 id:SV_DispatchThreadID){
  Root* root=push.data;if(root==nullptr||id.x>=root.width||id.y>=root.height)return;
  uint64_t pixel=uint64_t(id.y)*uint64_t(root.width)+uint64_t(id.x);
+ if(root.mode==6){
+  if(id.x!=0||id.y!=0)return;
+  PtHit hit=ptTrace(root,root.cameraOrigin.xyz,root.cameraForward.xyz,PT_RAY_MAX);
+  root.debugHits[0]=float4(root.cameraRight.w==1?hit.t*1.1f:hit.t,float(hit.index),float(hit.material),float(hit.error));
+  uint stablePrimitive=hit.error==0&&hit.found!=0&&hit.index<root.triangleCount?root.triangles[hit.index].id:0;root.accumulation[1]=float4(asfloat(stablePrimitive),0,0,1);
+  root.debugHits[1]=float4(asfloat(hit.instanceId),asfloat(hit.primitive),float(hit.found),float(hit.front));
+  root.debugHits[2]=float4(hit.outward,1);root.debugHits[3]=float4(hit.position,1);
+  root.accumulation[0]=float4(ptSpawn(root,hit,root.cameraRight.xyz),float(hit.front));return;
+ }
  if(root.mode==4||root.mode==5){
   if(id.x!=0||id.y!=0)return;
   PtHit first=ptTrace(root,root.cameraOrigin.xyz,root.cameraForward.xyz,PT_RAY_MAX);
@@ -206,11 +225,12 @@ void computeMain(uint3 id:SV_DispatchThreadID){
   root.accumulation[pixel]=float4(start,ptMax(first.pointError));return;
  }
  if(root.mode==1){
-  PtHit hit=ptTrace(root,root.cameraOrigin.xyz,ptCamera(root,id.xy,.5f,.5f),PT_RAY_MAX);
+  float3 primaryDirection=ptCamera(root,id.xy,.5f,.5f);root.accumulation[pixel]=float4(primaryDirection,1);
+  PtHit hit=ptTrace(root,root.cameraOrigin.xyz,primaryDirection,PT_RAY_MAX);
   root.debugHits[pixel]=hit.error!=0?float4(ptNaN()):(hit.found!=0?float4(hit.t,float(hit.index),float(hit.material),float(hit.front)):float4(-1,-1,-1,0));return;
  }
  if(root.mode!=0||root.maxDepth<1||root.maxDepth>64||root.rrStart<1||root.rrStart>64||
-    (root.flags&~31u)!=0||root.sampleCount==0||root.sampleCount>16777215u||root.sampleStart>16777215u-root.sampleCount||
+    (root.flags&~63u)!=0||root.sampleCount==0||root.sampleCount>16777215u||root.sampleStart>16777215u-root.sampleCount||
     !ptFiniteNonnegative(root.environment.xyz)){
   root.accumulation[pixel]=float4(ptNaN());return;
  }

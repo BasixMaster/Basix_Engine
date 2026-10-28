@@ -11,7 +11,8 @@ namespace basix::reference {
 using render::Vec3;
 struct Ray { Vec3 origin{}, direction{}; double t_min=0, t_max=std::numeric_limits<double>::infinity(); };
 struct Sphere { std::uint32_t id{},material_id{}; Vec3 center{}; double radius{}; };
-struct Triangle { std::uint32_t id{},material_id{}; Vec3 a{},b{},c{}; };
+// Authored side can differ from transformed vertex winding; sampling order stays stable.
+struct Triangle { std::uint32_t id{},material_id{}; Vec3 a{},b{},c{}; bool reverse_orientation=false; };
 struct Scene { std::vector<render::Material> materials; std::vector<Sphere> spheres; std::vector<Triangle> triangles; Vec3 environment{}; };
 struct Hit { double t{}; Vec3 position{},normal{},geometric_normal{}; std::uint32_t primitive_id{},material_id{}; bool front_face{}; };
 struct LightSample { Vec3 position{},normal{},emission{},wi{}; double distance{},pdf_area{},pdf_solid_angle{}; std::uint32_t primitive_id{}; bool valid{}; };

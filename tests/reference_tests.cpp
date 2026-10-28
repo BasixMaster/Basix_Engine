@@ -77,6 +77,18 @@ void lights(){
     check(high_error<low_error*.2,"greater samples reduce error across independent seeds");
     check(near(grand/24,exact,.008),"multi-seed direct estimate converges to irradiance reference");
 }
+void authored_orientation(){
+ Scene s;s.materials={{1,{0,0,0},.5,0,{3,2,1},MaterialModel::lambert}};s.triangles={{1,1,{-1,-1,0},{1,-1,0},{-1,1,0}}};
+ check(!s.triangles[0].reverse_orientation,"default triangle orientation preserves winding");World original(s);s.triangles[0].reverse_orientation=true;World reversed(s);
+ const Ray above{{-.25,-.25,2},{0,0,-1}},below{{-.25,-.25,-2},{0,0,1}};const auto a=original.intersect(above),b=reversed.intersect(below),c=reversed.intersect(above);
+ check(a&&b&&c&&a->front_face&&b->front_face&&!c->front_face&&near(a->position,b->position)&&near(a->t,b->t),"authored orientation changes side, not geometry or distance");
+ check(a&&b&&near(a->geometric_normal,{0,0,1})&&near(b->geometric_normal,{0,0,-1}),"authored geometric normals obey explicit side convention");
+ const auto la=original.sample_light({0,0,2},0,.36,.25),lb=reversed.sample_light({0,0,-2},0,.36,.25);
+ check(la.valid&&lb.valid&&near(la.position,lb.position)&&near(la.pdf_solid_angle,lb.pdf_solid_angle)&&near(la.normal,-lb.normal),"authored-side changes preserve paired light sample locations and density");
+ check(!reversed.sample_light({0,0,2},0,.36,.25).valid,"flipped one-sided emitter rejects its authored back side");
+ IntegratorSettings settings{1,3,false,false,false};check(near(radiance(original,above,settings,1),{3,2,1})&&near(radiance(reversed,above,settings,1),{}),"one-sided emission follows authored orientation");
+}
+
 void transport(){
     World w(area_scene());const Vec3 expected=analytic_direct();const Ray ray{{0,0,.5},{0,0,-1}};
     for(unsigned mode=0;mode<4;++mode){
@@ -137,4 +149,4 @@ void progressive_and_validation(){
     }
 }
 }
-int main(){geometry();lights();transport();progressive_and_validation();std::cout<<"CPU reference PT: "<<checks<<" checks, "<<failures<<" failures\n";return failures?1:0;}
+int main(){geometry();lights();authored_orientation();transport();progressive_and_validation();std::cout<<"CPU reference PT: "<<checks<<" checks, "<<failures<<" failures\n";return failures?1:0;}

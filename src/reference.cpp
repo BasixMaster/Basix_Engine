@@ -47,6 +47,7 @@ Vec3 offset(Vec3 p,Vec3 n,Vec3 direction) {
     if(delta.z)p.z=std::nextafter(p.z,delta.z>0?inf:-inf);
     return p;
 }
+Vec3 triangle_normal(const Triangle& t) { const auto n=normalize(cross(t.b-t.a,t.c-t.a));return t.reverse_orientation?-n:n; }
 double triangle_area(const Triangle& t) { return .5*length(cross(t.b-t.a,t.c-t.a)); }
 }
 
@@ -85,7 +86,7 @@ double power_heuristic(double a,double b) {
 }
 World::World(Scene scene):scene_(std::move(scene)) {
     std::string reason;if(!validate(scene_,&reason))throw std::invalid_argument(reason);
-    for(const auto& t:scene_.triangles)if(max_component(material(t.material_id).emission)>0)lights_.push_back({t,normalize(cross(t.b-t.a,t.c-t.a)),triangle_area(t)});
+    for(const auto& t:scene_.triangles)if(max_component(material(t.material_id).emission)>0)lights_.push_back({t,triangle_normal(t),triangle_area(t)});
     std::sort(lights_.begin(),lights_.end(),[](const Light& a,const Light& b){return a.triangle.id<b.triangle.id;});
     for(const auto& l:lights_)total_light_area_+=l.area;
 }
@@ -115,7 +116,7 @@ std::optional<Hit> World::intersect(const Ray& ray)const {
         if(std::abs(determinant)<=16*epsilon*length(e1)*length(e2)*length(ray.direction))continue;
         const Vec3 s=ray.origin-t.a;const double u=dot(s,p)/determinant;if(u<0||u>1)continue;
         const Vec3 q=cross(s,e1);const double v=dot(ray.direction,q)/determinant;if(v<0||u+v>1)continue;
-        commit(dot(e2,q)/determinant,normalize(cross(e1,e2)),t.id,t.material_id);
+        commit(dot(e2,q)/determinant,triangle_normal(t),t.id,t.material_id);
     }
     return closest;
 }

@@ -12,7 +12,8 @@
     "Scoped progressive Vulkan PT passes11 cases; GPU sampling remains partial with18 retained grazing failures and maximum paired transport-weight discrepancy15.688%.",
     "Distinct visible-GGX sampled-state proposal passes canonical sampling and fixed-scene transport gates; legacy NDF grazing failures remain recorded and broader M2 stays partial.",
     "Opt-in triangle error-box ray spawning passes its scoped canonical fixture gate; legacy offsets remain the default and broader M2 is partial.",
-    "Hardware edge/vertex and fixed TLAS-instance catalog passes its selected boundary gate; bounded rays remain opt-in and broader M2 stays partial."
+    "Hardware edge/vertex and fixed TLAS-instance catalog passes its selected boundary gate; bounded rays remain opt-in and broader M2 stays partial.",
+    "Two-object shared-BLAS identity and synchronized updates pass the selected bounded gate; empirical uncertainty and broader renderer integration remain open."
   ],
   "questions": [
     {
@@ -1881,6 +1882,54 @@
       "topic": "rendering",
       "presentation_path": "index.html",
       "presentation_anchor": "S103"
+    },
+    {
+      "id": "S104",
+      "title": "Basix shared-BLAS identity and synchronized update acceptance",
+      "url": "https://github.com/BasixMaster/Basix_Engine/blob/main/docs/shared-instance-results.json",
+      "notes": "The selected canonical receipt passes the bounded two-object shared-BLAS experiment. Independent probe catalogs/readback checks, rendered CPU comparisons, metadata epochs and held-submission refusals have separate acceptance. Wrong-slot, epoch, range, orientation, omitted-dispatch, skipped-update, reported-distance and compiled no-op controls expose named failures.",
+      "kind": "local measured scoped correctness",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Original Basix code, fixtures and selected numerical receipts MIT; private raw logs and telemetry excluded.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S104"
+    },
+    {
+      "id": "S105",
+      "title": "Slang RayQuery custom-instance and primitive queries",
+      "url": "https://shader-slang.org/stdlib-reference/types/rayquery-03/index.html",
+      "notes": "The RayQuery reference exposes custom-instance-index and primitive-index queries separately from instance-order queries. Basix calls CommittedRayInstanceCustomIndex to select a dense metadata record, then preserves the application stable ID as a separate value. Method availability and the actual pinned compiler remain part of implementation acceptance.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Official standard-library reference linked and paraphrased; no implementation copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S105"
+    },
+    {
+      "id": "S106",
+      "title": "Vulkan acceleration-structure build and update contract",
+      "url": "https://docs.vulkan.org/refpages/latest/refpages/source/vkCmdBuildAccelerationStructuresKHR.html",
+      "notes": "Update requires a source built with ALLOW_UPDATE and compatible geometry/count/type/flags. Scratch, inputs and acceleration-structure accesses require synchronization; input/scratch memory can be retired after completion. Basix exercises a fixed-count in-place TLAS update on one owned queue and retains prior buffers until that submission completes. This does not establish asynchronous or multiqueue recovery.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Official specification linked and paraphrased; no implementation copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S106"
     }
   ],
   "findings": [
@@ -2773,10 +2822,10 @@
       "claim": "An object-space BLAS with an actual TLAS matrix is checked against separately baked world triangles. Decimal input-catalog and geometric readback checks distinguish meaningful hardware edge/vertex and transform coverage from labels or matching formulas.",
       "evidence_type": "measured scoped correctness",
       "confidence": "high",
-      "context": "2026-10-28; original MIT fixtures/checker; six fixed transform families on one Windows RTX4090/NVIDIA617.42 configuration.",
+      "context": "2026-10-28; original MIT fixtures/checker; six fixed transform families on one Windows RTX4090/NVIDIA617.42 configuration. Earlier single-instance catalog; later bounded shared-BLAS identity/update evidence is F23.",
       "strengths": "Independent matrix/object/target catalogs, Decimal geometry, exact hardware boundary counts, shared-edge membership, numeric spawn/blocker checks and actual fault controls.",
       "limitations": "Single static TLAS instance and a fixed transform catalog. The traversal allowance remains empirical; general instance remapping, arbitrary transform uncertainty, motion, subnormal behavior, cross-device quality and performance remain open.",
-      "implications": "Retain --bounded-rays as opt-in; implement general instance metadata/error propagation before broader adoption, then validate imported scenes and temporal guides separately.",
+      "implications": "Retain the original catalog/boundary receipt. F23 adds bounded shared-instance lookup and synchronized update evidence; general transform uncertainty, async lifetime and temporal integration remain open.",
       "tags": [
         "Vulkan",
         "TLAS",
@@ -2813,22 +2862,69 @@
       ],
       "presentation_path": "index.html",
       "presentation_anchor": "summary"
+    },
+    {
+      "id": "F23",
+      "title": "Per-instance identity, authored sides and refusal order need separate acceptance",
+      "question_ids": [
+        "Q2"
+      ],
+      "topic": "rendering",
+      "claim": "Dense custom slots select epoch-checked triangle spans while stable IDs remain independent of slot order. Per-instance authored orientation preserves shared vertex order. Numeric ray/point checks and held-submission refusals test identity and lifetime separately.",
+      "evidence_type": "measured scoped correctness",
+      "confidence": "high",
+      "context": "2026-10-28; original MIT shared-BLAS experiment; two objects, three epochs and one owned queue on the named RTX4090/NVIDIA617.42 configuration.",
+      "strengths": "Independent fixed probe catalogs, integer IDs above float32 exact range, stable primitive/material checks, ray-distance equations, actual in-place TLAS updates and before-write refusal controls.",
+      "limitations": "Bounded two-instance scenes with world metadata baked per instance. Matrix input checks do not prove hardware uncertainty; async/multiqueue/device-loss recovery, broad scene integration, other devices and performance remain open.",
+      "implications": "Keep bounded rays opt-in and general M2 partial; broaden transform uncertainty/ranges before importer and temporal-guide integration. Preserve earlier failed controls and physical/sampling conventions.",
+      "tags": [
+        "Vulkan",
+        "shared BLAS",
+        "instance metadata",
+        "authored orientation",
+        "TLAS update",
+        "lifetime",
+        "independent oracle"
+      ],
+      "evidence": [
+        {
+          "source_id": "S104",
+          "locator": "Selected identity/update receipt or native query/update contract",
+          "relation": "supports",
+          "note": "API requirements, bounded execution and broader adoption are separate claims."
+        },
+        {
+          "source_id": "S105",
+          "locator": "Selected identity/update receipt or native query/update contract",
+          "relation": "supports",
+          "note": "API requirements, bounded execution and broader adoption are separate claims."
+        },
+        {
+          "source_id": "S106",
+          "locator": "Selected identity/update receipt or native query/update contract",
+          "relation": "supports",
+          "note": "API requirements, bounded execution and broader adoption are separate claims."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
     }
   ],
   "actions": [
     {
       "id": "A1",
-      "title": "Complete general instance metadata, scene and temporal acceptance",
+      "title": "Extend shared-instance uncertainty and scene integration",
       "priority": "high",
       "finding_ids": [
         "F19",
         "F20",
         "F21",
-        "F22"
+        "F22",
+        "F23"
       ],
-      "rationale": "The fixed boundary and instance catalog extends earlier numerical gates without establishing an arbitrary-transform or multi-instance renderer.",
+      "rationale": "Bounded shared-BLAS identity and synchronized updates extend the static catalog without proving a general uncertainty or asynchronous resource model.",
       "prerequisites": "Choose GPU/driver targets and optional SDK terms.",
-      "success_criterion": "Selected boundary and all-six-ID rendered receipts pass; general instance-to-geometry metadata, transform error propagation, imported/textured scenes and depth/motion/reset behavior then pass separately.",
+      "success_criterion": "Selected shared-instance receipt passes independent IDs/materials, ray-distance and refusal controls; broader transform/range, importer/textures and depth/motion/reset gates then pass separately.",
       "presentation_path": "index.html",
       "presentation_anchor": "roadmap"
     }
@@ -2942,7 +3038,10 @@
         "S100",
         "S101",
         "S102",
-        "S103"
+        "S103",
+        "S104",
+        "S105",
+        "S106"
       ],
       "outcome": "Primary-source architecture and license gates resolved; runtime tests remain pending."
     },
@@ -3059,7 +3158,8 @@
     "Added actual Vulkan progressive transport and11-case scene harness while retaining the18-case grazing failure as a partial implementation gate. CPU53 default preserved; optional24-bit matched stream and checked shaderInt64 requirement added.",
     "Added original visible-GGX sampled-state proposal, factored disk-rim arithmetic and independent GPU probability/null/energy acceptance. Legacy NDF failure and CPU default are preserved; no advanced Vulkan extension or performance claim is promoted.",
     "Added original opt-in triangle error-box spawning, camera-relative fixture conversion and scoped layered-triangle/connection acceptance. Actual uploaded gaps, failed controls and failure-path corrections are retained; empirical traversal policy is not promoted to a universal Vulkan bound.",
-    "Added hardware edge/vertex observations, a fixed actual TLAS transform catalog and an independent Decimal input/geometry oracle. Catalog acceptance remains distinct from general instance management, arbitrary transform bounds and temporal rendering."
+    "Added hardware edge/vertex observations, a fixed actual TLAS transform catalog and an independent Decimal input/geometry oracle. Catalog acceptance remains distinct from general instance management, arbitrary transform bounds and temporal rendering.",
+    "Added bounded two-object shared-BLAS metadata, authored orientation independent of vertex order, three-epoch identity/remapping checks and synchronous in-place TLAS update acceptance. Root ABI extends from176to192bytes; earlier receipts stay scoped to their original versions. No general hardware-error, asynchronous update or performance claim is promoted."
   ],
   "presentation_path": "index.html",
   "evidence_page": "index.html#sources",
