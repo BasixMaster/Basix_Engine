@@ -7,9 +7,13 @@ An MIT engine foundation built around NoGraphicsAPI, with a research roadmap for
 ## Build the offline CPU foundation
 
 ```text
+
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
 cmake --build build --config Release
+
 ctest --test-dir build -C Release --output-on-failure
+
 ```
 
 No external dependency is required for the default C++20 cage, material and CPU reference-renderer targets. The optional GPU experiment requires explicitly prepared NoGraphicsAPI/Vulkan/Slang dependencies; see IMPLEMENTATION.md and [the lock file](dependencies.lock.json).
@@ -26,24 +30,27 @@ See [M1 validation results](docs/validation-results.json): five cases, three pos
 
 Open [docs/index.html](docs/index.html) after cloning/downloading. It works offline with chapter/source search and Light/Dark/System themes.
 
-The 20 chapters and 95 sources cover UE5.8/6, MegaLights, PETAFAB, NoGraphicsAPI, DX12/DXR, Linear Algebra, DLSS, RTXDI/RTXPT, DXR2/Clustered Geometry/PTLAS, tetrahedral cages, DGF/DGFS and other viable ideas. The revised roadmap separates tested code, proposed experiments, preview/draft features and vendor claims.
+The 20 chapters and 103 sources cover UE5.8/6, MegaLights, PETAFAB, NoGraphicsAPI, DX12/DXR, Linear Algebra, DLSS, RTXDI/RTXPT, DXR2/Clustered Geometry/PTLAS, tetrahedral cages, DGF/DGFS and other viable ideas. The revised roadmap separates tested code, proposed experiments, preview/draft features and vendor claims.
 
-Research date: **28 October 2026**. DXR2â€™s rendered spec says preview while other official maturity/package evidence conflicts; a matching public SDK/driver combination has not been established here.
+Research date: **28 October 2026**. DXR2’s rendered spec says preview while other official maturity/package evidence conflicts; a matching public SDK/driver combination has not been established here.
 
 ## Rebuild documentation
 
 Python 3.10+; standard library only:
 
 ```text
+
 python tools/build_docs.py
+
 python tools/check_docs.py
+
 ```
 
 Editable sources are `tools/build_docs.py` and the content modules `tools/research_expansion.py`, `tools/thread_research.py` and `tools/sdk_status.py`. Structured evidence is in [docs/evidence/library.json](docs/evidence/library.json), with a SQLite FTS index alongside it. [Dependency research pins](docs/dependencies.json), [implementation receipt](docs/implementation-results.json), and [documentation verification](docs/verification.json) retain their distinct scopes.
 
 Browser checks cover offline search, anchors, mobile overflow and saved/system themes. Repeat with Node.js/Playwright: `node tools/check_browser.cjs`; set `PLAYWRIGHT_CHANNEL=msedge` to use installed Edge. Screenshots/receipt go into ignored `work/`.
 
-For a registered private local meter, use `python tools/build_docs.py --private-meter`. It uses the owning workspace adapter and this pageâ€™s chat-family binding. Default builds are meter-free. Strip private blocks/feeds through the owning sanitized export before publication. The SVG identity/banner are original Basix artwork.
+For a registered private local meter, use `python tools/build_docs.py --private-meter`. It uses the owning workspace adapter and this page’s chat-family binding. Default builds are meter-free. Strip private blocks/feeds through the owning sanitized export before publication. The SVG identity/banner are original Basix artwork.
 
 Serve locally with `python -m http.server 8000 --directory docs`. GitHub Pages hosting is not configured.
 
@@ -60,3 +67,7 @@ M2 is now partial:70 CPU material checks,79 CPU transport checks and2,048 GPU BR
 The progressive scene gate uses ordinary Vulkan ray queries on the NoGraphicsAPI-owned device. [GPU results](docs/progressive-results.json) and [partial sampling results](docs/sampling-results.json) retain the acceptance limits and original failed criterion. No advanced extension execution is claimed.
 
 Visible-GGX sampled-state transport is now the GPU default, with independent distribution/energy acceptance and actual shader fault controls. CPU rendering keeps the legacy default; select `--sampler vndf` explicitly. [Sampling results](docs/visible-results.json) and [default GPU scene checks](docs/visible-progressive-results.json) define the tested scope. The legacy18-case grazing discrepancy remains recorded separately.
+
+An opt-in `--bounded-rays` candidate now uses triangle error boxes and two-ended shadow connections. [180 ray fixtures and fault controls](docs/ray-spawn-results.json) and [candidate scene tests](docs/ray-progressive-results.json) pass for the stated identity-instance scope. Hardware boundary hits and transformed instances remain pending; the default offset policy stays unchanged.
+
+The hardware boundary gate now passes360 fixtures, including72 exact vertex and72 exact edge hits. Actual PT rendering supports a bounded static instance catalog via `--instance-transform 0..5`; eight CPU/GPU scenes and four rejection controls pass. Reflected rendering preserves authored emitting/outward sides. [Boundary results](docs/ray-boundary-results.json) and [instance scene results](docs/instance-progressive-results.json) define the scope. General multi-instance metadata and updates remain pending; bounded rays stay opt-in.

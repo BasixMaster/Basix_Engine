@@ -16,6 +16,8 @@ jobs:
         run: cmake --build build --config Release --parallel 2
       - name: Test
         run: ctest --test-dir build -C Release --output-on-failure
+      - name: Check independent ray boundary oracle
+        run: python tools/ray_boundary_oracle.py --self-test
       - name: Rebuild public docs
         run: python tools/build_docs.py
       - name: Check roadmap truthfulness and dependencies

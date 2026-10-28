@@ -1,0 +1,4516 @@
+{
+  "checked_on": "2026-10-28",
+  "status": "passed",
+  "harness_checks_passed": true,
+  "cases": [
+    {
+      "name": "candidate",
+      "exit_code": 0,
+      "expected_outcome_verified": true,
+      "outcome": "candidate pass",
+      "failed_fixtures": 0,
+      "numeric_readback_rechecked": true,
+      "reviewed_loader_implicit_disable_messages": 66
+    },
+    {
+      "name": "legacy-offset",
+      "exit_code": 1,
+      "expected_outcome_verified": true,
+      "outcome": "expected control rejection",
+      "failed_fixtures": 66,
+      "numeric_readback_rechecked": true,
+      "reviewed_loader_implicit_disable_messages": 0
+    },
+    {
+      "name": "unrebased",
+      "exit_code": 1,
+      "expected_outcome_verified": true,
+      "outcome": "expected control rejection",
+      "failed_fixtures": 98,
+      "numeric_readback_rechecked": true,
+      "reviewed_loader_implicit_disable_messages": 0
+    },
+    {
+      "name": "omitted-dispatch",
+      "exit_code": 1,
+      "expected_outcome_verified": true,
+      "outcome": "expected control rejection",
+      "failed_fixtures": 180,
+      "numeric_readback_rechecked": true,
+      "reviewed_loader_implicit_disable_messages": 0
+    },
+    {
+      "name": "invalid-spawn",
+      "exit_code": 1,
+      "expected_outcome_verified": true,
+      "outcome": "expected control rejection",
+      "failed_fixtures": 180,
+      "numeric_readback_rechecked": true,
+      "reviewed_loader_implicit_disable_messages": 0
+    },
+    {
+      "name": "no-op-shader",
+      "exit_code": 1,
+      "expected_outcome_verified": true,
+      "outcome": "expected control rejection",
+      "failed_fixtures": 180,
+      "numeric_readback_rechecked": true,
+      "reviewed_loader_implicit_disable_messages": 0
+    }
+  ],
+  "results": {
+    "candidate": {
+      "status": "passed",
+      "candidate": "triangle_error_box_v1",
+      "bounded_rays": true,
+      "bad_spawn": false,
+      "omit_dispatch": false,
+      "camera_relative_rebase": true,
+      "cases": 180,
+      "secondary_cases": 72,
+      "shadow_cases": 108,
+      "failed_cases": 0,
+      "validation_enabled": true,
+      "validation_errors": 0,
+      "validation_warnings": 0,
+      "fixtures": [
+        {
+          "scale": 0.001,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 0,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 9.99999993923e-09,
+          "hit": [
+            0,
+            1,
+            8.74830163866e-09,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": -1.25169863363e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 1,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": -1.25169863363e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 2,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 1.00117176771e-08,
+          "hit": [
+            0,
+            1,
+            0.000999988755211,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": -1.25169863363e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 3,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": -1.25169863363e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 4,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169874465e-09,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": -1.25169863363e-09,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 0,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 9.99999993923e-09,
+          "hit": [
+            0,
+            1,
+            1.95622851606e-06,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": -1.25169863363e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 1,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": -1.25169863363e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 2,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 1.00117176771e-08,
+          "hit": [
+            0,
+            1,
+            0.00101979263127,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": -1.25169863363e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 3,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": -1.25169863363e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 4,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169863363e-09,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": -1.25169863363e-09,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 0,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 9.99999993923e-09,
+          "hit": [
+            0,
+            1,
+            8.74830163866e-09,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": 1.25169863363e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 1,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": 1.25169863363e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 2,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 1.00117176771e-08,
+          "hit": [
+            0,
+            1,
+            0.000999988755211,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": 1.25169863363e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 3,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": 1.25169863363e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 4,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169874465e-09,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": 1.25169863363e-09,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 0,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 9.99999993923e-09,
+          "hit": [
+            0,
+            1,
+            1.95622851606e-06,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": 1.25169863363e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 1,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": 1.25169863363e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 2,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 1.00117176771e-08,
+          "hit": [
+            0,
+            1,
+            0.00101979263127,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": 1.25169863363e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 3,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": 1.25169863363e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 4,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169863363e-09,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": 1.25169863363e-09,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 0,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 1.00117176771e-08,
+          "hit": [
+            0,
+            1,
+            8.76001937655e-09,
+            1
+          ],
+          "spawn": [
+            -5.82076609135e-11,
+            -1.16415321827e-10,
+            -1.25169863363e-09,
+            2.29478036573e-09
+          ],
+          "local_spawn_z": -1.25169863363e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 1,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            -5.82076609135e-11,
+            -1.16415321827e-10,
+            -1.25169863363e-09,
+            2.29478036573e-09
+          ],
+          "local_spawn_z": -1.25169863363e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 2,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 1.00117176771e-08,
+          "hit": [
+            0,
+            1,
+            0.000999988755211,
+            1
+          ],
+          "spawn": [
+            -5.82076609135e-11,
+            -1.16415321827e-10,
+            -1.25169863363e-09,
+            2.29478036573e-09
+          ],
+          "local_spawn_z": -1.25169863363e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 3,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            -5.82076609135e-11,
+            -1.16415321827e-10,
+            -1.25169863363e-09,
+            2.29478036573e-09
+          ],
+          "local_spawn_z": -1.25169863363e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 4,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169874465e-09,
+            1
+          ],
+          "spawn": [
+            -5.82076609135e-11,
+            -1.16415321827e-10,
+            -1.25169863363e-09,
+            2.29478036573e-09
+          ],
+          "local_spawn_z": -1.25169863363e-09,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 0,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 1.00117176771e-08,
+          "hit": [
+            0,
+            1,
+            1.95874827114e-06,
+            1
+          ],
+          "spawn": [
+            -5.82076609135e-11,
+            -1.16415321827e-10,
+            -1.25169863363e-09,
+            2.29478036573e-09
+          ],
+          "local_spawn_z": -1.25169863363e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 1,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            -5.82076609135e-11,
+            -1.16415321827e-10,
+            -1.25169863363e-09,
+            2.29478036573e-09
+          ],
+          "local_spawn_z": -1.25169863363e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 2,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 1.00117176771e-08,
+          "hit": [
+            0,
+            1,
+            0.00101979263127,
+            1
+          ],
+          "spawn": [
+            -5.82076609135e-11,
+            -1.16415321827e-10,
+            -1.25169863363e-09,
+            2.29478036573e-09
+          ],
+          "local_spawn_z": -1.25169863363e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 3,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            -5.82076609135e-11,
+            -1.16415321827e-10,
+            -1.25169863363e-09,
+            2.29478036573e-09
+          ],
+          "local_spawn_z": -1.25169863363e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 4,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169863363e-09,
+            1
+          ],
+          "spawn": [
+            -5.82076609135e-11,
+            -1.16415321827e-10,
+            -1.25169863363e-09,
+            2.29478036573e-09
+          ],
+          "local_spawn_z": -1.25169863363e-09,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 0,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 1.00117176771e-08,
+          "hit": [
+            0,
+            1,
+            8.76001937655e-09,
+            1
+          ],
+          "spawn": [
+            0,
+            -1.16415321827e-10,
+            1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": 1.25169863363e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 1,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            -1.16415321827e-10,
+            1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": 1.25169863363e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 2,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 1.00117176771e-08,
+          "hit": [
+            0,
+            1,
+            0.000999988638796,
+            1
+          ],
+          "spawn": [
+            0,
+            -1.16415321827e-10,
+            1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": 1.25169863363e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 3,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            -1.16415321827e-10,
+            1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": 1.25169863363e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 4,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169874465e-09,
+            1
+          ],
+          "spawn": [
+            0,
+            -1.16415321827e-10,
+            1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": 1.25169863363e-09,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 0,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 1.00117176771e-08,
+          "hit": [
+            0,
+            1,
+            1.95874986275e-06,
+            1
+          ],
+          "spawn": [
+            0,
+            -1.16415321827e-10,
+            1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": 1.25169863363e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 1,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            -1.16415321827e-10,
+            1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": 1.25169863363e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 2,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 1.00117176771e-08,
+          "hit": [
+            0,
+            1,
+            0.00101979251485,
+            1
+          ],
+          "spawn": [
+            0,
+            -1.16415321827e-10,
+            1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": 1.25169863363e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 3,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            -1.16415321827e-10,
+            1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": 1.25169863363e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 4,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169863363e-09,
+            1
+          ],
+          "spawn": [
+            0,
+            -1.16415321827e-10,
+            1.25169863363e-09,
+            2.29478058777e-09
+          ],
+          "local_spawn_z": 1.25169863363e-09,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 0,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 1.11758708954e-08,
+          "hit": [
+            0,
+            1,
+            9.924173483e-09,
+            1
+          ],
+          "spawn": [
+            -1.62981450558e-09,
+            0,
+            -1.25169730136e-09,
+            2.29477836733e-09
+          ],
+          "local_spawn_z": -1.25169730136e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 1,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            -1.62981450558e-09,
+            0,
+            -1.25169730136e-09,
+            2.29477836733e-09
+          ],
+          "local_spawn_z": -1.25169730136e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 2,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 7.45058059692e-09,
+          "hit": [
+            0,
+            1,
+            0.000999989570118,
+            1
+          ],
+          "spawn": [
+            -1.62981450558e-09,
+            0,
+            -1.25169730136e-09,
+            2.29477836733e-09
+          ],
+          "local_spawn_z": -1.25169730136e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 3,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            -1.62981450558e-09,
+            0,
+            -1.25169730136e-09,
+            2.29477836733e-09
+          ],
+          "local_spawn_z": -1.25169730136e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 4,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169741239e-09,
+            1
+          ],
+          "spawn": [
+            -1.62981450558e-09,
+            0,
+            -1.25169730136e-09,
+            2.29477836733e-09
+          ],
+          "local_spawn_z": -1.25169730136e-09,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 0,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 1.11758708954e-08,
+          "hit": [
+            0,
+            1,
+            2.21914456233e-06,
+            1
+          ],
+          "spawn": [
+            -1.62981450558e-09,
+            0,
+            -1.25169730136e-09,
+            2.29477836733e-09
+          ],
+          "local_spawn_z": -1.25169730136e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 1,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            -1.62981450558e-09,
+            0,
+            -1.25169730136e-09,
+            2.29477836733e-09
+          ],
+          "local_spawn_z": -1.25169730136e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 2,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 7.45058059692e-09,
+          "hit": [
+            0,
+            1,
+            0.00101979379542,
+            1
+          ],
+          "spawn": [
+            -1.62981450558e-09,
+            0,
+            -1.25169730136e-09,
+            2.29477836733e-09
+          ],
+          "local_spawn_z": -1.25169730136e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 3,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            -1.62981450558e-09,
+            0,
+            -1.25169730136e-09,
+            2.29477836733e-09
+          ],
+          "local_spawn_z": -1.25169730136e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 4,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169730136e-09,
+            1
+          ],
+          "spawn": [
+            -1.62981450558e-09,
+            0,
+            -1.25169730136e-09,
+            2.29477836733e-09
+          ],
+          "local_spawn_z": -1.25169730136e-09,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 0,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 9.31322574615e-09,
+          "hit": [
+            0,
+            1,
+            8.06152833377e-09,
+            1
+          ],
+          "spawn": [
+            -1.86264514923e-09,
+            0,
+            1.25169730136e-09,
+            2.29477814528e-09
+          ],
+          "local_spawn_z": 1.25169730136e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 1,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            -1.86264514923e-09,
+            0,
+            1.25169730136e-09,
+            2.29477814528e-09
+          ],
+          "local_spawn_z": 1.25169730136e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 2,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 9.31322574615e-09,
+          "hit": [
+            0,
+            1,
+            0.000999989570118,
+            1
+          ],
+          "spawn": [
+            -1.86264514923e-09,
+            0,
+            1.25169730136e-09,
+            2.29477814528e-09
+          ],
+          "local_spawn_z": 1.25169730136e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 3,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            -1.86264514923e-09,
+            0,
+            1.25169730136e-09,
+            2.29477814528e-09
+          ],
+          "local_spawn_z": 1.25169730136e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 4,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169730136e-09,
+            1
+          ],
+          "spawn": [
+            -1.86264514923e-09,
+            0,
+            1.25169730136e-09,
+            2.29477814528e-09
+          ],
+          "local_spawn_z": 1.25169730136e-09,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 0,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 9.31322574615e-09,
+          "hit": [
+            0,
+            1,
+            1.80253584858e-06,
+            1
+          ],
+          "spawn": [
+            -1.86264514923e-09,
+            0,
+            1.25169730136e-09,
+            2.29477814528e-09
+          ],
+          "local_spawn_z": 1.25169730136e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 1,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            -1.86264514923e-09,
+            0,
+            1.25169730136e-09,
+            2.29477814528e-09
+          ],
+          "local_spawn_z": 1.25169730136e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 2,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 9.31322574615e-09,
+          "hit": [
+            0,
+            1,
+            0.00101979379542,
+            1
+          ],
+          "spawn": [
+            -1.86264514923e-09,
+            0,
+            1.25169730136e-09,
+            2.29477814528e-09
+          ],
+          "local_spawn_z": 1.25169730136e-09,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 3,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            -1.86264514923e-09,
+            0,
+            1.25169730136e-09,
+            2.29477814528e-09
+          ],
+          "local_spawn_z": 1.25169730136e-09,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 0.001,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 4,
+          "gap": 1e-08,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169741239e-09,
+            1
+          ],
+          "spawn": [
+            -1.86264514923e-09,
+            0,
+            1.25169730136e-09,
+            2.29477814528e-09
+          ],
+          "local_spawn_z": 1.25169730136e-09,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 0,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 9.99999974738e-06,
+          "hit": [
+            0,
+            1,
+            8.7483012976e-06,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 1,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 2,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 1.00135803223e-05,
+          "hit": [
+            0,
+            1,
+            0.999988853931,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 3,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 4,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169844978e-06,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 0,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 9.99999974738e-06,
+          "hit": [
+            0,
+            1,
+            0.00195617065765,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 1,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 2,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 1.00135803223e-05,
+          "hit": [
+            0,
+            1,
+            1.01979267597,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 3,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 4,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169856346e-06,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 0,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 9.99999974738e-06,
+          "hit": [
+            0,
+            1,
+            8.7483012976e-06,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 1,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 2,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 1.00135803223e-05,
+          "hit": [
+            0,
+            1,
+            0.999988853931,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 3,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 4,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169844978e-06,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 0,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 9.99999974738e-06,
+          "hit": [
+            0,
+            1,
+            0.00195617065765,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 1,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 2,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 1.00135803223e-05,
+          "hit": [
+            0,
+            1,
+            1.01979267597,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 3,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 4,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169856346e-06,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 0,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 9.99995972961e-06,
+          "hit": [
+            0,
+            1,
+            8.74826127983e-06,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 1,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 2,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 1.00135803223e-05,
+          "hit": [
+            0,
+            1,
+            0.999988853931,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 3,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 4,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169844978e-06,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 0,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 9.99995972961e-06,
+          "hit": [
+            0,
+            1,
+            0.00195617065765,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 1,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 2,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 1.00135803223e-05,
+          "hit": [
+            0,
+            1,
+            1.01979267597,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 3,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 4,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169856346e-06,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 0,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 1.00000761449e-05,
+          "hit": [
+            0,
+            1,
+            8.74837769516e-06,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 1,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 2,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 1.00135803223e-05,
+          "hit": [
+            0,
+            1,
+            0.999988853931,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 3,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 4,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169844978e-06,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 0,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 1.00000761449e-05,
+          "hit": [
+            0,
+            1,
+            0.00195617065765,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 1,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 2,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 1.00135803223e-05,
+          "hit": [
+            0,
+            1,
+            1.01979267597,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 3,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 4,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169856346e-06,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 0,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 9.99867916107e-06,
+          "hit": [
+            0,
+            1,
+            8.74698071129e-06,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 1,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 2,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 1.00135803223e-05,
+          "hit": [
+            0,
+            1,
+            0.999988853931,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 3,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 4,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169844978e-06,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 0,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 9.99867916107e-06,
+          "hit": [
+            0,
+            1,
+            0.001955837477,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 1,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 2,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 1.00135803223e-05,
+          "hit": [
+            0,
+            1,
+            1.01979267597,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 3,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 4,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169856346e-06,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            -1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": -1.25169856346e-06,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 0,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 1.00005418062e-05,
+          "hit": [
+            0,
+            1,
+            8.74884335644e-06,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 1,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 2,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 1.00135803223e-05,
+          "hit": [
+            0,
+            1,
+            0.999988853931,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 3,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 4,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169844978e-06,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 0,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 1.00005418062e-05,
+          "hit": [
+            0,
+            1,
+            0.00195630406961,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 1,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 2,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 1.00135803223e-05,
+          "hit": [
+            0,
+            1,
+            1.01979267597,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 3,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 4,
+          "gap": 1e-05,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            1.25169856346e-06,
+            1
+          ],
+          "spawn": [
+            0,
+            0,
+            1.25169856346e-06,
+            2.29478041547e-06
+          ],
+          "local_spawn_z": 1.25169856346e-06,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 0,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.00999999977648,
+          "hit": [
+            0,
+            1,
+            0.00874830130488,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 1,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 2,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.010009765625,
+          "hit": [
+            0,
+            1,
+            999.988708496,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 3,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 4,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            0.00125169858802,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 0,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.00999999977648,
+          "hit": [
+            0,
+            1,
+            1.95616972446,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 1,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 2,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.010009765625,
+          "hit": [
+            0,
+            1,
+            1019.79248047,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 3,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 0,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 4,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            0.00125169858802,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 0,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.00999999977648,
+          "hit": [
+            0,
+            1,
+            0.00874830130488,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 1,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 2,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.010009765625,
+          "hit": [
+            0,
+            1,
+            999.988708496,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 3,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 4,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            0.00125169858802,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 0,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.00999999977648,
+          "hit": [
+            0,
+            1,
+            1.95616972446,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 1,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 2,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.010009765625,
+          "hit": [
+            0,
+            1,
+            1019.79248047,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 3,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 0,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 4,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            0.00125169858802,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 0,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.00999999977648,
+          "hit": [
+            0,
+            1,
+            0.00874830130488,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 1,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 2,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.010009765625,
+          "hit": [
+            0,
+            1,
+            999.988708496,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 3,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 4,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            0.00125169858802,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 0,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.00999999977648,
+          "hit": [
+            0,
+            1,
+            1.95616972446,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 1,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 2,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.010009765625,
+          "hit": [
+            0,
+            1,
+            1019.79248047,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 3,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 1048576,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 4,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            0.00125169858802,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 0,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.00999999977648,
+          "hit": [
+            0,
+            1,
+            0.00874830130488,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 1,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 2,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.010009765625,
+          "hit": [
+            0,
+            1,
+            999.988708496,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 3,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 4,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            0.00125169858802,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 0,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.00999999977648,
+          "hit": [
+            0,
+            1,
+            1.95616972446,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 1,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 2,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.010009765625,
+          "hit": [
+            0,
+            1,
+            1019.79248047,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 3,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": 1048576,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 4,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            0.00125169858802,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 0,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.0100000016391,
+          "hit": [
+            0,
+            1,
+            0.00874830316752,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 1,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 2,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.010009765625,
+          "hit": [
+            0,
+            1,
+            999.988708496,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 3,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 0,
+          "kind": 4,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            0.00125169858802,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 0,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.0100000016391,
+          "hit": [
+            0,
+            1,
+            1.95616972446,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 1,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 2,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.010009765625,
+          "hit": [
+            0,
+            1,
+            1019.79248047,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 3,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": -16777216,
+          "sign": -1,
+          "oblique": 1,
+          "kind": 4,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            0.00125169858802,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            -0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": -0.00125169858802,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 0,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.00999999977648,
+          "hit": [
+            0,
+            1,
+            0.00874830130488,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 1,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 2,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.010009765625,
+          "hit": [
+            0,
+            1,
+            999.988708496,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 3,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 0,
+          "kind": 4,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            0.00125169858802,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": 0,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 0,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.00999999977648,
+          "hit": [
+            0,
+            1,
+            1.95616972446,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 1,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 2,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0.010009765625,
+          "hit": [
+            0,
+            1,
+            1019.79248047,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": 1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 3,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            -1,
+            -1,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": -1,
+          "passed": true
+        },
+        {
+          "scale": 1000,
+          "world_translation": -16777216,
+          "sign": 1,
+          "oblique": 1,
+          "kind": 4,
+          "gap": 0.01,
+          "actual_uploaded_gap": 0,
+          "hit": [
+            0,
+            0,
+            0.00125169858802,
+            1
+          ],
+          "spawn": [
+            6.103515625e-05,
+            0,
+            0.00125169858802,
+            0.00229478045367
+          ],
+          "local_spawn_z": 0.00125169858802,
+          "expected_index": 0,
+          "passed": true
+        }
+      ],
+      "scope": "Original layered-triangle analytic identity oracle, scales0.001/1/1000, gap1e-5*scale, three translations up to2^24, front/back, two directions and a synthetic short-connection regression for conservative uncertainty-budget rejection. Nominal gaps may change during double translation; actual uploaded gaps are serialized. Traversal extent allowance is empirical for the tested identity-instance GPU; no universal Vulkan error proof, arbitrary transforms, subnormal arithmetic or unrepresentable geometry claim."
+    },
+    "legacy-offset": {
+      "status": "failed",
+      "candidate": "triangle_error_box_v1",
+      "bounded_rays": false,
+      "bad_spawn": false,
+      "omit_dispatch": false,
+      "camera_relative_rebase": true,
+      "cases": 180,
+      "secondary_cases": 72,
+      "shadow_cases": 108,
+      "failed_cases": 66,
+      "validation_enabled": true,
+      "validation_errors": 0,
+      "validation_warnings": 0,
+      "scope": "Original layered-triangle analytic identity oracle, scales0.001/1/1000, gap1e-5*scale, three translations up to2^24, front/back, two directions and a synthetic short-connection regression for conservative uncertainty-budget rejection. Nominal gaps may change during double translation; actual uploaded gaps are serialized. Traversal extent allowance is empirical for the tested identity-instance GPU; no universal Vulkan error proof, arbitrary transforms, subnormal arithmetic or unrepresentable geometry claim.",
+      "fixture_arrays_omitted": true
+    },
+    "unrebased": {
+      "status": "failed",
+      "candidate": "triangle_error_box_v1",
+      "bounded_rays": true,
+      "bad_spawn": false,
+      "omit_dispatch": false,
+      "camera_relative_rebase": false,
+      "cases": 180,
+      "secondary_cases": 72,
+      "shadow_cases": 108,
+      "failed_cases": 98,
+      "validation_enabled": true,
+      "validation_errors": 0,
+      "validation_warnings": 0,
+      "scope": "Original layered-triangle analytic identity oracle, scales0.001/1/1000, gap1e-5*scale, three translations up to2^24, front/back, two directions and a synthetic short-connection regression for conservative uncertainty-budget rejection. Nominal gaps may change during double translation; actual uploaded gaps are serialized. Traversal extent allowance is empirical for the tested identity-instance GPU; no universal Vulkan error proof, arbitrary transforms, subnormal arithmetic or unrepresentable geometry claim.",
+      "fixture_arrays_omitted": true
+    },
+    "omitted-dispatch": {
+      "status": "failed",
+      "candidate": "triangle_error_box_v1",
+      "bounded_rays": true,
+      "bad_spawn": false,
+      "omit_dispatch": true,
+      "camera_relative_rebase": true,
+      "cases": 180,
+      "secondary_cases": 72,
+      "shadow_cases": 108,
+      "failed_cases": 180,
+      "validation_enabled": true,
+      "validation_errors": 0,
+      "validation_warnings": 0,
+      "scope": "Original layered-triangle analytic identity oracle, scales0.001/1/1000, gap1e-5*scale, three translations up to2^24, front/back, two directions and a synthetic short-connection regression for conservative uncertainty-budget rejection. Nominal gaps may change during double translation; actual uploaded gaps are serialized. Traversal extent allowance is empirical for the tested identity-instance GPU; no universal Vulkan error proof, arbitrary transforms, subnormal arithmetic or unrepresentable geometry claim.",
+      "fixture_arrays_omitted": true
+    },
+    "invalid-spawn": {
+      "status": "failed",
+      "candidate": "triangle_error_box_v1",
+      "bounded_rays": true,
+      "bad_spawn": true,
+      "omit_dispatch": false,
+      "camera_relative_rebase": true,
+      "cases": 180,
+      "secondary_cases": 72,
+      "shadow_cases": 108,
+      "failed_cases": 180,
+      "validation_enabled": true,
+      "validation_errors": 0,
+      "validation_warnings": 0,
+      "scope": "Original layered-triangle analytic identity oracle, scales0.001/1/1000, gap1e-5*scale, three translations up to2^24, front/back, two directions and a synthetic short-connection regression for conservative uncertainty-budget rejection. Nominal gaps may change during double translation; actual uploaded gaps are serialized. Traversal extent allowance is empirical for the tested identity-instance GPU; no universal Vulkan error proof, arbitrary transforms, subnormal arithmetic or unrepresentable geometry claim.",
+      "fixture_arrays_omitted": true
+    },
+    "no-op-shader": {
+      "status": "failed",
+      "candidate": "triangle_error_box_v1",
+      "bounded_rays": true,
+      "bad_spawn": false,
+      "omit_dispatch": false,
+      "camera_relative_rebase": true,
+      "cases": 180,
+      "secondary_cases": 72,
+      "shadow_cases": 108,
+      "failed_cases": 180,
+      "validation_enabled": true,
+      "validation_errors": 0,
+      "validation_warnings": 0,
+      "scope": "Original layered-triangle analytic identity oracle, scales0.001/1/1000, gap1e-5*scale, three translations up to2^24, front/back, two directions and a synthetic short-connection regression for conservative uncertainty-budget rejection. Nominal gaps may change during double translation; actual uploaded gaps are serialized. Traversal extent allowance is empirical for the tested identity-instance GPU; no universal Vulkan error proof, arbitrary transforms, subnormal arithmetic or unrepresentable geometry claim.",
+      "fixture_arrays_omitted": true
+    }
+  },
+  "input_sha256": {
+    "executable": "a989662ed07c0e76983ca2bf2d68c0dbe53ac3474e61e89d662d3569671a1185",
+    "shader": "95fefa26aa4771d5445953ceab70e0a9654c333667fd3f49e72b7839cb4049bf",
+    "slangc": "71562b573b9f4aba698a660ba041caec2f3f5ca4f8f77761e30fcfbacdb029ab",
+    "validation_dll": "249474155f7ed98c94f26c8a86c5d5da729dcabaaa1a7136d14fc68caf99213b",
+    "validation_manifest": "9bdb274c944957ad454968c567d2d2b1883436a88de476200e688be1a36e23da",
+    "harness": "09f14b8f12c747c2462b22c6dbd48097882848edd776dcba350c9b3cc03c56bb",
+    "scanner": "111e09e7735970d498605c3562dea55db03f7a1e17ab1a4443e4dddc3e215c2c",
+    "src/progressive_gpu.cpp": "b8a7cdf6108c8ae29d67900fd4e96b1072f9004af4272bb2a782db1116b13d61",
+    "src/progressive_ray_tests.inl": "45ef4a153cff0e587667e3d5cb67bf307b7624c274ad8a97bf34f3c79eafc740",
+    "src/ray_spawn.cpp": "7bacd6eb7cfda42a24921dfae5a3258c18f774eac274f62f50c7eef5cddbb9e2",
+    "include/basix/ray_spawn.hpp": "212dd716d66688cda8b3f617a17e0c3591d24adaf3564ac34bc68cd6e5775327",
+    "include/basix/progressive_gpu_abi.hpp": "8576a4d98822b493d52553c98b7ab9453383a8d16eaa883fae3de22c9325a335",
+    "shaders/progressive_pt.slang": "af07158631d75a11cfc73cffc936a9b4ef794b8138c6f54075095454e8d456d1",
+    "shaders/basix_ray_spawn.slang": "89cb1d66f51e3768357330fc49707592b5bb730911f3f674c6511a728b2eebd1"
+  },
+  "input_hashes_unchanged": true,
+  "no_op_shader_sha256": "13c063783e4635e31f8fc460cc500601b08602c91377ca0699a3620fda0d4285",
+  "slang_version": "2026.18.2",
+  "loader_confirmed_validation": true,
+  "synchronization_validation_requested": true,
+  "full_process_diagnostics": "zero unreviewed backend/validation warnings/errors including startup and teardown; exact loader implicit-disable notices counted separately",
+  "limits": [
+    "One RTX4090 driver configuration and identity TLAS instance",
+    "Three scales, three translations, two sides and two directions; layered triangles only",
+    "Traversal extent allowance is empirical, not a universal Vulkan hardware error bound",
+    "No arbitrary transforms, subnormal arithmetic, pre-rounded/unrepresentable geometry, temporal or performance acceptance"
+  ],
+  "raw_receipt_sha256": "75ecb294ba1adb1d6ced56b286a3c70ed99bf0b683c010774a3970be174e209d",
+  "publication_projection": "Candidate numeric readback is complete. Expected-negative fixture arrays omitted; their settings, failure counts, input hashes and verified outcomes remain. Full raw numeric receipts/logs retained locally."
+}

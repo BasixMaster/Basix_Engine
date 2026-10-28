@@ -5,9 +5,13 @@ This is original MIT experimental code, not a complete game engine. The default 
 ## CPU cage reference
 
 ```text
+
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
 cmake --build build --config Release
+
 ctest --test-dir build -C Release --output-on-failure
+
 ```
 
 `basix_cage` implements one affine tetrahedral cell, barycentric mapping, unnormalized ray transforms preserving parameter t, conservative bounds/cell clipping, inverse-transpose normals and invalid/inverted-cell rejection. Its 78 checks passed with MSVC 19.44 on 28 October 2026. This is not cage generation, triangle preprocessing, a GPU cage BVH or watertight traversal. The default relative tolerance is a Basix experiment policy, not a threshold endorsed by the paper.
@@ -19,17 +23,22 @@ Install a suitable C++20 compiler, CMake 3.24+, Vulkan SDK headers/libs 1.4.357+
 Clone NoGraphicsAPI separately at `ffd9f2ab6b7442dcfbe0cb0051d84d0edb078d89`, then prepare a **new, separate destination**:
 
 ```text
+
 python tools/prepare_nographicsapi.py --source PATH_TO_UPSTREAM --destination PATH_TO_PREPARED_COPY
+
 cmake -S . -B build-gpu -DBASIX_BUILD_GPU_SPIKE=ON -DBASIX_NOGRAPHICSAPI_SOURCE=PATH_TO_PREPARED_COPY -DBASIX_SLANGC=PATH_TO_SLANGC
+
 cmake --build build-gpu --config Release
+
 ctest --test-dir build-gpu -C Release --output-on-failure
+
 ```
 
 The preparation tool verifies the exact clean upstream revision and refuses to overwrite an existing destination. It copies the upstream tree and applies an original experimental Vulkan-only extension: explicit ray-query device initialization and borrowed device/physical-device/command-buffer handles and controlled native texture metadata. The upstream checkout stays unchanged. This extension is not an upstream-supported API or a Metal backend implementation.
 
 Only committed bytes are exported (`git archive`), so ignored local files cannot enter the prepared dependency. GPU CMake validates the exact revision marker and tracks the included shader ABI/compiler as build dependencies. Apple is explicitly excluded from this Vulkan-only spike; the CPU target remains portable. RT eligibility is currently checked after upstream adapter selection, so a multi-GPU machine may reject the selected adapter even if another could run RT; explicit adapter selection remains open.
 
-The test owns its device through NoGraphicsAPI. It dispatches a NoGraphicsAPI pointer-root compute shader, then builds ordinary Vulkan BLAS/TLAS objects and executes ray queries on that **same device**. Native Vulkan code is isolated in the experiment; native pipelines use a separate command-recording scope. Submissions are completed before pool reset or resource destruction; the lifecycle test deliberately holds a real submission behind a host-signaled timeline gate. Static and translated triangle results are compared with an independent analytic CPU oracle over two 64Ã—64 grids.
+The test owns its device through NoGraphicsAPI. It dispatches a NoGraphicsAPI pointer-root compute shader, then builds ordinary Vulkan BLAS/TLAS objects and executes ray queries on that **same device**. Native Vulkan code is isolated in the experiment; native pipelines use a separate command-recording scope. Submissions are completed before pool reset or resource destruction; the lifecycle test deliberately holds a real submission behind a host-signaled timeline gate. Static and translated triangle results are compared with an independent analytic CPU oracle over two 64×64 grids.
 
 Run `basix_gpu_spike --output DIRECTORY` for PPM images and a JSON result. The directory is explicit and receives only generated experiment files. Unsupported initialization fails rather than silently substituting software results. No DLSS binary, ray pipeline, DXR2/CLAS implementation or advanced rendering is included. The texture experiment uses registry-issued monotonic borrow tickets, expected metadata checks and timeline-gated retirement. Only own RGBA8 2D single-mip images on the same device/queue are covered.
 
@@ -40,21 +49,27 @@ Prepare a new dependency destination with the current tool. GPU CMake now requir
 Use a separately installed or locally extracted Khronos validation package. The checked Windows nightly archive and DLL digests are in `dependencies.lock.json`; the mutable nightly URL does not promise future availability of those exact bytes. The layers are testing tools, not vendored/shipped engine runtime. No machine-wide loader setting is changed.
 
 ```text
+
 python tools/run_gpu_validation.py --exe build-gpu/Debug/basix_gpu_spike.exe --release-exe build-gpu/Release/basix_gpu_spike.exe --validation-layer-dir PATH_TO_CHECKED_LAYERS --output work/validation
+
 ```
 
 The helper sets `VK_LAYER_PATH`, disables implicit third-party overlays only for its child process, and requests core plus synchronization validation with `VK_VALIDATION_VALIDATE_SYNC=1`. It verifies the pinned DLL hash and loader trace, scans full-process logs, and checks three positive cycles plus four expected-failure cases. Full logs remain in the selected output directory; the sanitized receipt contains no local paths/account telemetry.
 
-The GPU experiment writes a NoGraphicsAPI storage texture, transitions GENERALâ†’TRANSFER_SRC for a native copy, returns to GENERAL, runs a native storage-image compute pass, then explicitly restores NoGraphicsAPI heap/PSO bindings before engine readback. Tests recreate64Ã—64,17Ã—9 and1Ã—1 offscreen images. Borrow tickets capture their epoch privately; epochs do not reset between cycles. Wrong metadata, stale tickets and premature retirement are rejected before native API use.
+The GPU experiment writes a NoGraphicsAPI storage texture, transitions GENERAL→TRANSFER_SRC for a native copy, returns to GENERAL, runs a native storage-image compute pass, then explicitly restores NoGraphicsAPI heap/PSO bindings before engine readback. Tests recreate64×64,17×9 and1×1 offscreen images. Borrow tickets capture their epoch privately; epochs do not reset between cycles. Wrong metadata, stale tickets and premature retirement are rejected before native API use.
 
 `--validate` refuses an unvalidated Release build. `--cycles 1..16` bounds resource churn. `--shader-dir` selects a shader resource directory and supports failure-path testing. Standalone C++ diagnostic counters cover the messenger lifetime after device initialization and before device teardown; the helper separately scans startup and shutdown logs. Zero validation messages are evidence for the named workload, not a proof covering every GPU hazard.
 
 ## Current verified scope
 
 - CPU:78 independent cage-math checks passed; no GPU cage/preprocessing claim.
+
 - Initial RTX4090/NVIDIA617.42:4096 pointer-root pixels and8192 hardware rays passed.
+
 - Reviewed M1 Debug/core/SyncVal harness:5cases;3positive cycles;12288 pointer pixels,24576 rays,25500 exact texture pixel checks,63 metadata/stale-ticket/retirement rejections. Zero warning/error logs including startup/shutdown. Layer manifest reports1.4.366; checked archive/DLL hashes are pinned.
+
 - Expected failures: invalid cycle count, missing-shader cleanup, image-write-failure cleanup, and Release refusal to claim validation.
+
 - CPU/docs CI passed on Linux/Windows for prior foundation commit923d10b in run40677723983. Current changes receive their own CI after publication; GPU tests remain local physical-device checks.
 
 ## Remaining gates
@@ -70,15 +85,18 @@ Interop patch3 adds a narrow host timeline-signal helper. Each texture submissio
 Private registry-incarnation cookies complement per-image epochs. Two fresh registries with identical device/image/extent/epoch metadata reject each other's tickets, so recycled native handles cannot impersonate another registry session. Device sessions are destroyed before the success receipt is written; the wrapper scans complete startup/shutdown logs.
 
 ```text
+
 python tools/run_gpu_validation.py --exe build-gpu/Debug/basix_gpu_spike.exe --release-exe build-gpu/Release/basix_gpu_spike.exe --validation-layer-dir PATH_TO_CHECKED_LAYERS --sessions 3 --output work/lifecycle
+
 python tools/run_window_validation.py --executable build-gpu/Debug/basix_window_smoke.exe --layer-dir PATH_TO_CHECKED_LAYERS --output work/window
+
 ```
 
-The seven-case lifecycle harness passed36864 pointer pixels,73728 ray checks,76500 texture comparisons,189 contract rejections and27 registry-incarnation checks across3devicesÃ—3cycles. Of the contract rejections,27 use truly incomplete GPU submissions. This is bounded correctness, not concurrent frames, multiqueue support or a performance benchmark. See `docs/lifecycle-results.json`.
+The seven-case lifecycle harness passed36864 pointer pixels,73728 ray checks,76500 texture comparisons,189 contract rejections and27 registry-incarnation checks across3devices×3cycles. Of the contract rejections,27 use truly incomplete GPU submissions. This is bounded correctness, not concurrent frames, multiqueue support or a performance benchmark. See `docs/lifecycle-results.json`.
 
 ## Hidden Win32 swapchain test
 
-The WIN32-only console target creates a never-visible, offscreen popup. It presents8clear frames across64Ã—64,320Ã—180,17Ã—9 extents and a96Ã—54 restoration; three acquisitions at a real0Ã—0 client extent return empty. The four-process wrapper also tests controlled exceptions before device creation, after creation and after a completed present. All windows are destroyed and full-process validation logs are clean. Receipts are in `docs/window-results.json`.
+The WIN32-only console target creates a never-visible, offscreen popup. It presents8clear frames across64×64,320×180,17×9 extents and a96×54 restoration; three acquisitions at a real0×0 client extent return empty. The four-process wrapper also tests controlled exceptions before device creation, after creation and after a completed present. All windows are destroyed and full-process validation logs are clean. Receipts are in `docs/window-results.json`.
 
 The first run exposed an upstream swapchain format/usage issue: sRGB plus STORAGE usage was unsupported on the tested adapter (VUID01778/02275). The clear-only test uses supported `bgra8_unorm`; validation was retained. Original failure logs stay in the workbench. This does not prove sRGB presentation support, displayed pixels, OS minimize, device loss or SDK correctness.
 
@@ -89,11 +107,17 @@ This Windows-only target uses separately supplied Streamline2.14.16 headers and 
 After obtaining and verifying the pinned official package, prepare a new NoGraphicsAPI patch5 destination and stage the runtime outside the Basix repository:
 
 ```text
+
 python tools/prepare_streamline_runtime.py --sdk-root PATH_TO_STREAMLINE --destination ../work/streamline-runtime
+
 cmake -S . -B build-gpu -DBASIX_BUILD_GPU_SPIKE=ON -DBASIX_NOGRAPHICSAPI_SOURCE=PATH_TO_PATCH5 -DBASIX_BUILD_DLSS_SPIKE=ON -DBASIX_STREAMLINE_SDK=PATH_TO_STREAMLINE
+
 cmake --build build-gpu --config Debug
+
 cmake --build build-gpu --config Release
+
 python tools/run_dlss_validation.py --exe build-gpu/Debug/basix_dlss_spike.exe --release-exe build-gpu/Release/basix_dlss_spike.exe --runtime ../work/streamline-runtime --validation-layer-dir PATH_TO_CHECKED_LAYERS --output work/dlss-validation --check-known-driver-bug
+
 ```
 
 The stage helper copies checked `sl.interposer`, `sl.common`, `sl.dlss`, `sl.pcl`, `NvLowLatencyVk` and `nvngx_dlss` DLLs plus separate notices. PCL is automatically added by the SDK. The original MIT loader verifies the interposer's Authenticode/NVIDIA signer with cached trust data and locks it against replacement while loaded. The optional SDK's own terms still apply. Disabled OTA/downloaded-plugin options do not guarantee offline operation: the observed SDK invokes an NGX bootstrap updater.
@@ -117,19 +141,22 @@ This is a static fixed-resolution interoperability gate on Windows/RTX4090/NVIDI
 Default builds now include `basix_material`, `basix_reference` and `basix_reference_render`. CPU tests contain70 material checks and79 transport checks. Stable IDs, analytic spheres/triangles, one-sided triangle emitters, NEE, power MIS, compensated RR and deterministic accumulation form an original MIT oracle. The GGX model is single scatter with conservative approximate diffuse attenuation, not exact glTF/multiple-scattering compensation. Depth truncation is explicit.
 
 ```text
+
 build/Release/basix_reference_render --width 256 --height 256 --spp 64 --batch 7 --seed 20261028 --output reference-output
+
 python tools/run_reference_validation.py --executable build/Release/basix_reference_render --output reference-validation
+
 ```
 
 Single-configuration builds omit `Release/`; Windows executable suffix is optional. Outputs are linear RGB float32 PFM (little endian, bottom-up), a Reinhard+sRGB PPM preview and metadata. The CLI bounds image/sample/depth work and rejects invalid inputs. The validation runner tests eight rejected inputs, batch byte identity, HDR finite/nonnegative output, metadata and the actual preview transform. See `docs/reference-results.json`. Image timing is local CPU oracle cost, not a performance benchmark.
 
-The optional GPU build adds `basix_material_gpu`. Run a Debug build with `--validate --output material-output` and process-local Khronos/core/SyncVal configuration as above. It compares2048 exact uploaded float inputs with CPU double BRDF/PDF evaluation, using abs0.0003+rel0.001Ã—|reference|; the isolated no-op control fails8192 poisoned outputs. `docs/material-results.json` records scope and results. Later GPU sampling and progressive scene results are scoped below; import, textures and motion guides remain pending.
+The optional GPU build adds `basix_material_gpu`. Run a Debug build with `--validate --output material-output` and process-local Khronos/core/SyncVal configuration as above. It compares2048 exact uploaded float inputs with CPU double BRDF/PDF evaluation, using abs0.0003+rel0.001×|reference|; the isolated no-op control fails8192 poisoned outputs. `docs/material-results.json` records scope and results. Later GPU sampling and progressive scene results are scoped below; import, textures and motion guides remain pending.
 
 ## Vulkan capability queries and cross-API concepts
 
 `basix_vulkan_caps --validate --output vulkan-capabilities.json` enumerates physical-device NV/NVX extensions and queries feature/property structures for16 curated candidates. It creates no logical device, enables no optional feature, and runs no advanced shader/AS operation. Matrix/vector supported type/dimension tuple enumeration remains pending. The sanitized local receipt is `docs/vulkan-capabilities.json`. The callback separately counts known loader environment warnings about installed Galaxy layer naming and layers explicitly disabled by the process filter; all other warning/error diagnostics fail. This is not a claim of zero total loader messages.
 
-Keep Vulkan first: DX LinAlg corresponds to the shader matrix/vector inference family; clustered geometry corresponds to CLASâ†’cluster BLASâ†’TLAS. Their native layouts, limits, shader semantics, synchronization and device-enabling contracts require separate adapters. Query evidence does not complete CLAS, SER, partitioned-AS, matrix/vector, DGC, micromap or decompression implementation. Prefer suitable KHR/EXT routes while preserving ordinary compute/ray fallbacks; the docs compare current contracts and candidate gates.
+Keep Vulkan first: DX LinAlg corresponds to the shader matrix/vector inference family; clustered geometry corresponds to CLAS→cluster BLAS→TLAS. Their native layouts, limits, shader semantics, synchronization and device-enabling contracts require separate adapters. Query evidence does not complete CLAS, SER, partitioned-AS, matrix/vector, DGC, micromap or decompression implementation. Prefer suitable KHR/EXT routes while preserving ordinary compute/ray fallbacks; the docs compare current contracts and candidate gates.
 
 ## Progressive Vulkan PT and retained sampling limitation (M2-gpu partial)
 
@@ -138,9 +165,13 @@ Preparation patch6 adds an explicitly requested, queried/checked `basix_require_
 The GPU build now includes `basix_progressive_gpu` and `basix_material_sampling_gpu`. `shaders/basix_material.slang` is the shared float material contract. The native ray adapter uses a conventional AS descriptor and8-byte push-constant BDA root. Device, command pool/timeline and mapped scene/output heap belong to NoGraphicsAPI; no upstream public RT API is implied. ABI assertions and reflected layouts cover Root176/Triangle64/Material48.
 
 ```text
+
 build-gpu/Debug/basix_progressive_gpu --validate --width 32 --height 32 --spp 1024 --output progressive-output
+
 python tools/run_progressive_validation.py --exe build-gpu/Debug/basix_progressive_gpu --shader build-gpu/shaders/progressive_pt.spv --validation-layer-dir PATH_TO_PINNED_VVL --output progressive-validation
+
 build-gpu/Debug/basix_material_sampling_gpu --validate --require-paired-transport --output sampling-strict
+
 ```
 
 Set process-local validation variables as documented above. Single-configuration builds omit `Debug/`. `--require-paired-transport` currently **exits1**: the original same-variates CPU/GPU sample criterion still fails18 of4096 extreme grazing cases. Maximum paired importance-weight difference is15.688%. It remains a failing acceptance gate. Near-cancelling `wo+wi` half-vector reconstruction amplifies float direction rounding; no shader/model/tolerance was changed to hide it. Normal sampling mode can exit0 only for separately named direction/validity and returned-tuple diagnostics, and its receipt/stdout explicitly say **partial**. Independent distribution/energy acceptance for that legacy proposal remains open; the distinct visible-GGX acceptance below is separate.
@@ -149,11 +180,12 @@ The scene harness passes seven variants and four expected rejections. It checks 
 
 The fixed original box scene uses unequal-area emitter triangles, one identity TLAS instance and unit-scale float offsets. Thin gaps, large coordinates, transformed instances, import/textures, motion/DLSS integration and cross-device quality remain unverified. `--no-cpu-comparison` permits a bounded larger preview; its CPU error metrics are null, and its scope is distinct. Dispatch/readback host elapsed is not isolated GPU time or a comparative performance claim. See `docs/progressive-results.json`, `docs/sampling-results.json` and the visible roadmap logbook.
 
-
 The canonical sampling harness reproduces all three outcomes with supplied local tools and no downloads:
 
 ```text
+
 python tools/run_sampling_validation.py --exe build-gpu/Debug/basix_material_sampling_gpu --shader build-gpu/shaders/material_sampling.spv --slangc PATH_TO_PINNED_SLANGC --validation-layer-dir PATH_TO_PINNED_VVL --output sampling-validation
+
 ```
 
 It records exact hashes, normal partial status, strict rejection and an isolated compiled no-op control. Known loader notices caused by the process's explicit implicit-layer disable filter are narrowly counted separately; all other warning/error/backend diagnostics fail. Raw logs and scratch shaders remain in the chosen work directory. The selected public receipt excludes local paths. Actual static DLSS SR was rechecked after patch6: all8cases still pass, including3real SR frames with the original image oracle. This does not add motion or temporal DLSS acceptance.
@@ -165,8 +197,11 @@ The GPU progressive renderer now defaults to `vndf_sampled_state_v1`. `--sampler
 The independent GPU oracle links neither CPU material implementation nor its sampling routines. It integrates projected-NDF half-slope radial domains with analytic azimuth arcs; physical energy uses a D-cancelled half-domain integrand. Analytic Lambert and roughness1 white-conductor anchors check the numerical oracle. Nine configurations cover normal/grazing/oblique white conductors, Lambert and one white dielectric mixture. Each uses262144 samples,65direction/null bins and three energy channels. Bonferroni Bernstein bounds assume IID pseudorandom variates; quadrature refinement envelopes are convergence estimates, not rigorous interval bounds. This is bounded material evidence, not a universal proof.
 
 ```text
+
 python tools/run_visible_validation.py --exe build-gpu/Debug/basix_material_visible_gpu --distribution-exe build-gpu/Debug/basix_material_distribution_gpu --shader-dir build-gpu/shaders --slangc PATH_TO_PINNED_SLANGC --nographics-include PATH_TO_PREPARED_NOGRAPHICSAPI/include --validation-layer-dir PATH_TO_PINNED_VVL --output visible-validation
+
 python tools/run_progressive_validation.py --exe build-gpu/Debug/basix_progressive_gpu --shader build-gpu/shaders/progressive_pt.spv --sampler vndf --verify-default --validation-layer-dir PATH_TO_PINNED_VVL --output visible-progressive-validation
+
 ```
 
 The material harness passes16384 paired cases across four frozen deterministic input streams at the existing f/PDF and direction tolerances, with an explicit importance-weight tolerance. Two actual no-op shaders reject poisoned output. An isolated shader multiplying valid PDFs by1.1 fails all27 energy channels while preserving every histogram count. The harness recomputes confidence/acceptance arithmetic from serialized aggregates and scans whole-process core/SyncVal logs; hashes pin all inputs before/after. Selected numeric receipts contain no local paths.
@@ -174,3 +209,48 @@ The material harness passes16384 paired cases across four frozen deterministic i
 The11-case scene suite checks the actual executable default plus lighting variants, CPU24 images, independently decoded HDR, primary intersections, accumulation/reset identity and expected failures. New CPU material tests add67 independent checks; the offline oracle also tests exact anchors and synthetic biased populations. CPU reference now has79 checks, including preserved default and visible-proposal integration semantics.
 
 The old NDF oracle is unchanged and still fails18 cases. Reconstructing a normal from rounded nearly cancelling directions can amplify FP32 storage error; the new sampled-state contract does not make standalone rounded-direction reconstruction identical. Its separate diagnostic is preserved. M2-gpu remains partial for broader geometry/temporal acceptance. No cross-device, UE-detail, advanced extension or performance claim follows.
+
+## Opt-in triangle ray spawning and local-coordinate fixtures
+
+`--bounded-rays` selects original MIT barycentric triangle reconstruction, an explicit reconstruction error box, geometric-normal projection and outward representable rounding. `basix_ray_spawn` is also an offline dependency-free CPU library. Its62checks include12000 independent double-precision plane/enclosure cases. Traversal error is a separate caller input; the GPU identity-instance experiment supplies an empirical gamma7-times-edge-extent allowance. This is not a portable Vulkan hardware error guarantee. No vendor source implementation is incorporated.
+
+Both connection endpoints are offset; the segment endpoint is shortened by one representable distance step. Invalid/nonfinite spawns reject, while finite unusable intervals conservatively contribute zero light. The latter preserves the original legacy behavior. Actual bad-spawn and synthetic short-connection tests guard both cases. The default renderer retains the original offset policy; the visible-GGX sampler remains its default sampling proposal.
+
+```text
+
+build-gpu/Debug/basix_progressive_gpu --validate --bounded-rays --ray-spawn-tests --output ray-fixtures
+
+python tools/run_ray_spawn_validation.py --exe build-gpu/Debug/basix_progressive_gpu --shader build-gpu/shaders/progressive_pt.spv --slangc PATH_TO_PINNED_SLANGC --validation-layer-dir PATH_TO_PINNED_VVL --output ray-validation
+
+python tools/run_progressive_validation.py --exe build-gpu/Debug/basix_progressive_gpu --shader build-gpu/shaders/progressive_pt.spv --bounded-rays --sampler vndf --validation-layer-dir PATH_TO_PINNED_VVL --output ray-scene-validation
+
+```
+
+The180GPUfixtures contain72secondary and108shadow/short-connection cases, scales0.001/1/1000 and world translations0/+2^20/-2^24. The four physical families check self-misses, nearby secondary blockers, near-light blockers and clear connections; a fifth synthetic family checks conservative short-connection handling. Geometry plane identity and actual uploaded gaps provide independent expectations. Nominal separation is1e-5times scale; double world translation/rebase may round small separations, so serialized actual FP32 gaps govern the spawn-before-blocker test. Front/back signs, grazing secondary and angled shadow directions are covered. This is not evidence for arbitrary sub-ULP geometry.
+
+`--world-offset VALUE` constructs a bounded double-precision translated fixture and removes its local origin before FP32 upload; it does not recover precision lost before that conversion. `--unrebased` is an explicit failed-control route. These are fixture utilities, not a complete large-world streaming system. Malformed/nonfinite/out-of-domain offsets reject. The canonical harness freezes supplied tools/sources, recomputes fixture results from numeric readback, and scans whole-process core/SyncVal output. Legacy-offset and unrebased controls fail expected fixtures; omitted dispatch, invalid spawn and an actual compiled no-op shader each reject all180. Selected public receipts omit repeated negative arrays but preserve counts/settings and the raw local receipt hash.
+
+The11candidate progressive cases pass original image limits, including NEE/MIS/RR variants, primary-hit comparisons, finite HDR and batch/reset identity. Exact hardware edge/vertex barycentrics, nonidentity transforms, cross-device traversal allowances and subnormal behavior remain unaccepted. M2-gpu-rays stays partial; only its named fixture subgate is completed. No performance, temporal reconstruction or UE-detail claim follows.
+
+The default renderer's seven HDR images remain byte-identical to the prior accepted images. A separate three-translation run at16x16/256SPP produces byte-identical HDR at0/+2^24/-2^24 after rebasing; CPU comparison is explicitly skipped in those identity-only runs and its metrics are null. See `docs/ray-coordinate-results.json` and reproduce with `tools/run_ray_coordinate_validation.py` using the same executable/shader/layer arguments.
+
+## Hardware boundary and fixed static-instance catalog
+
+`--ray-boundary-tests` builds an object-space fan BLAS and one actual transformed TLAS instance, with independently baked world-space triangle metadata. The360fixtures combine six known invertible row-major matrices, three scales, both sides, five target families and two layer states. The fixed families are identity, Y-axis90degree rotation, diagonal2/0.5/4 scale, XY/ZX shear, reflection acrossX and a scaled translation. Exactly72hardware vertex and72edge observations were recorded; labels alone cannot satisfy the required minimum12ofeach.
+
+The Decimal60oracle independently validates matrix/object/target catalogs, uploaded geometry, barycentric/ray/target point agreement, geometric normals, boundary membership and actual source/blocker separation. Primitive identity alone is insufficient: the secondary distance must reach that world-space blocker plane. Position tolerances are explicit epsilon-scaled coefficients, not literal ULP counts or a universal hardware error theorem. A wrong-TLAS-transform control rejects276cases; invalid spawn, omitted dispatch and an actual compiled no-op shader each reject all360. The positive numeric readbacks remain in the selected public receipt; repeated negative arrays stay local with their frozen receipt hash.
+
+```text
+python tools/run_ray_boundary_validation.py --exe build-gpu/Debug/basix_progressive_gpu --shader build-gpu/shaders/progressive_pt.spv --slangc PATH_TO_PINNED_SLANGC --validation-layer-dir PATH_TO_PINNED_VVL --output boundary-validation
+build-gpu/Debug/basix_progressive_gpu --validate --bounded-rays --instance-transform 3 --width 16 --height 16 --spp 256 --output instance-shear
+python tools/run_instance_validation.py --exe build-gpu/Debug/basix_progressive_gpu --shader build-gpu/shaders/progressive_pt.spv --validation-layer-dir PATH_TO_PINNED_VVL --output instance-validation
+python tools/ray_boundary_oracle.py --self-test
+```
+
+The actual renderer accepts catalog IDs0..5. Its BLAS uses object vertices while the TLAS carries the selected matrix; world metadata, light areas and the CPU scene are separately transformed. Eight16x16/256SPP comparisons cover all six IDs plus nonuniform/shear combined with large rebased world translations. Four controls reject invalid/malformed IDs, omitted mirror compensation and unsupported unrebased translated combinations. Whole-process core/SyncVal logs, finite decoded HDR, primary hits and batch/reset checks pass at the original image thresholds. The bad-mirror control is a CPU preprocessing rejection, not a GPU shader-fault test.
+
+A reflection reverses winding. Before both BLAS construction and world baking, the rendered reflection path swaps triangle vertices to preserve authored outside and one-sided emitter orientation. A separate reflected-normal equation verifies this; CPU/GPU image agreement alone could have shared the same orientation mistake. The raw boundary fan fixtures intentionally retain transformed winding and test outgoing-side geometry directly. Basix currently derives front/outward semantics from world metadata rather than claiming hardware facing flags solve this convention.
+
+The default remains the legacy offset policy with visible-GGX sampling. These are static single-instance experiments. General instance IDs/primitive offsets, shared-BLAS remapping, arbitrary matrix validation/error propagation, dynamic updates/lifetimes, subnormals, other GPUs, importer/temporal guides and performance remain separate gates. Fixed catalog support is not a universal Vulkan robustness proof.
+
+The reflected catalog rebuilds its own object BLAS. General shared-BLAS support must preserve positive and reflected objects independently; globally reversing shared mesh winding would change both. This remains part of the pending per-instance metadata/orientation gate, alongside transform-conditioned uncertainty and update lifetimes.

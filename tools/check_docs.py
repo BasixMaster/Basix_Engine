@@ -17,6 +17,10 @@ class Parser(HTMLParser):
 def main():
  p=ROOT/'docs/index.html'; text=p.read_text(encoding='utf-8'); text=re.sub(r'<!-- private-cost-meter:start -->.*?<!-- private-cost-meter:end -->','',text,flags=re.S); parsed=Parser();parsed.feed(text)
  errors=[]
+ for name in ('README.md','IMPLEMENTATION.md'):
+  markdown=(ROOT/name).read_text(encoding='utf-8')
+  if re.search(r'\u00c3|\u00e2\u20ac|\ufffd',markdown):errors.append('Markdown encoding damage: '+name)
+
  if len(parsed.ids)!=len(set(parsed.ids)):errors.append('duplicate IDs')
  for link in parsed.links+parsed.scripts:
   u=urlsplit(link)

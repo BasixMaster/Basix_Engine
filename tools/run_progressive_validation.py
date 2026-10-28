@@ -14,6 +14,8 @@ def main():
  p.add_argument('--shader',type=Path,required=True)
  p.add_argument('--validation-layer-dir',type=Path,required=True)
  p.add_argument('--output',type=Path,required=True)
+ p.add_argument('--bounded-rays',action='store_true')
+ p.add_argument('--world-offset',type=float,default=0)
  p.add_argument('--sampler',choices=['ndf','vndf'],default='vndf')
  p.add_argument('--verify-default',action='store_true',help='Main case omits --sampler and verifies executable default')
  a=p.parse_args();exe=a.exe.resolve();shader=a.shader.resolve();layer=a.validation_layer_dir.resolve();out=a.output.resolve()
@@ -32,6 +34,8 @@ def main():
   target=out/name
   if target.exists():raise ValueError('Use a fresh output directory: '+name)
   command=[str(exe),'--validate','--shader-dir',str(shader.parent),'--output',str(target),*args]
+  if a.bounded_rays:command.append('--bounded-rays')
+  command+=['--world-offset',str(a.world_offset)]
   if not (a.verify_default and name=='main'):command+=['--sampler',a.sampler]
   process=subprocess.run(command,env=local,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,encoding='utf-8',errors='replace',timeout=180)
   log=process.stdout;(out/(name+'.log')).write_text(log,encoding='utf-8')
@@ -43,7 +47,7 @@ def main():
   if trace and not re.search(r'Insert instance layer[^\n]*VK_LAYER_KHRONOS_validation',log):raise ValueError('Validation layer insertion not confirmed')
   if positive:
    result=json.loads((target/'result.json').read_text(encoding='utf-8'))
-   expected=dict(sampler='vndf_sampled_state_v1' if a.sampler=='vndf' else 'ndf_legacy',width=32,height=32,spp=1024,batch=64,seed=20261028,max_depth=8,random_bits=24,next_event_estimation=True,multiple_importance_sampling=True,russian_roulette=True,split_unequal_area_emitter=True)
+   expected=dict(instance_transform=0,mirrored_winding_compensated=False,bounded_rays=a.bounded_rays,world_offset=a.world_offset,camera_relative_rebase=True,sampler='vndf_sampled_state_v1' if a.sampler=='vndf' else 'ndf_legacy',width=32,height=32,spp=1024,batch=64,seed=20261028,max_depth=8,random_bits=24,next_event_estimation=True,multiple_importance_sampling=True,russian_roulette=True,split_unequal_area_emitter=True)
    value_flags={'--width':'width','--height':'height','--spp':'spp','--batch':'batch','--seed':'seed','--depth':'max_depth'}
    bool_flags={'--no-nee':'next_event_estimation','--no-mis':'multiple_importance_sampling','--no-rr':'russian_roulette','--unsplit-light':'split_unequal_area_emitter'}
    for index,arg in enumerate(args):
@@ -77,7 +81,7 @@ def main():
  missing=out/'missing-shaders';missing.mkdir()
  run('missing-shader-cleanup',[*small,'--shader-dir',str(missing)],False,'shader file not found')
  if hashlib.sha256(exe.read_bytes()).hexdigest()!=exe_sha or hashlib.sha256(shader.read_bytes()).hexdigest()!=shader_sha:raise ValueError('Executable/shader changed during validation')
- receipt=dict(checked_on='2026-10-28',status='passed',sampler=a.sampler,default_sampler_verified=a.verify_default,scope='Fixed unit-scale triangle scene PT, ordinary Vulkan AS/ray query on NoGraphicsAPI-owned device; separate grazing material gate remains partial',cases=records,results=results,executable_sha256=exe_sha,shader_sha256=shader_sha,requested_case_settings_verified=True,validation_dll_sha256=lock['dll_sha256'],loader_confirmed_validation=True,synchronization_validation_requested=True,full_process_diagnostics='zero unreviewed Vulkan/backend warnings/errors, including startup and teardown',limits=['One Windows RTX4090/NVIDIA617.42 configuration','CPU24 matched streams and float GPU; independent material distribution/energy is a separate receipt','Grazing same-variates BSDF transport discrepancy remains open','Unit-scale float ray offsets/endpoints; thin gaps/large coordinates unverified','One identity TLAS instance and fixed original geometry; no import/textures/motion/DLSS integration','No advanced extension execution or performance comparison'])
+ receipt=dict(checked_on='2026-10-28',status='passed',sampler=a.sampler,bounded_rays=a.bounded_rays,world_offset=a.world_offset,default_sampler_verified=a.verify_default,scope='Fixed unit-scale triangle scene PT, ordinary Vulkan AS/ray query on NoGraphicsAPI-owned device; separate grazing material gate remains partial',cases=records,results=results,executable_sha256=exe_sha,shader_sha256=shader_sha,requested_case_settings_verified=True,validation_dll_sha256=lock['dll_sha256'],loader_confirmed_validation=True,synchronization_validation_requested=True,full_process_diagnostics='zero unreviewed Vulkan/backend warnings/errors, including startup and teardown',limits=['One Windows RTX4090/NVIDIA617.42 configuration','CPU24 matched streams and float GPU; independent material distribution/energy is a separate receipt','Grazing same-variates BSDF transport discrepancy remains open','Unit-scale float ray offsets/endpoints; thin gaps/large coordinates unverified','One identity TLAS instance and fixed original geometry; no import/textures/motion/DLSS integration','No advanced extension execution or performance comparison'])
  (out/'progressive-results.json').write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf-8')
  print(json.dumps(dict(status='passed',cases=len(records),primary_rays=sum(r['primary_rays'] for r in results.values()),worst_normalized_rmse=max(r['normalized_rmse'] for r in results.values()),worst_low_radiance_rmse=max(r['low_radiance_normalized_rmse'] for r in results.values()))))
 

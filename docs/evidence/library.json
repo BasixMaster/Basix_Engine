@@ -10,7 +10,9 @@
     "Vulkan-first adoption map separates native extension contracts, portable replacements and enumeration/enabling/oracle/performance evidence; no advanced-extension execution measurements added.",
     "M2 partial: tested material CPU/GPU evaluation and CPU progressive reference; Vulkan advanced feature queries recorded separately from execution.",
     "Scoped progressive Vulkan PT passes11 cases; GPU sampling remains partial with18 retained grazing failures and maximum paired transport-weight discrepancy15.688%.",
-    "Distinct visible-GGX sampled-state proposal passes canonical sampling and fixed-scene transport gates; legacy NDF grazing failures remain recorded and broader M2 stays partial."
+    "Distinct visible-GGX sampled-state proposal passes canonical sampling and fixed-scene transport gates; legacy NDF grazing failures remain recorded and broader M2 stays partial.",
+    "Opt-in triangle error-box ray spawning passes its scoped canonical fixture gate; legacy offsets remain the default and broader M2 is partial.",
+    "Hardware edge/vertex and fixed TLAS-instance catalog passes its selected boundary gate; bounded rays remain opt-in and broader M2 stays partial."
   ],
   "questions": [
     {
@@ -1751,6 +1753,134 @@
       "topic": "rendering",
       "presentation_path": "index.html",
       "presentation_anchor": "S95"
+    },
+    {
+      "id": "S96",
+      "title": "PBRT 4: Managing Rounding Error",
+      "url": "https://pbr-book.org/4ed/Shapes/Managing_Rounding_Error",
+      "notes": "Floating-point hit positions can lie on either side of a surface. An offset that is too small causes false self-intersections; an offset that is too large skips nearby geometry. The chapter develops arithmetic error bounds and uses an uncertainty interval when spawning rays. Basix uses these mathematical principles in an original implementation, with hardware traversal uncertainty kept as an explicit, separate input.",
+      "kind": "primary technical textbook",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Linked and paraphrased; no source implementation incorporated.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S96"
+    },
+    {
+      "id": "S97",
+      "title": "NVIDIA: Solving Self-Intersection Artifacts in DirectX Raytracing",
+      "url": "https://developer.nvidia.com/blog/solving-self-intersection-artifacts-in-directx-raytracing/",
+      "notes": "The analysis separates hit reconstruction, transforms and traversal errors, projects their uncertainty onto a geometric normal, and discusses offsetting both connection endpoints. Translating the working origin can reduce coordinate magnitudes. Its DXR/hardware assumptions are not a universal Vulkan bound: Basix independently implements the mathematics and treats its own identity-instance extent allowance as an empirical policy requiring device-specific acceptance.",
+      "kind": "primary vendor numerical analysis",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Linked and summarized; no vendor source implementation or universal traversal constant adopted.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S97"
+    },
+    {
+      "id": "S98",
+      "title": "Basix opt-in ray-spawn acceptance",
+      "url": "https://github.com/BasixMaster/Basix_Engine/blob/main/docs/ray-spawn-results.json",
+      "notes": "The canonical harness passes the scoped opt-in candidate and verifies expected rejection of legacy-offset, unrebased, omitted-dispatch, invalid-spawn and actual no-op-shader controls. The candidate checks 180 layered-triangle and synthetic short-connection fixtures. Actual uploaded gaps and numeric readbacks retain conversion limits.",
+      "kind": "local measured scoped correctness",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Original Basix code, fixtures and selected numeric receipts MIT; no private telemetry included.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S98"
+    },
+    {
+      "id": "S99",
+      "title": "Basix opt-in ray-spawn progressive integration",
+      "url": "https://github.com/BasixMaster/Basix_Engine/blob/main/docs/ray-progressive-results.json",
+      "notes": "The selected progressive-scene harness passes with bounded rays explicitly enabled. Scene images, accumulation/reset behavior and expected failures have a separate scope from layered-triangle numerical fixtures. The legacy offset policy remains the default.",
+      "kind": "local measured scoped correctness",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Original Basix implementation and selected numeric receipts MIT.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S99"
+    },
+    {
+      "id": "S100",
+      "title": "Basix hardware boundary and instance fixture acceptance",
+      "url": "https://github.com/BasixMaster/Basix_Engine/blob/main/docs/ray-boundary-results.json",
+      "notes": "The selected canonical harness passes 360 hardware boundary/instance fixtures and verifies wrong-transform, invalid-spawn, omitted-dispatch and actual no-op-shader controls. A separate Decimal oracle rechecks fixed input catalogs, numeric readback, plane membership and actual edge/vertex observations.",
+      "kind": "local measured scoped correctness",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Original Basix code, fixtures and selected numerical receipts MIT.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S100"
+    },
+    {
+      "id": "S101",
+      "title": "Vulkan: VkAccelerationStructureInstanceKHR",
+      "url": "https://docs.vulkan.org/refpages/latest/refpages/source/VkAccelerationStructureInstanceKHR.html",
+      "notes": "A top-level acceleration-structure instance references bottom-level geometry at a transformed location. Its transform and application-defined instance index have distinct roles. Basix tests one actual transformed TLAS instance against separately baked world-space metadata; it does not thereby implement a general per-instance geometry mapping.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Official specification linked and paraphrased; no implementation copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S101"
+    },
+    {
+      "id": "S102",
+      "title": "Vulkan: VkTransformMatrixKHR",
+      "url": "https://docs.vulkan.org/refpages/latest/refpages/source/VkTransformMatrixKHR.html",
+      "notes": "The instance transform is a row-major 3-by-4 affine matrix whose first three columns must define an invertible 3-by-3 matrix. The Basix fixture catalog uses six known invertible families; accepting this bounded catalog does not validate arbitrary user matrices or provide a universal transformation-error bound.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Official specification linked and paraphrased; no implementation copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S102"
+    },
+    {
+      "id": "S103",
+      "title": "Basix fixed instance-catalog progressive acceptance",
+      "url": "https://github.com/BasixMaster/Basix_Engine/blob/main/docs/instance-progressive-results.json",
+      "notes": "The selected actual-renderer receipt covers all six instance-transform IDs with bounded rays and CPU world-space image comparisons. The object-space BLAS and TLAS transform are separate from world-space shader metadata, light areas and camera setup. Broader instance management and transform error propagation remain open.",
+      "kind": "local measured scoped correctness",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Original Basix implementation and selected numerical receipts MIT.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S103"
     }
   ],
   "findings": [
@@ -2581,20 +2711,124 @@
       ],
       "presentation_path": "index.html",
       "presentation_anchor": "summary"
+    },
+    {
+      "id": "F21",
+      "title": "Local coordinates and explicit uncertainty require separate geometric and failure-path acceptance",
+      "question_ids": [
+        "Q2"
+      ],
+      "topic": "rendering",
+      "claim": "Barycentric reconstruction, an arithmetic error box and a separate empirical traversal allowance support a scoped opt-in spawn policy. Layered planes independently check hit identity and converted separation; unusable connections must fail closed.",
+      "evidence_type": "measured scoped correctness",
+      "confidence": "high",
+      "context": "2026-10-28; original MIT CPU/Slang implementation; identity TLAS instance on the named Windows RTX4090/NVIDIA617.42 configuration. Earlier identity-instance gate; later hardware boundary/catalog evidence is F22.",
+      "strengths": "Independent plane/side oracles, actual numeric readbacks and uploaded gaps, front/back and angled cases, explicit control failures and invalid/unusable interval regressions.",
+      "limitations": "Three scales and translations, layered triangles and a synthetic short-connection regression. The traversal allowance is empirical. Hardware edge/vertex barycentrics, arbitrary transforms, subnormal arithmetic, other GPUs and performance remain open.",
+      "implications": "Retain the original identity-instance receipt. Use F22 for later scoped boundary/catalog evidence; general instance metadata, transform uncertainty and temporal integration remain open.",
+      "tags": [
+        "Vulkan",
+        "ray origin",
+        "rounding error",
+        "camera relative",
+        "shadow rays",
+        "independent oracle"
+      ],
+      "evidence": [
+        {
+          "source_id": "S96",
+          "locator": "Numerical method, selected fixture and integration receipts",
+          "relation": "supports",
+          "note": "Arithmetic analysis, empirical traversal allowance and executed acceptance have distinct scopes."
+        },
+        {
+          "source_id": "S97",
+          "locator": "Numerical method, selected fixture and integration receipts",
+          "relation": "supports",
+          "note": "Arithmetic analysis, empirical traversal allowance and executed acceptance have distinct scopes."
+        },
+        {
+          "source_id": "S98",
+          "locator": "Numerical method, selected fixture and integration receipts",
+          "relation": "supports",
+          "note": "Arithmetic analysis, empirical traversal allowance and executed acceptance have distinct scopes."
+        },
+        {
+          "source_id": "S99",
+          "locator": "Numerical method, selected fixture and integration receipts",
+          "relation": "supports",
+          "note": "Arithmetic analysis, empirical traversal allowance and executed acceptance have distinct scopes."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
+    },
+    {
+      "id": "F22",
+      "title": "Exact boundary observations and independent instance catalogs strengthen a bounded ray-spawn gate",
+      "question_ids": [
+        "Q2"
+      ],
+      "topic": "rendering",
+      "claim": "An object-space BLAS with an actual TLAS matrix is checked against separately baked world triangles. Decimal input-catalog and geometric readback checks distinguish meaningful hardware edge/vertex and transform coverage from labels or matching formulas.",
+      "evidence_type": "measured scoped correctness",
+      "confidence": "high",
+      "context": "2026-10-28; original MIT fixtures/checker; six fixed transform families on one Windows RTX4090/NVIDIA617.42 configuration.",
+      "strengths": "Independent matrix/object/target catalogs, Decimal geometry, exact hardware boundary counts, shared-edge membership, numeric spawn/blocker checks and actual fault controls.",
+      "limitations": "Single static TLAS instance and a fixed transform catalog. The traversal allowance remains empirical; general instance remapping, arbitrary transform uncertainty, motion, subnormal behavior, cross-device quality and performance remain open.",
+      "implications": "Retain --bounded-rays as opt-in; implement general instance metadata/error propagation before broader adoption, then validate imported scenes and temporal guides separately.",
+      "tags": [
+        "Vulkan",
+        "TLAS",
+        "instance transform",
+        "barycentrics",
+        "ray origin",
+        "independent oracle"
+      ],
+      "evidence": [
+        {
+          "source_id": "S100",
+          "locator": "Selected boundary/renderer receipt and native transform contract",
+          "relation": "supports",
+          "note": "API semantics, bounded numerical fixtures and rendered integration are distinct evidence types."
+        },
+        {
+          "source_id": "S101",
+          "locator": "Selected boundary/renderer receipt and native transform contract",
+          "relation": "supports",
+          "note": "API semantics, bounded numerical fixtures and rendered integration are distinct evidence types."
+        },
+        {
+          "source_id": "S102",
+          "locator": "Selected boundary/renderer receipt and native transform contract",
+          "relation": "supports",
+          "note": "API semantics, bounded numerical fixtures and rendered integration are distinct evidence types."
+        },
+        {
+          "source_id": "S103",
+          "locator": "Selected boundary/renderer receipt and native transform contract",
+          "relation": "supports",
+          "note": "API semantics, bounded numerical fixtures and rendered integration are distinct evidence types."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
     }
   ],
   "actions": [
     {
       "id": "A1",
-      "title": "Complete renderer scene and temporal gates",
+      "title": "Complete general instance metadata, scene and temporal acceptance",
       "priority": "high",
       "finding_ids": [
         "F19",
-        "F20"
+        "F20",
+        "F21",
+        "F22"
       ],
-      "rationale": "Visible-GGX has a distinct numerical contract; its acceptance does not close the legacy NDF result or broader renderer integration.",
+      "rationale": "The fixed boundary and instance catalog extends earlier numerical gates without establishing an arbitrary-transform or multi-instance renderer.",
       "prerequisites": "Choose GPU/driver targets and optional SDK terms.",
-      "success_criterion": "Selected VNDF sampling/distribution and progressive-scene receipts pass before adoption; thin-gap/large-coordinate, import/textures and depth/motion/reset gates then pass independently.",
+      "success_criterion": "Selected boundary and all-six-ID rendered receipts pass; general instance-to-geometry metadata, transform error propagation, imported/textured scenes and depth/motion/reset behavior then pass separately.",
       "presentation_path": "index.html",
       "presentation_anchor": "roadmap"
     }
@@ -2700,7 +2934,15 @@
         "S92",
         "S93",
         "S94",
-        "S95"
+        "S95",
+        "S96",
+        "S97",
+        "S98",
+        "S99",
+        "S100",
+        "S101",
+        "S102",
+        "S103"
       ],
       "outcome": "Primary-source architecture and license gates resolved; runtime tests remain pending."
     },
@@ -2815,7 +3057,9 @@
     "Added Vulkan-first feature chapter and technique mapping; latest KHR/EXT comparisons remain research, with no new implementation status promotion.",
     "Implemented original material oracle and CPU progressive PT; recorded Vulkan feature/property queries without promoting advanced extension execution.",
     "Added actual Vulkan progressive transport and11-case scene harness while retaining the18-case grazing failure as a partial implementation gate. CPU53 default preserved; optional24-bit matched stream and checked shaderInt64 requirement added.",
-    "Added original visible-GGX sampled-state proposal, factored disk-rim arithmetic and independent GPU probability/null/energy acceptance. Legacy NDF failure and CPU default are preserved; no advanced Vulkan extension or performance claim is promoted."
+    "Added original visible-GGX sampled-state proposal, factored disk-rim arithmetic and independent GPU probability/null/energy acceptance. Legacy NDF failure and CPU default are preserved; no advanced Vulkan extension or performance claim is promoted.",
+    "Added original opt-in triangle error-box spawning, camera-relative fixture conversion and scoped layered-triangle/connection acceptance. Actual uploaded gaps, failed controls and failure-path corrections are retained; empirical traversal policy is not promoted to a universal Vulkan bound.",
+    "Added hardware edge/vertex observations, a fixed actual TLAS transform catalog and an independent Decimal input/geometry oracle. Catalog acceptance remains distinct from general instance management, arbitrary transform bounds and temporal rendering."
   ],
   "presentation_path": "index.html",
   "evidence_page": "index.html#sources",

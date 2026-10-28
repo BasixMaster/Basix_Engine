@@ -475,7 +475,7 @@
         "M2-reference",
         "M1b"
       ],
-      "next_test": "Thin-gap/large-coordinate ray-origin and endpoint tests, then imported geometry and temporal depth/motion conventions; retain legacy NDF failing control.",
+      "next_test": "Implement general multi-instance metadata/updates, then imported geometry and temporal guide conventions; retain the original NDF failing control and explicit bounded-ray adoption decision.",
       "last_verified_on": "2026-10-28",
       "evidence": [
         {
@@ -598,6 +598,120 @@
           "summary": "Eleven actual default/integration checks; CPU24 comparisons, batch/reset and failure controls."
         }
       ]
+    },
+    {
+      "id": "M2-gpu-rays",
+      "title": "Triangle spawn and connection robustness",
+      "status": "partial",
+      "parent": "M2-gpu",
+      "scope": "Opt-in triangle spawning, hardware boundary hits and a fixed nonidentity transform catalog have scoped evidence. General instance/error propagation, arbitrary transforms, subnormal behavior and other devices remain unaccepted; legacy offset default retained.",
+      "acceptance": "Separate analytic geometry, shader fault controls and progressive integration gates; exact hardware barycentric boundaries and transformed geometry must pass before default adoption.",
+      "prerequisites": [
+        "M2-gpu-vndf"
+      ],
+      "next_test": "General per-instance metadata and transform-conditioned uncertainty through M2-gpu-instances before a broader adoption decision.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/ray-spawn-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "180 candidate fixtures and five expected-control rejections; numeric readback, actual uploaded gaps and scoped empirical traversal policy."
+        },
+        {
+          "path": "docs/ray-progressive-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Eleven opt-in candidate renderer acceptance cases pass at original image limits."
+        },
+        {
+          "path": "docs/ray-boundary-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "360 actual hardware cases,72 exact vertex/72 exact edge observations; independent Decimal catalogs/planes, wrong-transform and shader fault controls."
+        },
+        {
+          "path": "docs/instance-progressive-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Eight actual PT scenes cover six transform IDs plus nonuniform/shear with far rebasing; four expected rejections and authored mirror-side preprocessing oracle."
+        }
+      ]
+    },
+    {
+      "id": "M2-gpu-ray-fixtures",
+      "title": "Bounded identity-instance ray fixtures",
+      "status": "completed",
+      "parent": "M2-gpu-rays",
+      "scope": "180 fixtures:72 secondary and108 shadow/short-connection cases, three scales and translations, front/back and two direction selections. Four physical fixture families plus a synthetic short-connection regression; no universal traversal proof.",
+      "acceptance": "Independent plane identities, actual uploaded separation and spawn-side checks pass; legacy/unrebased controls expose failures, omitted/invalid/no-op output rejects all180;11 opt-in progressive variants pass unchanged limits.",
+      "prerequisites": [
+        "M2-gpu-vndf"
+      ],
+      "next_test": "Keep the original180 identity-instance fixtures intact; later boundary evidence is tracked separately in M2-gpu-ray-boundaries.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/ray-spawn-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "180 candidate fixtures and five expected-control rejections; numeric readback, actual uploaded gaps and scoped empirical traversal policy."
+        },
+        {
+          "path": "docs/ray-progressive-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Eleven opt-in candidate renderer acceptance cases pass at original image limits."
+        }
+      ]
+    },
+    {
+      "id": "M2-gpu-ray-boundaries",
+      "title": "Hardware barycentric boundary fixtures",
+      "status": "completed",
+      "parent": "M2-gpu-rays",
+      "scope": "360 shared fan vertex/edge/interior/adjacent targets on six fixed transforms, three scales, both sides and self/blocker states;72 exact hardware vertices and72 exact edges observed on the named device.",
+      "acceptance": "Independent Decimal geometry/catalog checks pass all360; primitive ties require actual membership, and secondary distance must reach the world blocker plane. Wrong-transform, invalid-spawn, omitted-dispatch and compiled no-op controls reject as specified.",
+      "prerequisites": [
+        "M2-gpu-ray-fixtures"
+      ],
+      "next_test": "Retain frozen catalogs and broaden instance metadata/error handling through M2-gpu-instances; no universal transform or traversal bound follows.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/ray-boundary-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "360 actual hardware cases,72 exact vertex/72 exact edge observations; independent Decimal catalogs/planes, wrong-transform and shader fault controls."
+        }
+      ]
+    },
+    {
+      "id": "M2-gpu-instance-catalog",
+      "title": "Static instance catalog in actual PT rendering",
+      "status": "completed",
+      "parent": "M2-gpu",
+      "scope": "Six fixed static TLAS transforms with object BLAS and separately baked world metadata, light areas and camera. Eight bounded16x16/256SPP CPU/GPU scenes pass, including far-rebased nonuniform/shear variants. Mirror winding compensation preserves authored emitting/outward sides.",
+      "acceptance": "Original image limits, primary intersections, finite HDR, batch/reset identity and requested settings pass; malformed IDs, omitted mirror compensation and unsupported unrebased combinations reject. Single-instance/catalog scope only.",
+      "prerequisites": [
+        "M2-gpu-ray-boundaries"
+      ],
+      "next_test": "Implement instance-index metadata/remapping and transform-update lifetimes with arbitrary finite matrix validation; then imported scenes and temporal guides.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/instance-progressive-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Eight actual PT scenes cover six transform IDs plus nonuniform/shear with far rebasing; four expected rejections and authored mirror-side preprocessing oracle."
+        }
+      ]
+    },
+    {
+      "id": "M2-gpu-instances",
+      "title": "General instance metadata and transform updates",
+      "status": "pending",
+      "parent": "M2-gpu",
+      "scope": "Stable instance/primitive mapping for multiple objects sharing BLAS data, transform-conditioned ray-spawn uncertainty, validated invertible matrices and safe metadata/AS update lifetimes.",
+      "acceptance": "Multi-instance shared-BLAS scenes, mirrored authored sides, per-instance primitive/material IDs, transform updates and independent intersection/visibility oracles pass under validation; reject singular/nonfinite matrices and stale metadata.",
+      "prerequisites": [
+        "M2-gpu-instance-catalog"
+      ],
+      "next_test": "Define and implement instance metadata keyed by actual TLAS instance identity; verify two objects sharing one BLAS before importer/guide integration.",
+      "last_verified_on": null,
+      "evidence": []
     }
   ],
   "history": [
@@ -690,6 +804,56 @@
       "evidence": [
         "docs/visible-results.json",
         "docs/visible-progressive-results.json"
+      ]
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M2-gpu-rays",
+      "from_status": "in_progress",
+      "to_status": "partial",
+      "event": "Implemented opt-in error-box spawn/endpoint handling; scoped positive tests pass, but hardware barycentric boundaries and transformed-instance acceptance remain open.",
+      "evidence": [
+        "docs/ray-spawn-results.json",
+        "docs/ray-progressive-results.json"
+      ]
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M2-gpu-ray-fixtures",
+      "from_status": "in_progress",
+      "to_status": "completed",
+      "event": "Completed180 scoped identity-instance fixtures, five expected-negative controls and11 candidate renderer cases. Original default policy retained; actual uploaded gaps distinguished from nominal gaps.",
+      "evidence": [
+        "docs/ray-spawn-results.json",
+        "docs/ray-progressive-results.json"
+      ]
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M2-gpu-ray-boundaries",
+      "from_status": "in_progress",
+      "to_status": "completed",
+      "event": "Completed the scoped360-case hardware boundary/transform fixture gate with72 exact vertices and72 exact edges. Independent blocker-distance verification closes an overly narrow identity-only host check; empirical scope is retained.",
+      "evidence": [
+        "docs/ray-boundary-results.json"
+      ]
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M2-gpu-instance-catalog",
+      "from_status": "in_progress",
+      "to_status": "completed",
+      "event": "Completed actual PT rendering for the fixed instance catalog, including far-rebased combinations and independent authored mirror-side preservation. General instance metadata and updates remain pending.",
+      "evidence": [
+        "docs/instance-progressive-results.json"
+      ]
+    },
+    {
+      "checked_on": "2026-10-28",
+      "event": "Added pending M2-gpu-instances for general instance IDs, shared BLAS metadata, transform-conditioned uncertainty and update lifetimes. Fixed-catalog acceptance does not complete this broader obligation.",
+      "evidence": [
+        "docs/ray-boundary-results.json",
+        "docs/instance-progressive-results.json"
       ]
     }
   ]
