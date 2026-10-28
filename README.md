@@ -1,25 +1,30 @@
 # Basix Engine
 
-Research and architecture for an MIT game engine built around NoGraphicsAPI, with rich geometry, many-light rendering, hardware ray tracing, path tracing and optional DLSS integration.
+An MIT engine foundation built around NoGraphicsAPI, with a research roadmap for dense geometry, many-light rendering, hardware ray tracing, full PT and optional DLSS integration.
 
-**Status:** documentation and design proposals only. No engine implementation or rendering benchmark is included yet.
+**Status:** initial experimental CPU/GPU code is implemented and locally tested. This is not yet a complete renderer or game engine. See [implementation status](ENGINE_STATUS.md) and [build instructions](IMPLEMENTATION.md).
 
-## Read the research
+## Build the offline CPU foundation
 
-Open [docs/index.html](docs/index.html) in a browser after cloning or downloading this repository. The self-contained documentation works offline, including chapter/source search and Light/Dark/System themes.
+```text
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build --config Release
+ctest --test-dir build -C Release --output-on-failure
+```
 
-The page covers:
+No external dependency is required for the default C++20 cage-math target. The optional GPU experiment requires explicitly prepared NoGraphicsAPI/Vulkan/Slang dependencies; see IMPLEMENTATION.md and [the lock file](dependencies.lock.json).
 
-- UE5.8 and UE6 status, and concrete requirements behind “UE-like detail”.
-- NoGraphicsAPI source/API assessment and proposed hardware RT/native SDK extensions.
-- PETAFAB’s publicly described SDF/mesh-shader technology and limits of the evidence.
-- MegaLights versus RTXDI, shared materials, hybrid rendering and full PT.
-- DXR1.2, preview DirectX Linear Algebra and draft DXR2 availability.
-- DLSS resource/guide contracts, MIT distribution boundaries, milestones and acceptance tests.
+Local checks: **78 CPU cage checks**, **4,096 GPU pointer-root pixels**, and **8,192 hardware-ray results** passed on the stated MSVC/RTX4090 configuration. These are correctness checks, not performance or visual-parity benchmarks. Remote CI and other vendors remain unverified.
 
-Research date: **28 October 2026**. Vendor claims, source inspection and proposed designs are explicitly distinguished. Roadmaps can change.
+## Research documentation
 
-## Rebuild and verify
+Open [docs/index.html](docs/index.html) after cloning/downloading. It works offline with chapter/source search and Light/Dark/System themes.
+
+The 17 chapters and 45 sources cover UE5.8/6, MegaLights, PETAFAB, NoGraphicsAPI, DX12/DXR, Linear Algebra, DLSS, RTXDI/RTXPT, DXR2/Clustered Geometry/PTLAS, tetrahedral cages, DGF/DGFS and other viable ideas. The revised roadmap separates tested code, proposed experiments, preview/draft features and vendor claims.
+
+Research date: **28 October 2026**. DXR2’s rendered spec says preview while other official maturity/package evidence conflicts; a matching public SDK/driver combination has not been established here.
+
+## Rebuild documentation
 
 Python 3.10+; standard library only:
 
@@ -28,18 +33,16 @@ python tools/build_docs.py
 python tools/check_docs.py
 ```
 
-For a registered private local chat meter, use `python tools/build_docs.py --private-meter`. It uses the owning workspace adapter and this page’s binding. Default builds stay meter-free; strip private blocks through the owning sanitized export before publication. The SVG identity and banner are original Basix artwork.
+Editable sources are `tools/build_docs.py` and `tools/research_expansion.py`. Structured evidence is in [docs/evidence/library.json](docs/evidence/library.json), with a SQLite FTS index alongside it. [Dependency research pins](docs/dependencies.json), [implementation receipt](docs/implementation-results.json), and [documentation verification](docs/verification.json) retain their distinct scopes.
 
-The editable research source is `tools/build_docs.py`. Structured evidence lives in [docs/evidence/library.json](docs/evidence/library.json), with a SQLite FTS index alongside it. Exact inspected dependency revisions are in [docs/dependencies.json](docs/dependencies.json). Documentation verification results are in [docs/verification.json](docs/verification.json).
+Browser checks cover offline search, anchors, mobile overflow and saved/system themes. Repeat with Node.js/Playwright: `node tools/check_browser.cjs`; set `PLAYWRIGHT_CHANNEL=msedge` to use installed Edge. Screenshots/receipt go into ignored `work/`.
 
-Browser checks also passed for offline search, anchors, mobile overflow, saved/system themes and desktop/mobile light/dark views; see [browser verification](docs/browser-verification.json). To repeat, provide Node.js and Playwright, install its Chromium browser, then run `node tools/check_browser.cjs`. Alternatively set `PLAYWRIGHT_CHANNEL=msedge` to use an installed Edge. Screenshots and the fresh browser receipt are written under ignored `work/`.
+For a registered private local meter, use `python tools/build_docs.py --private-meter`. It uses the owning workspace adapter and this page’s chat-family binding. Default builds are meter-free. Strip private blocks/feeds through the owning sanitized export before publication. The SVG identity/banner are original Basix artwork.
 
-To serve locally, run `python -m http.server 8000 --directory docs` and open `http://localhost:8000`. GitHub Pages hosting is not configured by this initial research delivery.
+Serve locally with `python -m http.server 8000 --directory docs`. GitHub Pages hosting is not configured.
 
-## License
+## License and provenance
 
-Original Basix documentation and original future engine code use MIT; see [LICENSE](LICENSE). External source material retains its own rights. NoGraphicsAPI is MIT at the reviewed revision; NVIDIA DLSS, RTXDI, RTXPT and NRD retain their separate NVIDIA terms. An MIT core does **not** make a bundled SDK stack entirely MIT. No SDK source/binaries or game assets are vendored here.
+Original Basix code/docs use [MIT](LICENSE). NoGraphicsAPI is MIT at the reviewed revision; its modified build copy retains upstream notices. NVIDIA DLSS, RTXDI, RTXPT and NRD keep separate NVIDIA terms; an MIT core does not make a bundled SDK stack entirely MIT. No proprietary SDK code/binaries, game assets, author PDF or extracted paper text are vendored.
 
-## Next implementation gate
-
-Prove NoGraphicsAPI hardware RT and native SDK interop with a moving triangle, resize/history reset and a working fallback before building a broad editor or virtualized geometry system.
+The CPU cage code is an original mathematical experiment, not copied from AMD or the independent Apache-2.0 reference. All new candidate dependencies remain research-only until an exact adoption revision and complete notice/dependency audit is performed.

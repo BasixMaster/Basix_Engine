@@ -1,0 +1,40 @@
+{
+  "status": "passed",
+  "device": "NVIDIA GeForce RTX 4090",
+  "driver_version_raw": 2588573696,
+  "api_version_raw": 4211039,
+  "pointer_pixels": 4096,
+  "ray_checks": 8192,
+  "frames": 2,
+  "validation": "not run; no validation-layer claim",
+  "timing_scope": "correctness only; not a rendering benchmark",
+  "scope": "NoGraphicsAPI pointer root + Vulkan hardware ray query on same device; not DLSS or DXR2",
+  "checked_on": "2026-10-28",
+  "cpu_cage_checks": 78,
+  "cpu_status": "passed",
+  "compiler": "MSVC19.44.35222",
+  "windows_sdk": "10.0.26100.0",
+  "slang": "2026.18.2",
+  "vulkan_headers": "1.4.357",
+  "nvidia_driver": "617.42",
+  "cross_vendor": "not run",
+  "remote_ci": "not run",
+  "remaining": [
+    "validation layer",
+    "native textures and SDK states",
+    "resize/device loss",
+    "DLSS",
+    "full PT",
+    "clustered AS",
+    "GPU cages and preprocessing"
+  ],
+  "process_configuration": "VK_LOADER_LAYERS_DISABLE=~implicit~; process-local overlay exclusion only",
+  "review_fixes": [
+    "committed-only dependency export",
+    "exact revision marker",
+    "shader ABI/compiler build dependencies",
+    "pointer failure-path RAII",
+    "explicit Vulkan-only platform gate",
+    "AS build/read memory dependency"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "checked_on": "2026-10-28",
+  "dependencies": {
+    "NoGraphicsAPI": {"repository":"https://github.com/sebbbi/NoGraphicsAPI.git","revision":"ffd9f2ab6b7442dcfbe0cb0051d84d0edb078d89","license":"MIT","local_patch":"tools/prepare_nographicsapi.py"},
+    "Vulkan-Headers": {"repository":"https://github.com/KhronosGroup/Vulkan-Headers.git","revision":"e3b1eec08173d6b825cd3ac88c885a63b621504a","tag":"vulkan-sdk-1.4.357.0","license":"Apache-2.0 OR MIT"},
+    "Slang": {"version":"2026.18.2","url":"https://github.com/shader-slang/slang/releases/download/v2026.18.2/slang-2026.18.2-windows-x86_64.zip","sha256":"747602aec6b3623658d55fea87492d71828e15d16802d7941204fde418ceee8e","license":"Apache-2.0 WITH LLVM-exception; inspect bundled dependency notices"}
+  },
+  "policy":"CPU default build has no external dependencies. GPU experiment requires explicit locally installed/prepared dependencies. No proprietary SDK source or binaries are vendored."
+}

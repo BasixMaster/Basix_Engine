@@ -5,7 +5,7 @@
   "scope": "UE5.8/6, NoGraphicsAPI, PETAFAB, DXR/DX12, Linear Algebra, RTXDI/RTXPT and DLSS.",
   "updated_on": "2026-10-28",
   "summary": [
-    "Research only; implementation proposals and vendor claims are distinguished from measurements."
+    "Expanded idea pool separates compression, geometry residency, AS organization and deformation. Original CPU and same-device GPU correctness experiments are implemented; performance and visual parity remain unverified."
   ],
   "questions": [
     {
@@ -50,7 +50,7 @@
       ],
       "evaluation": "Compare exact implementation, explicit maturity and distribution terms; distinguish proposal from measurement.",
       "stop_when": "A bounded decision and executable validation gate are documented.",
-      "coverage": "Research decision covered; no runtime or shipping validation. See research-map chapter and milestones.",
+      "coverage": "Public API gap identified; original Vulkan ray-query extension and pointer-root GPU oracles passed locally. SDK texture/state validation remains open.",
       "presentation_path": "index.html",
       "presentation_anchor": "research-map"
     },
@@ -145,6 +145,54 @@
       "evaluation": "Compare exact implementation, explicit maturity and distribution terms; distinguish proposal from measurement.",
       "stop_when": "A bounded decision and executable validation gate are documented.",
       "coverage": "Research decision covered; no runtime or shipping validation. See research-map chapter and milestones.",
+      "presentation_path": "index.html",
+      "presentation_anchor": "research-map"
+    },
+    {
+      "id": "Q7",
+      "title": "Tetrahedral cages and deformation correctness",
+      "topic": "rendering",
+      "priority": "high",
+      "status": "complete",
+      "why": "Select viable experiments without making draft standards mandatory.",
+      "depends_on": [
+        "Q2"
+      ],
+      "search_terms": [
+        "Tetrahedral cages and deformation correctness"
+      ],
+      "source_types": [
+        "primary specifications",
+        "paper",
+        "code licenses"
+      ],
+      "evaluation": "Separate mechanisms, availability, correctness and measured end-to-end benefit.",
+      "stop_when": "Research yields explicit independent implementation gates and unresolved validation tasks.",
+      "coverage": "Sources evaluated; CPU math and basic hardware rays tested. Cluster/cage GPU scalability remains untested.",
+      "presentation_path": "index.html",
+      "presentation_anchor": "research-map"
+    },
+    {
+      "id": "Q8",
+      "title": "Orthogonal geometry and scheduling ideas",
+      "topic": "rendering",
+      "priority": "high",
+      "status": "complete",
+      "why": "Select viable experiments without making draft standards mandatory.",
+      "depends_on": [
+        "Q2"
+      ],
+      "search_terms": [
+        "Orthogonal geometry and scheduling ideas"
+      ],
+      "source_types": [
+        "primary specifications",
+        "paper",
+        "code licenses"
+      ],
+      "evaluation": "Separate mechanisms, availability, correctness and measured end-to-end benefit.",
+      "stop_when": "Research yields explicit independent implementation gates and unresolved validation tasks.",
+      "coverage": "Sources evaluated; CPU math and basic hardware rays tested. Cluster/cage GPU scalability remains untested.",
       "presentation_path": "index.html",
       "presentation_anchor": "research-map"
     }
@@ -378,7 +426,7 @@
       "id": "S15",
       "title": "DXR Part 2 draft",
       "url": "https://github.com/microsoft/DirectX-Specs/blob/master/d3d/Raytracing2.md",
-      "notes": "Draft v0.38 September 8, 2026 proposes clustered geometry, partitioned TLAS, indirect AS operations. Speculative preview schedule is not proof of a shipped SDK.",
+      "notes": "GitHub draft v0.38; rendered version S32 says preview while index S14 says not-preview. Matching public SDK/driver combination not established. Preserve source disagreement.",
       "kind": "official documentation",
       "published_on": "2026-09-08",
       "checked_on": "2026-10-28",
@@ -645,6 +693,230 @@
       "topic": "rendering",
       "presentation_path": "index.html",
       "presentation_anchor": "S31"
+    },
+    {
+      "id": "S32",
+      "title": "DXR2 rendered functional specification",
+      "url": "https://microsoft.github.io/DirectX-Specs/d3d/Raytracing2.html",
+      "notes": "v0.38 Intro says currently in preview. CLAS, cluster BLAS, PTLAS and indirect AS operations are specified; placeholder capability names remain. Conflicts with index maturity wording; no matching consumable SDK/driver pair established.",
+      "kind": "official documentation",
+      "published_on": "2026-09-08",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S32"
+    },
+    {
+      "id": "S33",
+      "title": "SM6.10 preview announcement",
+      "url": "https://devblogs.microsoft.com/directx/shader-model-6-10-agilitysdk-720-preview/",
+      "notes": "April announcement exposes ClusterID but says clustered geometry not ready and tentatively targets fall. Neither intrinsic support nor spec text proves a complete runtime.",
+      "kind": "official documentation",
+      "published_on": "2026-04-27",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S33"
+    },
+    {
+      "id": "S34",
+      "title": "AMD tetrahedral cage memory demonstration",
+      "url": "https://gpuopen.com/learn/how-tetrahedral-cages-significantly-reduce-bvh-memory-usage/",
+      "notes": "September demo: about 25k independently animated plants, 500M selected triangles, 1.7GB BVH and 3.3ms updates; primary/shadow at 1080p 60+fps on RX9070XT. Not a multi-bounce PT benchmark.",
+      "kind": "official documentation",
+      "published_on": "2026-09-17",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S34"
+    },
+    {
+      "id": "S35",
+      "title": "AMD tetrahedral cage technical article",
+      "url": "https://gpuopen.com/learn/ray-tracing-massive-amounts-animated-geometry/",
+      "notes": "Coarse animated cages reuse static micro-BLASes. Article says official DXR samples and header-only cage-generation library are being developed; no released code license established here.",
+      "kind": "official documentation",
+      "published_on": "2026-07-22",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S35"
+    },
+    {
+      "id": "S36",
+      "title": "Ray Tracing Massive Amounts of Animated Geometry",
+      "url": "https://gpuopen.com/download/TetrahedralMeshes_AuthorsVersion.pdf",
+      "notes": "Full author PDF read locally, 18 pages. pp4–10: clipping, affine instance method and 4D watertight method. pp12–16: overhead, performance and limitations. Fast path not guaranteed watertight; watertight variant has substantial overhead.",
+      "kind": "research paper",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Author-version p1 states personal use, not redistribution. Only link and original summaries shipped; PDF, extraction and screenshots remain private workbench evidence.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S36"
+    },
+    {
+      "id": "S37",
+      "title": "AnandTech discussion supplied by user",
+      "url": "https://forums.anandtech.com/threads/exciting-new-features-research-advancements-in-gaming-graphics-adjacent-software.2633516/page-7",
+      "notes": "Discovery context for cages, DGF, Work Lists and other leads. Forum claims are not used as technical proof or hardware roadmap confirmation.",
+      "kind": "discussion / discovery only",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Discussion used for discovery only; claims require independent primary-source verification.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S37"
+    },
+    {
+      "id": "S38",
+      "title": "D3D12 Work Lists draft",
+      "url": "https://microsoft.github.io/DirectX-Specs/d3d/WorkLists.html",
+      "notes": "v0.855, October21: implementations not ready, hopes for preview in 2027. Distinct from released Work Graphs. Do not require Work Lists for the current scheduler.",
+      "kind": "official documentation",
+      "published_on": "2026-10-21",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S38"
+    },
+    {
+      "id": "S39",
+      "title": "DGF SuperCompression",
+      "url": "https://gpuopen.com/learn/introducing-amd-dgf-supercompression/",
+      "notes": "Geometry compression and CLAS are complementary. DGFS can decode to DGF blocks or ordinary indexed meshlets. Vendor storage results are not Basix results.",
+      "kind": "official documentation",
+      "published_on": "2026-05-07",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S39"
+    },
+    {
+      "id": "S40",
+      "title": "DGF SDK license-bearing source",
+      "url": "https://github.com/GPUOpen-LibrariesAndSDKs/DGF-SDK/blob/main/DGFLib/DGF.h",
+      "notes": "MIT permission in DGF.h; repository LICENSE.md also lists dependencies. Candidate codec only, not adopted.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "MIT in inspected header; audit selected revision, dependencies and separate shader/data files before adoption. No code copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S40"
+    },
+    {
+      "id": "S41",
+      "title": "vk_lod_clusters",
+      "url": "https://github.com/nvpro-samples/vk_lod_clusters",
+      "notes": "Maintained raster/RT cluster-LOD and streaming sample. Root license Apache-2.0. Vendor RT path is not a standardized DXR2 implementation.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Apache-2.0 root license; dependencies/assets require independent review. Reference only, not vendored.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S41"
+    },
+    {
+      "id": "S42",
+      "title": "Independent tetrahedral cage implementation",
+      "url": "https://github.com/bgyss/ray-tracing-tet-cage/tree/1d94ae44bbbd41b30e02a340dc66d3aa3337fb1d",
+      "notes": "Independent, not AMD sample; README documents remaining boundary/grazing probe differences. Portable math/preprocessing reference, not proven Vulkan/NVIDIA production renderer.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Apache-2.0 LICENSE at 1d94ae44bbbd41b30e02a340dc66d3aa3337fb1d; retain notices if adopted. No source adopted by Basix.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S42"
+    },
+    {
+      "id": "S43",
+      "title": "meshoptimizer license",
+      "url": "https://github.com/zeux/meshoptimizer/blob/master/LICENSE.md",
+      "notes": "MIT mesh/meshlet optimization candidate. Basix should evaluate offline clustering, LOD and codecs separately from acceleration structures.",
+      "kind": "official documentation",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "MIT at inspected mutable branch; pin a revision and audit chosen files before adoption. No code copied.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S43"
+    },
+    {
+      "id": "S44",
+      "title": "Basix local correctness experiment",
+      "url": "https://github.com/BasixMaster/Basix_Engine/blob/main/IMPLEMENTATION.md",
+      "notes": "Local 2026-10-28 MSVC19.44/SDK26100, Slang2026.18.2, headers1.4.357, RTX4090/NVIDIA617.42. CPU 78 checks; GPU pointer-root4096 pixels and hardware ray-query8192 results across two transforms. Correctness only; no validation-layer pass or performance claim.",
+      "kind": "local implementation / measured correctness",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Local correctness checks with independent CPU oracles; hardware/configuration and untested scope are explicit.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Original Basix code MIT; dependencies retain separate licenses.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S44"
+    },
+    {
+      "id": "S45",
+      "title": "Microsoft Work Graphs release",
+      "url": "https://devblogs.microsoft.com/directx/d3d12-work-graphs/",
+      "notes": "Work Graphs1.0 was released March11,2024. Distinct from later Work Lists design; optional scheduling experiments still require hardware/runtime support and measured workload benefit.",
+      "kind": "official documentation",
+      "published_on": "2024-03-11",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S45"
     }
   ],
   "findings": [
@@ -787,7 +1059,7 @@
         "Q5"
       ],
       "topic": "rendering",
-      "claim": "DXR1.2 is retail; LinAlg is preview; DXR2 status is work in progress; UE6 is a future target.",
+      "claim": "DXR1.2 is retail and LinAlg is preview. DXR2 detail spec says preview while index/SDK evidence conflicts; actual consumable SDK/driver support remains unverified. UE6 is a future target.",
       "evidence_type": "reported",
       "confidence": "high",
       "context": "Public source review as of 2026-10-28",
@@ -869,20 +1141,132 @@
       ],
       "presentation_path": "index.html",
       "presentation_anchor": "summary"
+    },
+    {
+      "id": "F6",
+      "title": "Cages trade update cost against correctness/traversal",
+      "question_ids": [
+        "Q7"
+      ],
+      "topic": "rendering",
+      "claim": "Cage reuse is promising for dense repeated animation, but the fast hardware-instance method is not guaranteed watertight and requires preprocessing/fallback policy.",
+      "evidence_type": "reported",
+      "confidence": "high",
+      "context": "Checked/implemented2026-10-28; source-specific or local experiment scope.",
+      "strengths": "Traceable primary evidence and explicit local oracle.",
+      "limitations": "No cross-vendor/performance or shipping-quality validation.",
+      "implications": "Proceed through separate gates in the revised roadmap.",
+      "tags": [
+        "geometry",
+        "DXR2",
+        "cages",
+        "implementation"
+      ],
+      "evidence": [
+        {
+          "source_id": "S35",
+          "locator": "Linked section; paper locators in notes; IMPLEMENTATION.md for local checks",
+          "relation": "supports",
+          "note": "Supports scoped claim only."
+        },
+        {
+          "source_id": "S36",
+          "locator": "Linked section; paper locators in notes; IMPLEMENTATION.md for local checks",
+          "relation": "supports",
+          "note": "Supports scoped claim only."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
+    },
+    {
+      "id": "F7",
+      "title": "Geometry layers are complementary",
+      "question_ids": [
+        "Q8"
+      ],
+      "topic": "rendering",
+      "claim": "DGF/DGFS encoding, meshlet residency, clustered AS and tetrahedral deformation solve different costs and should retain independent interfaces.",
+      "evidence_type": "analytical",
+      "confidence": "high",
+      "context": "Checked/implemented2026-10-28; source-specific or local experiment scope.",
+      "strengths": "Traceable primary evidence and explicit local oracle.",
+      "limitations": "No cross-vendor/performance or shipping-quality validation.",
+      "implications": "Proceed through separate gates in the revised roadmap.",
+      "tags": [
+        "geometry",
+        "DXR2",
+        "cages",
+        "implementation"
+      ],
+      "evidence": [
+        {
+          "source_id": "S32",
+          "locator": "Linked section; paper locators in notes; IMPLEMENTATION.md for local checks",
+          "relation": "supports",
+          "note": "Supports scoped claim only."
+        },
+        {
+          "source_id": "S39",
+          "locator": "Linked section; paper locators in notes; IMPLEMENTATION.md for local checks",
+          "relation": "supports",
+          "note": "Supports scoped claim only."
+        },
+        {
+          "source_id": "S41",
+          "locator": "Linked section; paper locators in notes; IMPLEMENTATION.md for local checks",
+          "relation": "supports",
+          "note": "Supports scoped claim only."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
+    },
+    {
+      "id": "F8",
+      "title": "Initial implementation passed local oracles",
+      "question_ids": [
+        "Q2",
+        "Q7"
+      ],
+      "topic": "rendering",
+      "claim": "CPU78 checks and GPU pointer4096 / ray8192 oracle checks passed on the stated local configuration. This does not validate PT, DLSS, DXR2 or GPU cages.",
+      "evidence_type": "measured",
+      "confidence": "high",
+      "context": "Checked/implemented2026-10-28; source-specific or local experiment scope.",
+      "strengths": "Traceable primary evidence and explicit local oracle.",
+      "limitations": "No cross-vendor/performance or shipping-quality validation.",
+      "implications": "Proceed through separate gates in the revised roadmap.",
+      "tags": [
+        "geometry",
+        "DXR2",
+        "cages",
+        "implementation"
+      ],
+      "evidence": [
+        {
+          "source_id": "S44",
+          "locator": "Linked section; paper locators in notes; IMPLEMENTATION.md for local checks",
+          "relation": "supports",
+          "note": "Supports scoped claim only."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
     }
   ],
   "actions": [
     {
       "id": "A1",
-      "title": "Implement M0/M1 risk spike",
+      "title": "Harden M1 texture/state and SDK boundary",
       "priority": "high",
       "finding_ids": [
-        "F1",
-        "F2"
+        "F2",
+        "F8"
       ],
-      "rationale": "Prove the missing hardware RT and reconstruction seam before broad engine work.",
+      "rationale": "Basic rays now run; prove validation and native resource/state contracts before renderer expansion.",
       "prerequisites": "Choose GPU/driver targets and optional SDK terms.",
-      "success_criterion": "Hardware rays and reconstruction run with correct lifetimes, resize/reset handling and fallback.",
+      "success_criterion": "Validation-enabled captures, resize/device-state transitions and SDK texture tagging have explicit passing tests.",
       "presentation_path": "index.html",
       "presentation_anchor": "roadmap"
     }
@@ -924,7 +1308,21 @@
         "S28",
         "S29",
         "S30",
-        "S31"
+        "S31",
+        "S32",
+        "S33",
+        "S34",
+        "S35",
+        "S36",
+        "S37",
+        "S38",
+        "S39",
+        "S40",
+        "S41",
+        "S42",
+        "S43",
+        "S44",
+        "S45"
       ],
       "outcome": "Primary-source architecture and license gates resolved; runtime tests remain pending."
     },
@@ -942,10 +1340,32 @@
         "S09"
       ],
       "outcome": "Header inspected locally; PETAFAB internals beyond public description remain unknown."
+    },
+    {
+      "date": "2026-10-28",
+      "phase": "update",
+      "engine": "Official specifications, GPUOpen paper and linked primary repositories",
+      "query": "DXR2 Clustered Geometry PTLAS tetrahedral cages DGF DGFS Work Lists meshlet streaming",
+      "source_ids": [
+        "S32",
+        "S33",
+        "S34",
+        "S35",
+        "S36",
+        "S37",
+        "S38",
+        "S39",
+        "S40",
+        "S41",
+        "S42",
+        "S43"
+      ],
+      "outcome": "Feature boundaries, source conflicts, licenses and adoption gates documented; original CPU/GPU foundation implemented."
     }
   ],
   "scope_changes": [
-    "Added MegaLights and PETAFAB at user request."
+    "Added MegaLights and PETAFAB at user request.",
+    "User added DXR2/clustered geometry, tetrahedral cages, alternative ideas and implementation authorization. Corrected contradictory DXR2 maturity wording; recorded local CPU/GPU correctness results."
   ],
   "presentation_path": "index.html",
   "evidence_page": "index.html#sources",

@@ -12,13 +12,15 @@
     "mobile banner order",
     "single theme picker",
     "anchor navigation",
-    "no JS errors"
+    "no JS errors",
+    "tetrahedral/PTLAS/implementation search coverage"
   ],
   "mobile": {
     "width": 390,
     "scroll": 390,
-    "hero": 173.140625,
-    "nav": 551.765625,
+    "hero": 238.734375,
+    "nav": 758.359375,
     "themeControls": 1
-  }
+  },
+  "checked_on": "2026-10-28"
 }

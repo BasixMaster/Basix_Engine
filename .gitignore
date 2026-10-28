@@ -2,5 +2,7 @@ __pycache__/
 *.pyc
 work/
 build/
+/build*/
+/gpu-output/
 .DS_Store
 _private/
