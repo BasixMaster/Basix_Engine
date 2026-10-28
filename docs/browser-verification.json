@@ -13,7 +13,10 @@
     "single theme picker",
     "anchor navigation",
     "no JS errors",
-    "tetrahedral/PTLAS/implementation search coverage"
+    "23 roadmap rows and state badges match ledger",
+    "research MiniDXNN/splatting search",
+    "in-flight implementation search",
+    "research mobile light/dark and body overflow"
   ],
   "mobile": {
     "width": 390,
@@ -23,10 +26,6 @@
     "themeControls": 1
   },
   "checked_on": "2026-10-28",
-  "roadmap_ui": {
-    "rows": 19,
-    "badges_match_ledger": true,
-    "mobile_overflow": false,
-    "status_search": true
-  }
+  "roadmap_rows": 23,
+  "research_chapters": 18
 }

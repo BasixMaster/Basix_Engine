@@ -27,6 +27,7 @@ def main():
  h=dst/'include/NoGraphicsAPI/NoGraphicsAPI.hpp';s=h.read_text()
  s=s.replace('    void* window = nullptr; // HWND', '    bool enable_ray_query = false; // Basix experimental Vulkan-only device contract.\n    void* window = nullptr; // HWND',1)
  s+='\nnamespace gpu {\nstruct NativeVulkanHandles { void* instance; void* physical_device; void* device; bool validation_enabled; };\nstruct NativeVulkanTexture { void* device; uint64 image; uint32 format, width, height, depth, layers, usage; };\nNativeVulkanHandles basix_native_vulkan(Device* device) noexcept;\nvoid* basix_native_commands(CommandBuffer* commands) noexcept;\nNativeVulkanTexture basix_native_texture(Texture* texture) noexcept;\n}\n'
+ s+='\nnamespace gpu { bool basix_signal_timeline(TimelineSemaphore* semaphore, uint64 value) noexcept; }\n'
  h.write_text(s,encoding='utf-8')
  f=dst/'src/NoGraphicsAPI.cpp';s=f.read_text();needle='    const char* enabled_device_extensions[7]{};'
  if s.count(needle)!=1:raise SystemExit('Upstream patch context changed.')
@@ -69,6 +70,7 @@ def main():
  s=s.replace('struct Device\n{\n    VkInstance instance', 'struct Device\n{\n    bool basix_validation_enabled = false;\n    VkInstance instance',1)
  s=s.replace('    const VkInstanceCreateInfo instance_info{', '    state->basix_validation_enabled = enabled_layer_count != 0;\n    const VkInstanceCreateInfo instance_info{',1)
  s+='\nnamespace gpu {\nNativeVulkanHandles basix_native_vulkan(Device* d) noexcept { return {d->instance, d->physical_device, d->device, d->basix_validation_enabled}; }\nvoid* basix_native_commands(CommandBuffer* c) noexcept { return c->command_buffer; }\nNativeVulkanTexture basix_native_texture(Texture* t) noexcept { return {t->state->device, (uint64)t->image, (uint32)to_vk(t->format), t->width, t->height, t->depth, t->layer_count, (uint32)t->basix_usage}; }\n}\n'
- f.write_text(s,encoding='utf-8');(dst/'BASIX_INTEROP_REVISION').write_text(PIN+'\n');(dst/'BASIX_INTEROP_PATCH_VERSION').write_text('2\n')
+ s+='\nnamespace gpu { bool basix_signal_timeline(TimelineSemaphore* t, uint64 value) noexcept { VkSemaphoreSignalInfo info{ .sType = VK_STRUCTURE_TYPE_SEMAPHORE_SIGNAL_INFO, .semaphore = t->semaphore, .value = value }; return vkSignalSemaphore(t->state->device, &info) == VK_SUCCESS; } }\n'
+ f.write_text(s,encoding='utf-8');(dst/'BASIX_INTEROP_REVISION').write_text(PIN+'\n');(dst/'BASIX_INTEROP_PATCH_VERSION').write_text('3\n')
  print('Prepared experimental Vulkan RT interop from '+PIN)
 if __name__=='__main__':main()

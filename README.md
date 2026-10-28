@@ -18,7 +18,7 @@ Local checks: **78 CPU cage checks**, **4,096 GPU pointer-root pixels**, and **8
 
 ## Current roadmap status
 
-[roadmap.json](roadmap.json) is the status source of truth. The docs show completed, in progress, partial, pending, blocked and deferred scopes with evidence, prerequisites and next tests. [ENGINE_STATUS.md](ENGINE_STATUS.md) is generated from that ledger. Scoped validation/native texture gates now pass; the parent M1 and broad lifecycle gates remain partial. Actual SDK evaluation, window resize and device-loss recovery remain pending.
+[roadmap.json](roadmap.json) is the status source of truth. The docs show completed, in progress, partial, pending, blocked and deferred scopes with evidence, prerequisites and next tests. [ENGINE_STATUS.md](ENGINE_STATUS.md) is generated from that ledger. Scoped validation/native texture and repeated-device/in-flight lifecycle gates pass. Parent M1 remains partial. Hidden-window resizing/restoration passes; actual SDK evaluation, OS minimize and device-loss recovery remain open. The research update adds isolated ReSTIR/LOD, procedural and neural adoption gates.
 
 See [M1 validation results](docs/validation-results.json): five cases, three positive cycles, 25,500 texture checks and 63 contract rejections with zero warning/error logs under the named Debug/core/SyncVal configuration.
 

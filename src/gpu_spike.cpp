@@ -68,7 +68,18 @@ struct Owner {
   require(create_as&&destroy_as&&sizes&&build&&address,"ray-query entry points missing");
  }
  gpu::CommandBuffer* begin(){gpu::reset_command_pool(pool);return gpu::begin_commands(pool);}
- void submit(gpu::CommandBuffer* c){gpu::end_commands(c);const gpu::TimelinePoint done{.semaphore=timeline,.value=++serial};gpu::submit(gpu_device,{.commands={c},.completion=done});gpu::wait_timeline(done);}
+ void wait(uint64_t value){gpu::wait_timeline({.semaphore=timeline,.value=value});}
+ uint64_t submit_async(gpu::CommandBuffer* c,gpu::TimelineSemaphore* gate){gpu::end_commands(c);const gpu::TimelinePoint done{.semaphore=timeline,.value=++serial};const gpu::TimelinePoint hold{.semaphore=gate,.value=1};gpu::submit(gpu_device,{.commands={c},.waits={hold},.completion=done});return serial;}
+ void submit(gpu::CommandBuffer* c){gpu::end_commands(c);const gpu::TimelinePoint done{.semaphore=timeline,.value=++serial};gpu::submit(gpu_device,{.commands={c},.completion=done});wait(serial);}
+};
+// Declare after all resources referenced by the held submission: unwind must
+// release the queue gate and drain before those resources are destroyed.
+struct SubmissionGate {
+ Owner& owner;gpu::TimelineSemaphore* semaphore=nullptr;bool released=false;
+ explicit SubmissionGate(Owner& o):owner(o){semaphore=gpu::create_timeline_semaphore(o.gpu_device);require(semaphore!=nullptr,"submission gate creation failed");}
+ bool release()noexcept{if(!released)released=gpu::basix_signal_timeline(semaphore,1);return released;}
+ ~SubmissionGate(){release();gpu::wait_idle(owner.gpu_device);gpu::destroy_timeline_semaphore(semaphore);}
+ SubmissionGate(const SubmissionGate&)=delete;SubmissionGate& operator=(const SubmissionGate&)=delete;
 };
 struct Buffer {
  Owner& o;VkBuffer handle=VK_NULL_HANDLE;VkDeviceMemory memory=VK_NULL_HANDLE;void* mapped=nullptr;VkDeviceAddress address=0;VkDeviceSize bytes;
@@ -148,24 +159,27 @@ struct TrackedImage {
   require(layout==expected,"external image layout contract mismatch");VkImageMemoryBarrier2 b{VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER_2};b.srcStageMask=src;b.srcAccessMask=sa;b.dstStageMask=dst;b.dstAccessMask=da;b.oldLayout=expected;b.newLayout=next;b.srcQueueFamilyIndex=VK_QUEUE_FAMILY_IGNORED;b.dstQueueFamilyIndex=VK_QUEUE_FAMILY_IGNORED;b.image=image;b.subresourceRange={VK_IMAGE_ASPECT_COLOR_BIT,0,1,0,1};VkDependencyInfo info{VK_STRUCTURE_TYPE_DEPENDENCY_INFO};info.imageMemoryBarrierCount=1;info.pImageMemoryBarriers=&b;vkCmdPipelineBarrier2(c,&info);layout=next;
  }
 };
-unsigned contract_rejections=0;
+unsigned contract_rejections=0,inflight_rejections=0,foreign_registry_rejections=0;
+bool inject_inflight_failure=false;
+std::atomic<uint64_t> registry_sequence{0};
 class BorrowTicket {
  friend class TextureRegistry;
- gpu::NativeVulkanTexture texture_{};uint64_t epoch_=0;
+ gpu::NativeVulkanTexture texture_{};uint64_t epoch_=0,cookie_=0;
  public: BorrowTicket()=default;
 };
 class TextureRegistry {
- VkDevice device_;gpu::NativeVulkanTexture active_{};uint64_t epoch_=0,last_use_=0;
+ VkDevice device_;gpu::NativeVulkanTexture active_{};uint64_t epoch_=0,last_use_=0;const uint64_t cookie_=++registry_sequence;
  public:
  explicit TextureRegistry(VkDevice device):device_(device){}
+ TextureRegistry(const TextureRegistry&)=delete;TextureRegistry& operator=(const TextureRegistry&)=delete;
  bool accepts(const gpu::NativeVulkanTexture& t,uint32_t w,uint32_t h)const{
   const auto usage=static_cast<uint32_t>(gpu::TextureUsage::storage|gpu::TextureUsage::transfer_source);
   return t.device==device_&&t.image!=0&&t.width==w&&t.height==h&&w>0&&h>0&&t.depth==1&&t.layers==1&&t.format==VK_FORMAT_R8G8B8A8_UNORM&&(t.usage&usage)==usage;
  }
  BorrowTicket bind(const gpu::NativeVulkanTexture& texture,uint32_t w,uint32_t h){
-  require(active_.image==0,"cannot replace an active borrowed image");require(accepts(texture,w,h),"native texture metadata contract failed");active_=texture;last_use_=0;BorrowTicket ticket;ticket.texture_=texture;ticket.epoch_=++epoch_;return ticket;
+  require(active_.image==0,"cannot replace an active borrowed image");require(accepts(texture,w,h),"native texture metadata contract failed");active_=texture;last_use_=0;BorrowTicket ticket;ticket.texture_=texture;ticket.epoch_=++epoch_;ticket.cookie_=cookie_;return ticket;
  }
- bool valid(const BorrowTicket& ticket)const{return active_.image!=0&&ticket.epoch_==epoch_&&ticket.texture_.image==active_.image&&ticket.texture_.device==active_.device&&ticket.texture_.width==active_.width&&ticket.texture_.height==active_.height&&ticket.texture_.format==active_.format&&ticket.texture_.usage==active_.usage;}
+ bool valid(const BorrowTicket& ticket)const{return active_.image!=0&&ticket.cookie_==cookie_&&ticket.epoch_==epoch_&&ticket.texture_.image==active_.image&&ticket.texture_.device==active_.device&&ticket.texture_.width==active_.width&&ticket.texture_.height==active_.height&&ticket.texture_.format==active_.format&&ticket.texture_.usage==active_.usage;}
  gpu::NativeVulkanTexture resolve(const BorrowTicket& ticket)const{require(valid(ticket),"stale or foreign texture borrow rejected");return ticket.texture_;}
  void mark_submitted(const BorrowTicket& ticket,uint64_t serial){require(valid(ticket)&&serial>0,"invalid submitted texture borrow");last_use_=serial;}
  void retire(const BorrowTicket& ticket,uint64_t completed){require(valid(ticket)&&last_use_>0&&completed>=last_use_,"texture retirement precedes GPU completion");active_={};++epoch_;last_use_=0;}
@@ -176,6 +190,7 @@ unsigned texture_interop(Owner& o,const std::filesystem::path& out,TextureRegist
   struct Resources{gpu::TextureHeap heap{};gpu::Texture* image=nullptr;gpu::TextureDescriptorHeap* descriptors=nullptr;gpu::GpuHeap roots{};gpu::PSO* pso=nullptr;~Resources(){if(pso)gpu::destroy_pso(pso);if(descriptors)gpu::destroy_texture_descriptor_heap(descriptors);if(image)gpu::destroy_texture(image);if(heap.owner)gpu::destroy_texture_heap(heap);if(roots.owner)gpu::destroy_gpu_heap(roots);}} resources;
   const uint32_t w=extent.x,h=extent.y;const gpu::TextureDesc desc{.extent={w,h,1},.format=gpu::Format::rgba8_unorm,.usage=gpu::TextureUsage::storage|gpu::TextureUsage::transfer_source};const auto size=gpu::get_texture_size_align(o.gpu_device,desc);resources.heap=gpu::create_texture_heap(o.gpu_device,size.size);require(resources.heap.owner,"texture heap creation failed");resources.image=gpu::create_texture(o.gpu_device,desc,resources.heap,0);require(resources.image!=nullptr,"texture creation failed");resources.descriptors=gpu::create_texture_descriptor_heap(o.gpu_device,1);require(resources.descriptors!=nullptr,"texture descriptors unavailable");gpu::write_texture_descriptor(resources.descriptors,0,resources.image,gpu::TextureDescriptorType::storage);
   const auto metadata=gpu::basix_native_texture(resources.image);const auto ticket=registry.bind(metadata,w,h);const auto native=registry.resolve(ticket);
+  {TextureRegistry a(o.device),b(o.device);const auto ta=a.bind(metadata,w,h),tb=b.bind(metadata,w,h);require(a.valid(ta)&&b.valid(tb)&&!a.valid(tb)&&!b.valid(ta),"registry incarnation cookie failed under identical metadata/epoch");++foreign_registry_rejections;}
   require(!registry.valid(stale),"retired texture ticket accepted, including across cycles");++contract_rejections;
   auto wrong=metadata;wrong.format=VK_FORMAT_UNDEFINED;require(!registry.accepts(wrong,w,h),"invalid format accepted");++contract_rejections;
   wrong=metadata;wrong.device=nullptr;require(!registry.accepts(wrong,w,h),"wrong device accepted");++contract_rejections;
@@ -183,13 +198,15 @@ unsigned texture_interop(Owner& o,const std::filesystem::path& out,TextureRegist
   require(!registry.accepts(metadata,w+1,h),"unexpected extent accepted");++contract_rejections;
   resources.roots=gpu::create_gpu_heap(o.gpu_device,64+uint64_t(w)*h*4);require(resources.roots.owner&&resources.roots.range.cpu,"texture root memory unavailable");struct alignas(16) Root{uint64_t output;uint32_t index,width,height,mode,pad0,pad1;};static_assert(sizeof(Root)==32&&offsetof(Root,mode)==20);auto* roots=reinterpret_cast<Root*>(resources.roots.range.cpu);roots[0]={reinterpret_cast<uint64_t>(resources.roots.range.gpu)+64,0,w,h,0,0,0};roots[1]=roots[0];roots[1].mode=1;
   const auto bytes=shader("texture_smoke.spv");resources.pso=gpu::create_compute_pso(o.gpu_device,{.code={reinterpret_cast<const gpu::byte*>(bytes.data()),bytes.size()*4},.entry_point="computeMain",.threadgroup_size={8,8,1}});require(resources.pso!=nullptr,"texture NoGraphicsAPI pipeline failed");
-  Buffer copy(o,uint64_t(w)*h*4,VK_BUFFER_USAGE_TRANSFER_DST_BIT,true);NativeTexturePipeline external(o);external.initialize(reinterpret_cast<VkImage>(native.image));auto* commands=o.begin();auto c=static_cast<VkCommandBuffer>(gpu::basix_native_commands(commands));gpu::initialize_texture(commands,resources.image);gpu::set_texture_descriptor_heap(commands,resources.descriptors);gpu::bind_pso(commands,resources.pso);gpu::dispatch(commands,resources.roots.range.gpu,{(w+7)/8,(h+7)/8,1});
+  Buffer copy(o,uint64_t(w)*h*4,VK_BUFFER_USAGE_TRANSFER_DST_BIT,true);NativeTexturePipeline external(o);external.initialize(reinterpret_cast<VkImage>(native.image));SubmissionGate gate(o);auto* commands=o.begin();auto c=static_cast<VkCommandBuffer>(gpu::basix_native_commands(commands));gpu::initialize_texture(commands,resources.image);gpu::set_texture_descriptor_heap(commands,resources.descriptors);gpu::bind_pso(commands,resources.pso);gpu::dispatch(commands,resources.roots.range.gpu,{(w+7)/8,(h+7)/8,1});
   TrackedImage state{reinterpret_cast<VkImage>(native.image)};state.transition(c,VK_IMAGE_LAYOUT_GENERAL,VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,VK_PIPELINE_STAGE_2_COMPUTE_SHADER_BIT,VK_ACCESS_2_SHADER_STORAGE_WRITE_BIT,VK_PIPELINE_STAGE_2_COPY_BIT,VK_ACCESS_2_TRANSFER_READ_BIT);VkBufferImageCopy region{};region.imageSubresource={VK_IMAGE_ASPECT_COLOR_BIT,0,0,1};region.imageExtent={w,h,1};vkCmdCopyImageToBuffer(c,state.image,state.layout,copy.handle,1,&region);
   state.transition(c,VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,VK_IMAGE_LAYOUT_GENERAL,VK_PIPELINE_STAGE_2_COPY_BIT,VK_ACCESS_2_TRANSFER_READ_BIT,VK_PIPELINE_STAGE_2_COMPUTE_SHADER_BIT,VK_ACCESS_2_SHADER_STORAGE_READ_BIT|VK_ACCESS_2_SHADER_STORAGE_WRITE_BIT);vkCmdBindPipeline(c,VK_PIPELINE_BIND_POINT_COMPUTE,external.pipeline);vkCmdBindDescriptorSets(c,VK_PIPELINE_BIND_POINT_COMPUTE,external.layout,0,1,&external.set,0,nullptr);vkCmdDispatch(c,(w+7)/8,(h+7)/8,1);
-  state.transition(c,VK_IMAGE_LAYOUT_GENERAL,VK_IMAGE_LAYOUT_GENERAL,VK_PIPELINE_STAGE_2_COMPUTE_SHADER_BIT,VK_ACCESS_2_SHADER_STORAGE_WRITE_BIT,VK_PIPELINE_STAGE_2_COMPUTE_SHADER_BIT,VK_ACCESS_2_SHADER_STORAGE_READ_BIT);require(state.layout==VK_IMAGE_LAYOUT_GENERAL,"external consumer failed to restore GENERAL");gpu::set_texture_descriptor_heap(commands,resources.descriptors);gpu::bind_pso(commands,resources.pso);gpu::dispatch(commands,resources.roots.range.gpu+32,{(w+7)/8,(h+7)/8,1});barrier(c,VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT|VK_PIPELINE_STAGE_TRANSFER_BIT,VK_ACCESS_SHADER_WRITE_BIT|VK_ACCESS_TRANSFER_WRITE_BIT,VK_PIPELINE_STAGE_HOST_BIT,VK_ACCESS_HOST_READ_BIT);o.submit(commands);
+  state.transition(c,VK_IMAGE_LAYOUT_GENERAL,VK_IMAGE_LAYOUT_GENERAL,VK_PIPELINE_STAGE_2_COMPUTE_SHADER_BIT,VK_ACCESS_2_SHADER_STORAGE_WRITE_BIT,VK_PIPELINE_STAGE_2_COMPUTE_SHADER_BIT,VK_ACCESS_2_SHADER_STORAGE_READ_BIT);require(state.layout==VK_IMAGE_LAYOUT_GENERAL,"external consumer failed to restore GENERAL");gpu::set_texture_descriptor_heap(commands,resources.descriptors);gpu::bind_pso(commands,resources.pso);gpu::dispatch(commands,resources.roots.range.gpu+32,{(w+7)/8,(h+7)/8,1});barrier(c,VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT|VK_PIPELINE_STAGE_TRANSFER_BIT,VK_ACCESS_SHADER_WRITE_BIT|VK_ACCESS_TRANSFER_WRITE_BIT,VK_PIPELINE_STAGE_HOST_BIT,VK_ACCESS_HOST_READ_BIT);const auto submitted=o.submit_async(commands,gate.semaphore);
+  registry.mark_submitted(ticket,submitted);const auto incomplete=gpu::timeline_completed_value(o.timeline);require(incomplete<submitted,"gate did not hold GPU submission");bool rejected=false;try{registry.retire(ticket,incomplete);}catch(const std::runtime_error&){rejected=true;}require(rejected,"actual in-flight retirement accepted");++contract_rejections;++inflight_rejections;
+  if(inject_inflight_failure)throw std::runtime_error("injected in-flight cleanup failure");
+  require(gate.release(),"host timeline release failed");o.wait(submitted);
   const auto* before=static_cast<const uint32_t*>(copy.mapped);const auto* after=reinterpret_cast<const uint32_t*>(resources.roots.range.cpu+64);
   for(uint32_t y=0;y<h;++y)for(uint32_t x=0;x<w;++x){const auto i=y*w+x;const uint32_t r=x*255/std::max(1u,w-1),g=y*255/std::max(1u,h-1);const uint32_t initial=r|(g<<8)|(64u<<16)|(255u<<24),changed=64u|((255-g)<<8)|(r<<16)|(255u<<24);require(before[i]==initial,"native copy disagrees with NoGraphicsAPI texture oracle");require(after[i]==changed,"restored NoGraphicsAPI state disagrees with external texture oracle");checked+=2;}
-  registry.mark_submitted(ticket,o.serial);bool early_retirement_rejected=false;try{registry.retire(ticket,0);}catch(const std::runtime_error&){early_retirement_rejected=true;}require(early_retirement_rejected,"incomplete retirement accepted");++contract_rejections;
   registry.retire(ticket,gpu::timeline_completed_value(o.timeline));require(!registry.valid(ticket),"retired ticket remained valid");++contract_rejections;stale=ticket;
   if(w==64)image(out/"texture-interop.ppm",after,w,h);
  }
@@ -229,20 +246,25 @@ void ray_smoke(Owner& o,const std::filesystem::path& out){
 }
 int main(int argc,char** argv){
  try{
-  std::filesystem::path out="gpu-output";bool validate=false;unsigned cycles=1;
+  std::filesystem::path out="gpu-output";bool validate=false;unsigned cycles=1,sessions=1;
   for(int i=1;i<argc;++i){
    const std::string arg=argv[i];
    if(arg=="--validate")validate=true;
+   else if(arg=="--fail-inflight")inject_inflight_failure=true;
+   else if(arg=="--sessions"&&i+1<argc){const std::string n=argv[++i];const auto parsed=std::from_chars(n.data(),n.data()+n.size(),sessions);require(parsed.ec==std::errc()&&parsed.ptr==n.data()+n.size()&&sessions>0&&sessions<=4,"--sessions must be an integer from 1 to 4");}
    else if(arg=="--shader-dir"&&i+1<argc)shader_directory=argv[++i];
    else if(arg=="--output"&&i+1<argc)out=argv[++i];
    else if(arg=="--cycles"&&i+1<argc){const std::string n=argv[++i];const auto parsed=std::from_chars(n.data(),n.data()+n.size(),cycles);require(parsed.ec==std::errc()&&parsed.ptr==n.data()+n.size()&&cycles>0&&cycles<=16,"--cycles must be an integer from 1 to 16");}
-   else throw std::runtime_error("Usage: basix_gpu_spike [--output DIRECTORY] [--validate] [--cycles 1..16]");
+   else throw std::runtime_error("Usage: basix_gpu_spike [--output DIRECTORY] [--validate] [--cycles 1..16] [--sessions 1..4] [--fail-inflight]");
   }
-  std::filesystem::create_directories(out);Owner owner;owner.initialize(validate);std::cout<<"Device: "<<gpu::get_device_caps(owner.gpu_device).device_name<<'\n';
-  TextureRegistry texture_registry(owner.device);BorrowTicket stale_texture;unsigned texture_checks=0;for(unsigned i=0;i<cycles;++i){pointer_smoke(owner,out);ray_smoke(owner,out);texture_checks+=texture_interop(owner,out,texture_registry,stale_texture);}
-  require(validation_errors==0&&validation_warnings==0,"validation emitted warning/error diagnostics");
-  VkPhysicalDeviceProperties properties{};vkGetPhysicalDeviceProperties(owner.physical,&properties);
-  std::ofstream receipt(out/"result.json");receipt<<"{\"status\":\"passed\",\"device\":"<<std::quoted(properties.deviceName)<<",\"driver_version_raw\":"<<properties.driverVersion<<",\"api_version_raw\":"<<properties.apiVersion<<",\"pointer_pixels\":"<<4096*cycles<<",\"ray_checks\":"<<8192*cycles<<",\"frames\":"<<2*cycles<<",\"cycles\":"<<cycles<<",\"texture_pixel_checks\":"<<texture_checks<<",\"contract_rejections\":"<<contract_rejections<<",\"validation_counter_scope\":\"after initialization through pre-device-teardown; harness scans whole-process logs\",\"texture_extents\":[[64,64],[17,9],[1,1]],\"validation_enabled\":"<<(owner.validation_enabled?"true":"false")<<",\"validation_errors\":"<<validation_errors.load()<<",\"validation_warnings\":"<<validation_warnings.load()<<",\"timing_scope\":\"correctness only; not a rendering benchmark\",\"scope\":\"same-device pointer, hardware ray query and native texture/state roundtrip; not DLSS or DXR2\"}\n";require(bool(receipt),"receipt write failed");
-  std::cout<<"PASS: "<<cycles<<" cycles, "<<8192*cycles<<" ray checks, "<<texture_checks<<" texture pixel checks; validation "<<(owner.validation_enabled?"enabled":"disabled")<<'\n';return 0;
+  std::filesystem::create_directories(out);BorrowTicket stale_texture;unsigned texture_checks=0;bool validation_enabled=true;VkPhysicalDeviceProperties properties{};
+  for(unsigned session=0;session<sessions;++session){
+   Owner owner;owner.initialize(validate);std::cout<<"Device session "<<session+1<<": "<<gpu::get_device_caps(owner.gpu_device).device_name<<'\n';
+   validation_enabled&=owner.validation_enabled;vkGetPhysicalDeviceProperties(owner.physical,&properties);TextureRegistry registry(owner.device);
+   for(unsigned i=0;i<cycles;++i){pointer_smoke(owner,out);ray_smoke(owner,out);texture_checks+=texture_interop(owner,out,registry,stale_texture);}
+  } // Every device and dependent object is destroyed before success is recorded.
+  require(validation_errors==0&&validation_warnings==0,"validation emitted warning/error diagnostics");const unsigned total_cycles=cycles*sessions;
+  std::ofstream receipt(out/"result.json");receipt<<"{\"status\":\"passed\",\"device\":"<<std::quoted(properties.deviceName)<<",\"driver_version_raw\":"<<properties.driverVersion<<",\"api_version_raw\":"<<properties.apiVersion<<",\"pointer_pixels\":"<<4096*total_cycles<<",\"ray_checks\":"<<8192*total_cycles<<",\"frames\":"<<2*total_cycles<<",\"sessions\":"<<sessions<<",\"cycles_per_session\":"<<cycles<<",\"cycles\":"<<total_cycles<<",\"texture_pixel_checks\":"<<texture_checks<<",\"inflight_rejections\":"<<inflight_rejections<<",\"foreign_registry_rejections\":"<<foreign_registry_rejections<<",\"contract_rejections\":"<<contract_rejections<<",\"validation_counter_scope\":\"per-device messenger lifetime; harness scans whole-process startup/shutdown logs\",\"texture_extents\":[[64,64],[17,9],[1,1]],\"validation_enabled\":"<<(validation_enabled?"true":"false")<<",\"validation_errors\":"<<validation_errors.load()<<",\"validation_warnings\":"<<validation_warnings.load()<<",\"timing_scope\":\"correctness only; not a rendering benchmark\",\"scope\":\"same-device pointer, hardware ray query and native texture/state roundtrip; not DLSS or DXR2\"}\n";require(bool(receipt),"receipt write failed");
+  std::cout<<"PASS: "<<cycles<<" cycles, "<<8192*total_cycles<<" ray checks, "<<texture_checks<<" texture pixel checks; validation "<<(validation_enabled?"enabled":"disabled")<<'\n';return 0;
  }catch(const std::exception& e){std::cerr<<"FAIL: "<<e.what()<<'\n';return 1;}
 }

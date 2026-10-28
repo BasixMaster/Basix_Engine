@@ -170,6 +170,8 @@ section('lessons','Summary and lessons learned', '''
 
 import research_expansion
 research_expansion.apply(sections,sources,source,section,table,cite)
+import thread_research
+thread_research.apply(sections,sources,source,section,table,cite)
 
 section('sources','Evidence, sources and research maintenance','''<p>Checked 28 October 2026. Source records distinguish code inspection, vendor documentation, licenses and research. External links need a network connection; this page, local search and the JSON/SQLite evidence work offline. Source snapshots are pinned where available; roadmap pages remain mutable.</p>'''+''.join('<article id="'+s['id']+'"><h3>'+s['id']+' · <a href="'+html.escape(s['url'],quote=True)+'">'+html.escape(s['title'])+'</a></h3><p>'+html.escape(s['notes'])+'</p><p class="doc-caption">'+html.escape(s['kind']+' · checked '+DATE+' · '+s['rights'])+'</p></article>' for s in sources)+'''<p><a href="evidence/library.json">Structured library</a> · <a href="evidence/index.sqlite">SQLite full-text index</a> · <a href="dependencies.json">Dependency pins</a></p><p class="doc-caption">Changelog · 2026-10-28: initial research, architecture proposal, MegaLights comparison, PETAFAB case study, license boundary and validation plan.</p>''')
 
@@ -199,6 +201,7 @@ def main():
  library=dict(schema_version=1,title='Basix Engine evidence library',purpose='Support MIT engine architecture and future rendering implementation.',scope='UE5.8/6, NoGraphicsAPI, PETAFAB, DXR/DX12, Linear Algebra, RTXDI/RTXPT and DLSS.',updated_on=DATE,summary=['Research only; implementation proposals and vendor claims are distinguished from measurements.'],questions=questions,sources=sources,findings=findings,actions=[dict(id='A1',title='Implement M0/M1 risk spike',priority='high',finding_ids=['F1','F2'],rationale='Prove the missing hardware RT and reconstruction seam before broad engine work.',prerequisites='Choose GPU/driver targets and optional SDK terms.',success_criterion='Hardware rays and reconstruction run with correct lifetimes, resize/reset handling and fallback.')],search_log=[dict(date=DATE,phase='scout',engine='Official web sources and GitHub',query='UE5.8 UE6 DirectX Linear Algebra NoGraphicsAPI RTXDI RTXPT licenses',source_ids=[s['id'] for s in sources],outcome='Primary-source architecture and license gates resolved; runtime tests remain pending.'),dict(date=DATE,phase='deep',engine='Local code and official developer pages',query='NoGraphicsAPI native interop RT header PETAFAB MegaLights',source_ids=['S02','S03','S04','S05','S06','S09'],outcome='Header inspected locally; PETAFAB internals beyond public description remain unknown.')],scope_changes=['Added MegaLights and PETAFAB at user request.'])
  evidence=DOC/'evidence';evidence.mkdir(exist_ok=True)
  research_expansion.enrich_library(library)
+ thread_research.enrich_library(library)
  library.update(presentation_path='index.html',evidence_page='index.html#sources',guide_pages=['index.html'],hub_topics=[dict(directory='basix-engine-rendering-research',title='Basix Engine rendering research',purpose='MIT game engine architecture, hardware ray tracing, many-light sampling and reconstruction.',topics=['rendering'],page='index.html',guide_pages=['index.html'],specialty=True)])
  for record in library['sources']+library['findings']:
   record['topic']='rendering'

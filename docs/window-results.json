@@ -1,0 +1,116 @@
+{
+  "status": "passed",
+  "scope": "Hidden Win32 WSI and controlled application-failure cleanup; no real device loss or SDK.",
+  "sync_validation_requested": true,
+  "layer_sha256": {
+    "VkLayer_khronos_validation.json": "9bdb274c944957ad454968c567d2d2b1883436a88de476200e688be1a36e23da",
+    "VkLayer_khronos_validation.dll": "249474155f7ed98c94f26c8a86c5d5da729dcabaaa1a7136d14fc68caf99213b"
+  },
+  "timeout_seconds": 45,
+  "runs": [
+    {
+      "case": "normal",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "validation_diagnostics": false,
+      "receipt": {
+        "status": "passed",
+        "presented_frames": 8,
+        "empty_acquires": 3,
+        "max_zero_acquire_ms": 2.5267,
+        "validation_enabled": true,
+        "window_destroyed": true,
+        "window_remained_hidden": true,
+        "size_messages": 5,
+        "extents": [
+          [
+            64,
+            64
+          ],
+          [
+            320,
+            180
+          ],
+          [
+            17,
+            9
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            96,
+            54
+          ]
+        ],
+        "scope": "Hidden Win32 swapchain acquire/clear/present, actual client resize to zero and restoration, same thread/queue. OS minimize, pixel readback, SDK evaluation and device loss not tested.",
+        "validation_scope": "Layer enablement only; the runner checks whole-process stderr including teardown."
+      }
+    },
+    {
+      "case": "before-device",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "validation_diagnostics": false,
+      "receipt": {
+        "status": "expected_failure",
+        "presented_frames": 0,
+        "empty_acquires": 0,
+        "max_zero_acquire_ms": 0,
+        "validation_enabled": false,
+        "window_destroyed": true,
+        "window_remained_hidden": true,
+        "size_messages": 1,
+        "extents": [],
+        "scope": "Hidden Win32 swapchain acquire/clear/present, actual client resize to zero and restoration, same thread/queue. OS minimize, pixel readback, SDK evaluation and device loss not tested.",
+        "validation_scope": "Layer enablement only; the runner checks whole-process stderr including teardown."
+      }
+    },
+    {
+      "case": "after-device",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "validation_diagnostics": false,
+      "receipt": {
+        "status": "expected_failure",
+        "presented_frames": 0,
+        "empty_acquires": 0,
+        "max_zero_acquire_ms": 0,
+        "validation_enabled": true,
+        "window_destroyed": true,
+        "window_remained_hidden": true,
+        "size_messages": 1,
+        "extents": [],
+        "scope": "Hidden Win32 swapchain acquire/clear/present, actual client resize to zero and restoration, same thread/queue. OS minimize, pixel readback, SDK evaluation and device loss not tested.",
+        "validation_scope": "Layer enablement only; the runner checks whole-process stderr including teardown."
+      }
+    },
+    {
+      "case": "after-present",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "validation_diagnostics": false,
+      "receipt": {
+        "status": "expected_failure",
+        "presented_frames": 2,
+        "empty_acquires": 0,
+        "max_zero_acquire_ms": 0,
+        "validation_enabled": true,
+        "window_destroyed": true,
+        "window_remained_hidden": true,
+        "size_messages": 1,
+        "extents": [
+          [
+            64,
+            64
+          ]
+        ],
+        "scope": "Hidden Win32 swapchain acquire/clear/present, actual client resize to zero and restoration, same thread/queue. OS minimize, pixel readback, SDK evaluation and device loss not tested.",
+        "validation_scope": "Layer enablement only; the runner checks whole-process stderr including teardown."
+      }
+    }
+  ],
+  "errors": [],
+  "checked_on": "2026-10-28"
+}

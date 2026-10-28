@@ -134,7 +134,7 @@
         "M1b-textures",
         "M1b-validation"
       ],
-      "next_test": "Introduce one optional SDK adapter only after the native texture contract passes.",
+      "next_test": "Evaluate signed Streamline SR via stable custom-engine ProjectID and explicit Vulkan feature/native image contracts; do not invent an NVIDIA application-ID blocker before trying the documented ProjectID path.",
       "last_verified_on": null,
       "evidence": [],
       "parent": "M1b"
@@ -142,20 +142,20 @@
     {
       "id": "M1b-lifecycle",
       "title": "Repeated resource lifecycle",
-      "status": "partial",
-      "scope": "Nine offscreen image lifecycles across three cycles and negative retirement guards are tested. Repeated device creation and real asynchronous/in-flight release scenarios remain unverified.",
-      "acceptance": "Repeated create/destroy and in-flight retirement tests pass without stale handles or validation errors.",
+      "status": "completed",
+      "scope": "Three actual device sessions, three resource cycles each, held asynchronous submissions, real incomplete-timeline retirement rejection and registry-incarnation isolation on the named local adapter.",
+      "acceptance": "Seven-case harness passed:36864 pointer pixels,73728 rays,76500 texture checks,189 contract rejections including27 truly in-flight retirement requests;27 identical-metadata foreign-registry rejections. Injected held-submission cleanup also passed.",
       "prerequisites": [
         "M1b-textures",
         "M1b-validation"
       ],
-      "next_test": "Add repeated device sessions and actual in-flight retirement requests before completing the broad lifecycle gate.",
+      "next_test": "Preserve lifecycle coverage when adding an actual SDK; cross-queue, driver/device-loss and cross-vendor cases remain separate.",
       "last_verified_on": "2026-10-28",
       "evidence": [
         {
-          "path": "docs/validation-results.json",
+          "path": "docs/lifecycle-results.json",
           "checked_on": "2026-10-28",
-          "summary": "Verified Debug/SyncVal harness: five cases, three positive cycles, 12288 pointer pixels, 24576 rays, 25500 texture checks, 63 contract rejections; zero diagnostic logs."
+          "summary": "Three device sessions, seven harness cases and zero whole-process warning/error/sync-hazard diagnostics; CPU/GPU oracles pass."
         }
       ],
       "parent": "M1b"
@@ -163,15 +163,21 @@
     {
       "id": "M1b-resize",
       "title": "Window resize and device loss",
-      "status": "pending",
-      "scope": "Window/swapchain resize and explicit device-loss/recovery behavior; current headless test does not cover this.",
+      "status": "partial",
+      "scope": "Hidden Win32 swapchain resize, zero client extent and restoration pass. Actual OS minimize, device-loss recovery and visible presentation quality remain unverified.",
       "acceptance": "Resize tests preserve correct resources/states; device loss produces documented recovery or a clean actionable failure.",
       "prerequisites": [
         "M1b-lifecycle"
       ],
-      "next_test": "Add the required window/device-failure harness before claiming coverage.",
-      "last_verified_on": null,
-      "evidence": [],
+      "next_test": "Add actual OS minimize and separately designed device-loss recovery; controlled application exceptions do not simulate a lost device.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/window-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Four processes,8presents,64x64/320x180/17x9 extents,3empty0x0 acquisitions,96x54 restoration; controlled failures before/after device and after present cleanly destroy hidden windows."
+        }
+      ],
       "parent": "M1b"
     },
     {
@@ -196,7 +202,7 @@
       "prerequisites": [
         "M2"
       ],
-      "next_test": "Establish a brute-force light/reference baseline before sample reuse or reconstruction.",
+      "next_test": "Establish brute-force light/reference baseline; compare existing RTXDI3.1 compatibility-guided reuse before custom sampling. Keep equal-time error and temporal-correlation tests.",
       "last_verified_on": null,
       "evidence": []
     },
@@ -219,8 +225,8 @@
       "id": "G1",
       "title": "Geometry and streaming contract",
       "status": "pending",
-      "scope": "Stable clusters, codec tags, residency generations, source triangle/material provenance and conventional BLAS.",
-      "acceptance": "Deterministic cook, bounded residency and stale-handle rejection.",
+      "scope": "Stable clusters, codec tags, residency generations, source triangle/material provenance and conventional BLAS; explicit surface correspondence for temporal LOD changes.",
+      "acceptance": "Deterministic cook, bounded residency and stale-handle rejection; consistent LOD correspondence or explicit history invalidation, including overlapping/missing UVs.",
       "prerequisites": [
         "M1a"
       ],
@@ -317,6 +323,63 @@
       "next_test": "Select one measured bottleneck and an available candidate; no future standard is mandatory.",
       "last_verified_on": null,
       "evidence": []
+    },
+    {
+      "id": "R-temporal",
+      "title": "Advanced temporal sampling",
+      "status": "deferred",
+      "scope": "LOD-aware reuse, multilayer splatting, PT Enhanced and variable rate tracing; optional independent experiments.",
+      "acceptance": "Equal-time image/temporal error and full-frame/VRAM comparisons; no multiplied paper speedups.",
+      "prerequisites": [
+        "M3",
+        "G1"
+      ],
+      "next_test": "Implement surface/history validity first; test LOD switches, thin geometry, grazing highlights and reveal/re-occlude motion.",
+      "last_verified_on": null,
+      "evidence": [],
+      "parent": "R"
+    },
+    {
+      "id": "R-guiding",
+      "title": "Optional path guiding",
+      "status": "deferred",
+      "scope": "ReSTIR PG candidate generation with BSDF fallback and explicit path/grid memory budget.",
+      "acceptance": "Normalized PDFs/MIS, reference convergence and lighting-change recovery; equal-time quality including per-bounce memory.",
+      "prerequisites": [
+        "M3"
+      ],
+      "next_test": "Establish correct reference PT/reuse, then isolate one guiding method and measure recording/grid overhead.",
+      "last_verified_on": null,
+      "evidence": [],
+      "parent": "R"
+    },
+    {
+      "id": "R-neural",
+      "title": "Optional neural texture and residual cache",
+      "status": "deferred",
+      "scope": "Independent texture inference and cache-plus-residual branches; MiniDXNN MIT reference, GPLv3 NIRC source excluded from MIT core.",
+      "acceptance": "CPU/GPU scalar inference agreement first; separate material filtering/mip quality and cache residual convergence, training cost and dynamic recovery.",
+      "prerequisites": [
+        "M2"
+      ],
+      "next_test": "Pin/audit MiniDXNN files/dependencies; preserve BCn and ordinary PT baselines before optional accelerated matrix adapters.",
+      "last_verified_on": null,
+      "evidence": [],
+      "parent": "R"
+    },
+    {
+      "id": "R-procedural",
+      "title": "Procedural vegetation research",
+      "status": "deferred",
+      "scope": "Deterministic compact vegetation grammar with compute/mesh fallback; Work Graphs mesh nodes optional D3D12 experiment.",
+      "acceptance": "Persistent/generated/backing/AS memory measured separately; stable topology/motion and matched raster/RT representation.",
+      "prerequisites": [
+        "G1"
+      ],
+      "next_test": "Build a deterministic small grammar before a Work Graphs port; keep SM6.10 LinAlg separate from supported Work Graph shader targets.",
+      "last_verified_on": null,
+      "evidence": [],
+      "parent": "R"
     }
   ],
   "history": [
@@ -327,6 +390,14 @@
     {
       "checked_on": "2026-10-28",
       "event": "Completed scoped M1b-validation and M1b-textures from the five-case local validation harness; parent/lifecycle remain partial."
+    },
+    {
+      "checked_on": "2026-10-28",
+      "event": "Evaluated public forum leads against primary sources; added deferred sampling/guiding/neural/procedural gates and LOD provenance acceptance. No implementation status promoted by research."
+    },
+    {
+      "checked_on": "2026-10-28",
+      "event": "Completed scoped repeated-device/in-flight lifecycle gate; hidden-window resize/restoration passed but resize/recovery parent remains partial. SDK and actual device loss stay open."
     }
   ]
 }

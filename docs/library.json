@@ -5,7 +5,7 @@
   "scope": "UE5.8/6, NoGraphicsAPI, PETAFAB, DXR/DX12, Linear Algebra, RTXDI/RTXPT and DLSS.",
   "updated_on": "2026-10-28",
   "summary": [
-    "Expanded idea pool separates compression, geometry residency, AS organization and deformation. Original CPU and same-device GPU correctness experiments are implemented; performance and visual parity remain unverified."
+    "Initial CPU/GPU foundation and scoped lifecycle/window tests have local correctness evidence; advanced rendering ideas are separately labeled proposals or author reports."
   ],
   "questions": [
     {
@@ -193,6 +193,35 @@
       "evaluation": "Separate mechanisms, availability, correctness and measured end-to-end benefit.",
       "stop_when": "Research yields explicit independent implementation gates and unresolved validation tasks.",
       "coverage": "Sources evaluated; CPU math and basic hardware rays tested. Cluster/cage GPU scalability remains untested.",
+      "presentation_path": "index.html",
+      "presentation_anchor": "research-map"
+    },
+    {
+      "id": "Q9",
+      "title": "Forum leads with viable engine adoption gates",
+      "topic": "rendering",
+      "priority": "high",
+      "status": "partial",
+      "why": "Improve detail and lighting without importing incompatible code or assuming additive speedups.",
+      "depends_on": [
+        "Q1",
+        "Q3",
+        "Q4"
+      ],
+      "search_terms": [
+        "LOD ReSTIR",
+        "variable rate tracing",
+        "procedural trees",
+        "neural texture compression"
+      ],
+      "source_types": [
+        "primary paper",
+        "author implementation",
+        "license"
+      ],
+      "evaluation": "Separate full paper, abstract, discovery and inaccessible evidence; test applicability to NoGraphicsAPI.",
+      "stop_when": "Selected candidates have independent acceptance gates and explicit coverage gaps.",
+      "coverage": "Selected public pages1–7 and primary leads covered; page8/authenticated discussion and two large PDFs not available in full.",
       "presentation_path": "index.html",
       "presentation_anchor": "research-map"
     }
@@ -949,6 +978,326 @@
       "topic": "rendering",
       "presentation_path": "index.html",
       "presentation_anchor": "S47"
+    },
+    {
+      "id": "S48",
+      "title": "Public AnandTech graphics research discussion",
+      "url": "https://forums.anandtech.com/threads/exciting-new-features-research-advancements-in-gaming-graphics-adjacent-software.2633516/",
+      "notes": "Discovery only. Browser read page1; web reader inspected selected passages on pages2–7. Browser showed8 pages while cached reader showed7; page8 could not be fetched. Coverage is incomplete, not an exhaustive thread review.",
+      "kind": "discussion / discovery",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "partial",
+      "quality": "Discovery context only; incomplete page coverage.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S48"
+    },
+    {
+      "id": "S49",
+      "title": "ReSTIR PT Enhanced",
+      "url": "https://research.nvidia.com/labs/rtr/publication/lin2026restirptenhanced/",
+      "notes": "Primary abstract: reciprocal neighbor selection, footprint-aware reconnection and duplication maps; reported2–3x versus the paper’s ReSTIR PT baseline. Full125.96MB PDF exceeded reader limit; no full-paper evaluation claimed.",
+      "kind": "research abstract",
+      "published_on": "2026-05",
+      "checked_on": "2026-10-28",
+      "access": "abstract",
+      "quality": "Primary research or implementation evidence; author results are not Basix measurements.",
+      "limitations": "Abstract-level evaluation only; detailed integration and cost remain unverified.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S49"
+    },
+    {
+      "id": "S50",
+      "title": "Real-Time Level-of-Detail Rendering with ReSTIR",
+      "url": "https://research.nvidia.com/labs/rtr/publication/wang2026levelOfDetail/wang2026levelOfDetail.pdf",
+      "notes": "Paper §§4–6: partial bijective surface mapping through consistent UVs supports temporal reuse when topology changes. Mapping is needed at primary and reconnection vertices. Unmapped/distorted UVs unsupported or degraded; implementation uses one LOD per object per frame, not per-ray LOD.",
+      "kind": "research paper",
+      "published_on": "2026-07",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary research or implementation evidence; author results are not Basix measurements.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Paper states CC-BY4.0; linked with original summary, no implementation code adopted.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S50"
+    },
+    {
+      "id": "S51",
+      "title": "Multi-Layer Reservoir Splatting",
+      "url": "https://research.nvidia.com/labs/rtr/publication/hong2026multilayer/",
+      "notes": "Primary abstract: multiple screen-space layers preserve previously occluded histories; depth ranges reduce extra ray queries and active domains limit maintenance. Incremental cost remains. Full97.8MB PDF exceeded reader limit.",
+      "kind": "research abstract",
+      "published_on": "2026-07",
+      "checked_on": "2026-10-28",
+      "access": "abstract",
+      "quality": "Primary research or implementation evidence; author results are not Basix measurements.",
+      "limitations": "Abstract-level evaluation only; detailed integration and cost remain unverified.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S51"
+    },
+    {
+      "id": "S52",
+      "title": "Compatibility-Guided Neighbor Selection",
+      "url": "https://research.nvidia.com/labs/rtr/publication/junkins2026compatibility/",
+      "notes": "Primary abstract reports6–29% lower SMAPE and22–49% lower temporal covariance for2–5% incremental cost in its tests. RTXDI3.1 already lists compatibility-guided selection; inspect the pinned implementation before duplicating work.",
+      "kind": "research abstract",
+      "published_on": "2026-07",
+      "checked_on": "2026-10-28",
+      "access": "abstract",
+      "quality": "Primary research or implementation evidence; author results are not Basix measurements.",
+      "limitations": "Abstract-level evaluation only; detailed integration and cost remain unverified.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S52"
+    },
+    {
+      "id": "S53",
+      "title": "Variable Rate Tracing ReSTIR GI",
+      "url": "https://mateuszkolodziejczyk00.github.io/2025/06/18/variable-rate-tracing-restir-gi.html",
+      "notes": "Author implementation report: ray budgets depend on materials, variance and history. San Miguel RT-reflection pipeline5.82ms versus9.42ms, tracing/shading1.23 versus4.74ms, with similar denoising costs. LaptopRTX4090,1080p internal/4K DLSS output. Missing shadows, grazing specular detail and self-reinforcing under-sampling are documented.",
+      "kind": "author implementation report",
+      "published_on": "2025-06-18",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary research or implementation evidence; author results are not Basix measurements.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S53"
+    },
+    {
+      "id": "S54",
+      "title": "Many-Light Rendering Using ReSTIR-Sampled Shadow Maps",
+      "url": "https://research.nvidia.com/labs/rtr/publication/zhang2025many-light/",
+      "notes": "Primary abstract: ReSTIR chooses lights for full-resolution shadow maps; other lights use imperfect low-resolution maps. Raster many-light alternative with approximate visibility, not full PT or a shadow-error-free RT substitute.",
+      "kind": "research abstract",
+      "published_on": "2025-05",
+      "checked_on": "2026-10-28",
+      "access": "abstract",
+      "quality": "Primary research or implementation evidence; author results are not Basix measurements.",
+      "limitations": "Abstract-level evaluation only; detailed integration and cost remain unverified.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S54"
+    },
+    {
+      "id": "S55",
+      "title": "ReSTIR Path Guiding",
+      "url": "https://research.nvidia.com/labs/rtr/publication/zeng2025restirpg/",
+      "notes": "Paper pp7–8: fit directional mixtures from accepted paths into a spatial hash grid; combine guiding with BSDF sampling. Paper reports about102.8MB recorded path information per bounce at1080p plus152bytes per valid grid cell. Glossy quality and overhead remain material.",
+      "kind": "research paper",
+      "published_on": "2025-12",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary research or implementation evidence; author results are not Basix measurements.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Author PDF says personal use, not redistribution. Link/original summary only; no reusable code license established.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S55"
+    },
+    {
+      "id": "S56",
+      "title": "Neural Two-Level Monte Carlo Real-Time Rendering",
+      "url": "https://arxiv.org/html/2412.04634v1",
+      "notes": "Cache estimates are corrected by a path-traced residual integral; omitting residuals is a different biased mode. §7 discusses complex occlusion, glossy detail and unstable/slow dynamic training. CUDA/Falcor results do not establish Vulkan or DX12LinAlg compatibility.",
+      "kind": "research paper",
+      "published_on": "2024-12-05",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary research or implementation evidence; author results are not Basix measurements.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S56"
+    },
+    {
+      "id": "S57",
+      "title": "NIRC implementation licensing",
+      "url": "https://github.com/Mishok43/IVD_NIRC/tree/097364d154de114492e530b713b8e272dca762b7",
+      "notes": "Pinned README assigns code GPLv3 unless stated otherwise, documents CC-BY4; linked rootLICENSE absent in inspected listing. Falcor4.4/tiny-cuda-nn dependencies have separate terms. Do not import into MIT core; paper study and independent implementation remain possible.",
+      "kind": "license / code inspection",
+      "published_on": "2026-01-20",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary research or implementation evidence; author results are not Basix measurements.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "README GPLv3 code claim plus missing linked LICENSE inconsistency. No source imported into MIT core.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S57"
+    },
+    {
+      "id": "S58",
+      "title": "Real-Time GPU Tree Generation",
+      "url": "https://gpuopen.com/download/Real-Time_GPU_Tree_Generation.pdf",
+      "notes": "HPG2025 paper p7:51KiB persistent parameters is not total VRAM.1.5GiB WorkGraph backing memory;34.8GiB is a theoretical baked highest-detail comparison.3.13ms generation+G-buffer and7.74ms full scene on7900XTX1080p. Ray-traced vegetation integration is future work.",
+      "kind": "research paper",
+      "published_on": "2025",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary research or implementation evidence; author results are not Basix measurements.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S58"
+    },
+    {
+      "id": "S59",
+      "title": "GPU tree minimal sample license",
+      "url": "https://github.com/Bloodwyn/gptree/blob/adf96a5b989eb01d0881e50dd2003cd2ad22276e/LICENSE",
+      "notes": "MIT minimal sample atadf96a5b989eb01d0881e50dd2003cd2ad22276e. Simplified paper subset requiring D3D12WorkGraphs1.1 MeshNodes; WorkGraphPlayground dependency483706a038ed6d668550076817e3b782905890ec also has MIT-style terms. Audit bundled SDKs/assets separately.",
+      "kind": "license / code inspection",
+      "published_on": "2025-06-21",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary research or implementation evidence; author results are not Basix measurements.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "MIT at pinned revision; retain notices and independently audit dependencies before adoption. Reference only.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S59"
+    },
+    {
+      "id": "S60",
+      "title": "MiniDXNN v0.4.0 neural texture compression",
+      "url": "https://gpuopen.com/learn/minidxnn-v040-interactive-neural-texture-compression/",
+      "notes": "AMD example targets SM6.10/D3D12LinAlg with preview Agility1.721 and DXC1.10.2605.4. Has headless training/input-encoding examples and C++ fallback; GUI path is GPU-only. This does not provide a Vulkan/Slang drop-in or prove material compression quality.",
+      "kind": "vendor implementation documentation",
+      "published_on": "2026-08-13",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary research or implementation evidence; author results are not Basix measurements.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S60"
+    },
+    {
+      "id": "S61",
+      "title": "Ubisoft neural texture compression lead",
+      "url": "https://www.ubisoft.com/en-us/news/ignt.58488/shipping-neural-texture-compression-in-assassin-s-creed-mirage",
+      "notes": "Reader retrieved title and placeholder ellipses only. Detailed implementation, shipping status and licensing could not be established; do not infer them from the title or forum.",
+      "kind": "access-limited primary page",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "limited",
+      "quality": "Title only; no technical conclusion.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S61"
+    },
+    {
+      "id": "S62",
+      "title": "MiniDXNN pinned MIT license and notices",
+      "url": "https://github.com/GPUOpen-LibrariesAndSDKs/MiniDXNN/blob/8d1899f17d364b5e8a3756e72965c5e9e0d466ea/LICENSE",
+      "notes": "MIT root license at8d1899f17d364b5e8a3756e72965c5e9e0d466ea. NOTICE.md separately lists dependency and Pexels image terms. Software-LinAlg/no-include switches suggest a porting opportunity, not verified Slang/SPIR-V support. Article’s amdadvtech clone URL returns404; use this repository.",
+      "kind": "license / code inspection",
+      "published_on": "2026-07-10",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary research or implementation evidence; author results are not Basix measurements.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S62"
+    },
+    {
+      "id": "S63",
+      "title": "DXC disables Work Graphs for SM6.10",
+      "url": "https://github.com/microsoft/DirectXShaderCompiler/pull/8798",
+      "notes": "Merged August31; links DXIL spec PR918. Scoped SM6.10/DXIL1.10 exclusion means LinAlg and Work Graphs must not be assumed to share one shader target. This does not remove released Work Graphs from older supported targets.",
+      "kind": "compiler change",
+      "published_on": "2026-08-31",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary research or implementation evidence; author results are not Basix measurements.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S63"
+    },
+    {
+      "id": "S64",
+      "title": "Advanced Shader Delivery developer workflow",
+      "url": "https://developer.microsoft.com/en-us/games/articles/2026/09/prepare-your-game-for-advanced-shader-delivery-asd/",
+      "notes": "Microsoft describes SODB packaging and Xbox PC app delivery. Candidate D3D12 distribution workflow; not a Vulkan feature or proof every shader/PSO hitch disappears.",
+      "kind": "vendor distribution documentation",
+      "published_on": "2026-09-15",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary research or implementation evidence; author results are not Basix measurements.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S64"
+    },
+    {
+      "id": "S65",
+      "title": "Basix repeated-device and in-flight lifetime receipt",
+      "url": "https://github.com/BasixMaster/Basix_Engine/blob/main/docs/lifecycle-results.json",
+      "notes": "Seven-case local validation harness:3devices×3cycles,36864 pointer pixels,73728 rays,76500 texture comparisons,189 contract rejections including27 truly pending retirements;27 foreign-registry checks. Clean whole-process validation logs; no SDK, device-loss or multiqueue claim.",
+      "kind": "local measured correctness",
+      "published_on": "2026-10-28",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary research or implementation evidence; author results are not Basix measurements.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S65"
+    },
+    {
+      "id": "S66",
+      "title": "Basix hidden-window resize receipt",
+      "url": "https://github.com/BasixMaster/Basix_Engine/blob/main/docs/window-results.json",
+      "notes": "Four processes:8presents at actual resized client extents,3empty0x0 acquisitions and restoration; controlled failure cleanup passed. Supported UNORM format used after initial sRGB/storage validation failure. Window stays hidden; no displayed-pixel, actual OS minimize or device-loss claim.",
+      "kind": "local measured correctness",
+      "published_on": "2026-10-28",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary research or implementation evidence; author results are not Basix measurements.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S66"
+    },
+    {
+      "id": "S67",
+      "title": "Streamline custom ProjectID initialization",
+      "url": "https://github.com/NVIDIA-RTX/Streamline/blob/625db07d4bca5abc67d781c42af7e7fb0761f1b6/source/plugins/sl.common/commonEntry.cpp",
+      "notes": "Pinned code chooses NGX ProjectID initialization when projectId and engineVersion are nonempty, including custom engines. Stable GUID/version is an available evaluation path; absence of an NVIDIA-issued application ID is not by itself a demonstrated local blocker. Runtime evaluation remains pending.",
+      "kind": "code inspection",
+      "published_on": "2026-10-28",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary research or implementation evidence; author results are not Basix measurements.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Not copied; linked and summarized.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S67"
     }
   ],
   "findings": [
@@ -1315,6 +1664,238 @@
       ],
       "presentation_path": "index.html",
       "presentation_anchor": "summary"
+    },
+    {
+      "id": "F10",
+      "title": "Surface mapping precedes temporal LOD reuse",
+      "question_ids": [
+        "Q9"
+      ],
+      "topic": "rendering",
+      "claim": "Topology-changing LOD needs explicit surface correspondence; the inspected LOD paper assumes consistent UVs and does not demonstrate per-ray LOD.",
+      "evidence_type": "analytical",
+      "confidence": "medium",
+      "context": "Primary-source update 2026-10-28; no new Basix runtime results.",
+      "strengths": "Explicit mechanisms, baselines, rights and acceptance gates.",
+      "limitations": "Selected/abstract-level coverage where stated; no cross-vendor or end-to-end performance verification.",
+      "implications": "Preserve M1 first; add independent later roadmap experiments.",
+      "tags": [
+        "ReSTIR",
+        "LOD",
+        "procedural",
+        "neural",
+        "roadmap"
+      ],
+      "evidence": [
+        {
+          "source_id": "S50",
+          "locator": "Source notes and linked primary methods/limitations",
+          "relation": "supports",
+          "note": "Supports bounded reported mechanism, not Basix performance."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
+    },
+    {
+      "id": "F11",
+      "title": "Sampling improvements require isolated comparisons",
+      "question_ids": [
+        "Q9"
+      ],
+      "topic": "rendering",
+      "claim": "Compatibility selection, splatting and adaptive tracing affect different reuse costs and quality. Published speedups cannot be multiplied into an engine forecast.",
+      "evidence_type": "analytical",
+      "confidence": "medium",
+      "context": "Primary-source update 2026-10-28; no new Basix runtime results.",
+      "strengths": "Explicit mechanisms, baselines, rights and acceptance gates.",
+      "limitations": "Selected/abstract-level coverage where stated; no cross-vendor or end-to-end performance verification.",
+      "implications": "Preserve M1 first; add independent later roadmap experiments.",
+      "tags": [
+        "ReSTIR",
+        "LOD",
+        "procedural",
+        "neural",
+        "roadmap"
+      ],
+      "evidence": [
+        {
+          "source_id": "S49",
+          "locator": "Source notes and linked primary methods/limitations",
+          "relation": "supports",
+          "note": "Supports bounded reported mechanism, not Basix performance."
+        },
+        {
+          "source_id": "S51",
+          "locator": "Source notes and linked primary methods/limitations",
+          "relation": "supports",
+          "note": "Supports bounded reported mechanism, not Basix performance."
+        },
+        {
+          "source_id": "S52",
+          "locator": "Source notes and linked primary methods/limitations",
+          "relation": "supports",
+          "note": "Supports bounded reported mechanism, not Basix performance."
+        },
+        {
+          "source_id": "S53",
+          "locator": "Source notes and linked primary methods/limitations",
+          "relation": "supports",
+          "note": "Supports bounded reported mechanism, not Basix performance."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
+    },
+    {
+      "id": "F12",
+      "title": "Procedural parameters are not total GPU memory",
+      "question_ids": [
+        "Q9"
+      ],
+      "topic": "rendering",
+      "claim": "The tree paper’s compact parameter size excludes a large WorkGraph backing allocation, and RT vegetation remains future work.",
+      "evidence_type": "analytical",
+      "confidence": "medium",
+      "context": "Primary-source update 2026-10-28; no new Basix runtime results.",
+      "strengths": "Explicit mechanisms, baselines, rights and acceptance gates.",
+      "limitations": "Selected/abstract-level coverage where stated; no cross-vendor or end-to-end performance verification.",
+      "implications": "Preserve M1 first; add independent later roadmap experiments.",
+      "tags": [
+        "ReSTIR",
+        "LOD",
+        "procedural",
+        "neural",
+        "roadmap"
+      ],
+      "evidence": [
+        {
+          "source_id": "S58",
+          "locator": "Source notes and linked primary methods/limitations",
+          "relation": "supports",
+          "note": "Supports bounded reported mechanism, not Basix performance."
+        },
+        {
+          "source_id": "S59",
+          "locator": "Source notes and linked primary methods/limitations",
+          "relation": "supports",
+          "note": "Supports bounded reported mechanism, not Basix performance."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
+    },
+    {
+      "id": "F13",
+      "title": "Neural research needs estimator and license boundaries",
+      "question_ids": [
+        "Q9"
+      ],
+      "topic": "rendering",
+      "claim": "Residual correction matters for unbiased cache estimates; the inspected NIRC implementation declares GPLv3 and is not an MIT-core dependency.",
+      "evidence_type": "analytical",
+      "confidence": "medium",
+      "context": "Primary-source update 2026-10-28; no new Basix runtime results.",
+      "strengths": "Explicit mechanisms, baselines, rights and acceptance gates.",
+      "limitations": "Selected/abstract-level coverage where stated; no cross-vendor or end-to-end performance verification.",
+      "implications": "Preserve M1 first; add independent later roadmap experiments.",
+      "tags": [
+        "ReSTIR",
+        "LOD",
+        "procedural",
+        "neural",
+        "roadmap"
+      ],
+      "evidence": [
+        {
+          "source_id": "S56",
+          "locator": "Source notes and linked primary methods/limitations",
+          "relation": "supports",
+          "note": "Supports bounded reported mechanism, not Basix performance."
+        },
+        {
+          "source_id": "S57",
+          "locator": "Source notes and linked primary methods/limitations",
+          "relation": "supports",
+          "note": "Supports bounded reported mechanism, not Basix performance."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
+    },
+    {
+      "id": "F14",
+      "title": "Guiding and neural texture work remain optional",
+      "question_ids": [
+        "Q9"
+      ],
+      "topic": "rendering",
+      "claim": "Guiding has per-bounce storage cost; MiniDXNN is a DX12 preview research tool, not a verified Vulkan adapter.",
+      "evidence_type": "analytical",
+      "confidence": "medium",
+      "context": "Primary-source update 2026-10-28; no new Basix runtime results.",
+      "strengths": "Explicit mechanisms, baselines, rights and acceptance gates.",
+      "limitations": "Selected/abstract-level coverage where stated; no cross-vendor or end-to-end performance verification.",
+      "implications": "Preserve M1 first; add independent later roadmap experiments.",
+      "tags": [
+        "ReSTIR",
+        "LOD",
+        "procedural",
+        "neural",
+        "roadmap"
+      ],
+      "evidence": [
+        {
+          "source_id": "S55",
+          "locator": "Source notes and linked primary methods/limitations",
+          "relation": "supports",
+          "note": "Supports bounded reported mechanism, not Basix performance."
+        },
+        {
+          "source_id": "S60",
+          "locator": "Source notes and linked primary methods/limitations",
+          "relation": "supports",
+          "note": "Supports bounded reported mechanism, not Basix performance."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
+    },
+    {
+      "id": "F15",
+      "title": "Scoped lifecycle and hidden-window checks passed",
+      "question_ids": [
+        "Q2"
+      ],
+      "topic": "rendering",
+      "claim": "Three real device sessions and held asynchronous texture submissions pass local oracles; hidden-window resizing/zero-size restoration and controlled cleanup pass. Actual SDK/device-loss remain open.",
+      "evidence_type": "measured",
+      "confidence": "high",
+      "context": "2026-10-28 Windows/RTX4090/NVIDIA617.42 with pinned core/SyncVal layer.",
+      "strengths": "Actual incomplete timeline values, identical-metadata registry isolation, complete process log scans and bounded failures.",
+      "limitations": "One adapter; hidden clear-only presentation; no actual OS minimize, visible-pixel oracle, multiqueue or device-loss recovery.",
+      "implications": "Complete only M1b-lifecycle; resize/recovery and overall M1 remain partial.",
+      "tags": [
+        "validation",
+        "lifecycle",
+        "window"
+      ],
+      "evidence": [
+        {
+          "source_id": "S65",
+          "locator": "Receipt cases/runs and GPU fields",
+          "relation": "supports",
+          "note": "Local bounded correctness only."
+        },
+        {
+          "source_id": "S66",
+          "locator": "Receipt cases/runs and GPU fields",
+          "relation": "supports",
+          "note": "Local bounded correctness only."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
     }
   ],
   "actions": [
@@ -1386,7 +1967,27 @@
         "S44",
         "S45",
         "S46",
-        "S47"
+        "S47",
+        "S48",
+        "S49",
+        "S50",
+        "S51",
+        "S52",
+        "S53",
+        "S54",
+        "S55",
+        "S56",
+        "S57",
+        "S58",
+        "S59",
+        "S60",
+        "S61",
+        "S62",
+        "S63",
+        "S64",
+        "S65",
+        "S66",
+        "S67"
       ],
       "outcome": "Primary-source architecture and license gates resolved; runtime tests remain pending."
     },
@@ -1425,12 +2026,42 @@
         "S43"
       ],
       "outcome": "Feature boundaries, source conflicts, licenses and adoption gates documented; original CPU/GPU foundation implemented."
+    },
+    {
+      "date": "2026-10-28",
+      "phase": "update",
+      "engine": "Public forum discovery then primary papers/vendor/author code",
+      "query": "ReSTIR LOD PT Enhanced splatting variable rate guiding procedural trees MiniDXNN",
+      "source_ids": [
+        "S48",
+        "S49",
+        "S50",
+        "S51",
+        "S52",
+        "S53",
+        "S54",
+        "S55",
+        "S56",
+        "S57",
+        "S58",
+        "S59",
+        "S60",
+        "S61",
+        "S62",
+        "S63",
+        "S64",
+        "S65",
+        "S66",
+        "S67"
+      ],
+      "outcome": "Independent adoption gates added; incomplete thread/full-paper/access coverage recorded."
     }
   ],
   "scope_changes": [
     "Added MegaLights and PETAFAB at user request.",
     "User added DXR2/clustered geometry, tetrahedral cages, alternative ideas and implementation authorization. Corrected contradictory DXR2 maturity wording; recorded local CPU/GPU correctness results.",
-    "Added explicit machine-readable roadmap states/evidence and completed scoped M1 validation/native texture experiments; broader M1 remains partial."
+    "Added explicit machine-readable roadmap states/evidence and completed scoped M1 validation/native texture experiments; broader M1 remains partial.",
+    "User supplied two discussions. Added selected public leads and primary verification; authenticated discussion/page8 remained inaccessible. No private content published."
   ],
   "presentation_path": "index.html",
   "evidence_page": "index.html#sources",
