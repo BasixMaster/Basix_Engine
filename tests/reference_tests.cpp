@@ -107,6 +107,14 @@ void progressive_and_validation(){
     check(float_same&&float_whole.samples_per_pixel()==8&&float_chunked.samples_per_pixel()==8,"24-bit camera/path streams preserve bit-identical chunked accumulation");
     check(float_valid&&changed,"24-bit stream is finite and distinct from default 53-bit stream");
     check(config.integrator.random_bits==53,"default random precision remains 53 bits");
+    check(config.integrator.sampling_proposal==SamplingProposal::ndf_legacy,"CPU default remains legacy NDF");
+    auto visible_config=float_config;visible_config.integrator.sampling_proposal=SamplingProposal::visible_v1;
+    ProgressiveRenderer vw(cornell_scene(),{},visible_config),vc(cornell_scene(),{},visible_config);
+    vw.add_samples(8);vc.add_samples(3);vc.add_samples(5);const auto va=vw.linear_image(),vb=vc.linear_image();bool vi=true,vf=true;
+    for(size_t i=0;i<va.size();++i){vi=vi&&near(va[i],vb[i],0);vf=vf&&finite(va[i])&&va[i].x>=0&&va[i].y>=0&&va[i].z>=0;}
+    check(vi&&vf,"VNDF integration preserves finite nonnegative batch identity");
+    auto bad_proposal=config;bad_proposal.integrator.sampling_proposal=static_cast<SamplingProposal>(42);
+    rejects([&]{ProgressiveRenderer x(cornell_scene(),{},bad_proposal);},"unknown sampling proposal rejected");
     auto reordered=cornell_scene();std::reverse(reordered.materials.begin(),reordered.materials.end());std::reverse(reordered.triangles.begin(),reordered.triangles.end());std::reverse(reordered.spheres.begin(),reordered.spheres.end());
     ProgressiveRenderer stable(reordered,{},config);stable.add_samples(8);const auto c=stable.linear_image();bool identical=true;
     for(size_t i=0;i<a.size();++i)identical=identical&&near(a[i],c[i],0);

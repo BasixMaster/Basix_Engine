@@ -469,13 +469,13 @@
       "id": "M2-gpu",
       "title": "Vulkan progressive reference PT",
       "status": "partial",
-      "scope": "Pointer-root triangle scene/material layout, ordinary Vulkan BLAS/TLAS ray-query progressive PT and shared GPU sampling; fixed-scene transport passes while18 extreme grazing same-variates sample cases remain outside the original criterion.",
+      "scope": "Ordinary Vulkan progressive PT and distinct visible-GGX sampled-state transport pass scoped gates. Legacy NDF paired grazing test remains partial; robust ray offsets, import/textures, transformed instances and temporal guides are open.",
       "acceptance": "CPU/GPU sample/PDF and matched scene convergence, poisoned-output controls and full-process core/SyncVal.",
       "prerequisites": [
         "M2-reference",
         "M1b"
       ],
-      "next_test": "Resolve near-grazing half-vector/transport conditioning without weakening the retained oracle, and add independent GPU distribution/energy and thin-gap/large-coordinate checks.",
+      "next_test": "Thin-gap/large-coordinate ray-origin and endpoint tests, then imported geometry and temporal depth/motion conventions; retain legacy NDF failing control.",
       "last_verified_on": "2026-10-28",
       "evidence": [
         {
@@ -487,6 +487,16 @@
           "path": "docs/sampling-results.json",
           "checked_on": "2026-10-28",
           "summary": "Partial sampling: original18 failures retained; direction/returned-tuple diagnostics and no-op control measured."
+        },
+        {
+          "path": "docs/visible-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Four streams, independent energy/probability targets, actual shader faults and adoption decision."
+        },
+        {
+          "path": "docs/visible-progressive-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Eleven actual default/integration checks; CPU24 comparisons, batch/reset and failure controls."
         }
       ],
       "parent": "M2"
@@ -561,6 +571,31 @@
           "path": "docs/sampling-results.json",
           "checked_on": "2026-10-28",
           "summary": "Partial evidence with original failed criterion and narrower passing diagnostics; strict mode still rejects."
+        }
+      ]
+    },
+    {
+      "id": "M2-gpu-vndf",
+      "title": "Visible-GGX sampled-state GPU transport",
+      "status": "completed",
+      "scope": "Original visible-GGX proposal adopted for GPU PT; four conformance streams, independent nine-configuration distribution/energy gate and fixed-scene integration pass. Legacy NDF control remains partial; no general scene/temporal/performance claim.",
+      "acceptance": "16384 paired cases at unchanged tolerances; nine configurations x262144 GPU samples against independent analytic/quadrature targets; actual no-op and10% PDF-bias controls reject. Eleven progressive cases including actual default selection pass under core/SyncVal.",
+      "prerequisites": [
+        "M2-material"
+      ],
+      "parent": "M2-gpu",
+      "next_test": "Keep legacy NDF failure visible. Extend unit-scale offsets to thin-gap/large-coordinate tests, then import/depth/motion conventions and temporal reconstruction.",
+      "last_verified_on": "2026-10-28",
+      "evidence": [
+        {
+          "path": "docs/visible-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Four streams, independent energy/probability targets, actual shader faults and adoption decision."
+        },
+        {
+          "path": "docs/visible-progressive-results.json",
+          "checked_on": "2026-10-28",
+          "summary": "Eleven actual default/integration checks; CPU24 comparisons, batch/reset and failure controls."
         }
       ]
     }
@@ -644,6 +679,17 @@
       "evidence": [
         "docs/progressive-results.json",
         "docs/sampling-results.json"
+      ]
+    },
+    {
+      "checked_on": "2026-10-28",
+      "item_id": "M2-gpu-vndf",
+      "from_status": "in_progress",
+      "to_status": "completed",
+      "event": "Adopted distinct visible-GGX sampled-state proposal after independent material and actual default renderer gates passed. Legacy NDF18-case failure and tolerances preserved; broader M2-gpu remains partial.",
+      "evidence": [
+        "docs/visible-results.json",
+        "docs/visible-progressive-results.json"
       ]
     }
   ]

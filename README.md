@@ -26,9 +26,9 @@ See [M1 validation results](docs/validation-results.json): five cases, three pos
 
 Open [docs/index.html](docs/index.html) after cloning/downloading. It works offline with chapter/source search and Light/Dark/System themes.
 
-The 18 chapters and 69 sources cover UE5.8/6, MegaLights, PETAFAB, NoGraphicsAPI, DX12/DXR, Linear Algebra, DLSS, RTXDI/RTXPT, DXR2/Clustered Geometry/PTLAS, tetrahedral cages, DGF/DGFS and other viable ideas. The revised roadmap separates tested code, proposed experiments, preview/draft features and vendor claims.
+The 20 chapters and 95 sources cover UE5.8/6, MegaLights, PETAFAB, NoGraphicsAPI, DX12/DXR, Linear Algebra, DLSS, RTXDI/RTXPT, DXR2/Clustered Geometry/PTLAS, tetrahedral cages, DGF/DGFS and other viable ideas. The revised roadmap separates tested code, proposed experiments, preview/draft features and vendor claims.
 
-Research date: **28 October 2026**. DXR2’s rendered spec says preview while other official maturity/package evidence conflicts; a matching public SDK/driver combination has not been established here.
+Research date: **28 October 2026**. DXR2â€™s rendered spec says preview while other official maturity/package evidence conflicts; a matching public SDK/driver combination has not been established here.
 
 ## Rebuild documentation
 
@@ -43,7 +43,7 @@ Editable sources are `tools/build_docs.py` and the content modules `tools/resear
 
 Browser checks cover offline search, anchors, mobile overflow and saved/system themes. Repeat with Node.js/Playwright: `node tools/check_browser.cjs`; set `PLAYWRIGHT_CHANNEL=msedge` to use installed Edge. Screenshots/receipt go into ignored `work/`.
 
-For a registered private local meter, use `python tools/build_docs.py --private-meter`. It uses the owning workspace adapter and this page’s chat-family binding. Default builds are meter-free. Strip private blocks/feeds through the owning sanitized export before publication. The SVG identity/banner are original Basix artwork.
+For a registered private local meter, use `python tools/build_docs.py --private-meter`. It uses the owning workspace adapter and this pageâ€™s chat-family binding. Default builds are meter-free. Strip private blocks/feeds through the owning sanitized export before publication. The SVG identity/banner are original Basix artwork.
 
 Serve locally with `python -m http.server 8000 --directory docs`. GitHub Pages hosting is not configured.
 
@@ -55,6 +55,8 @@ The CPU cage code is an original mathematical experiment, not copied from AMD or
 
 The optional actual SDK test and eight-case receipt are documented in [IMPLEMENTATION.md](IMPLEMENTATION.md) and [docs/dlss-results.json](docs/dlss-results.json). NVIDIA runtime binaries remain separately supplied. The roadmap also displays a dated status logbook; structured transitions must agree with current states and preserve evidence.
 
-M2 is now partial:70 CPU material checks,61 CPU transport checks and2,048 GPU BRDF/PDF cases pass. The original CPU scene preview and scoped receipts are in [the reference chapter](docs/index.html#reference-renderer). A scoped Vulkan progressive scene now passes;18 extreme grazing sampling cases remain unresolved, while importer and temporal guides are pending. [Vulkan feature queries](docs/vulkan-capabilities.json) confirm candidate support only; CLAS/matrix/vector execution remains unimplemented.
+M2 is now partial:70 CPU material checks,79 CPU transport checks and2,048 GPU BRDF/PDF cases pass. The original CPU scene preview and scoped receipts are in [the reference chapter](docs/index.html#reference-renderer). A scoped Vulkan progressive scene now passes;18 extreme grazing sampling cases remain unresolved, while importer and temporal guides are pending. [Vulkan feature queries](docs/vulkan-capabilities.json) confirm candidate support only; CLAS/matrix/vector execution remains unimplemented.
 
 The progressive scene gate uses ordinary Vulkan ray queries on the NoGraphicsAPI-owned device. [GPU results](docs/progressive-results.json) and [partial sampling results](docs/sampling-results.json) retain the acceptance limits and original failed criterion. No advanced extension execution is claimed.
+
+Visible-GGX sampled-state transport is now the GPU default, with independent distribution/energy acceptance and actual shader fault controls. CPU rendering keeps the legacy default; select `--sampler vndf` explicitly. [Sampling results](docs/visible-results.json) and [default GPU scene checks](docs/visible-progressive-results.json) define the tested scope. The legacy18-case grazing discrepancy remains recorded separately.

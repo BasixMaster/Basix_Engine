@@ -16,6 +16,7 @@ struct Scene { std::vector<render::Material> materials; std::vector<Sphere> sphe
 struct Hit { double t{}; Vec3 position{},normal{},geometric_normal{}; std::uint32_t primitive_id{},material_id{}; bool front_face{}; };
 struct LightSample { Vec3 position{},normal{},emission{},wi{}; double distance{},pdf_area{},pdf_solid_angle{}; std::uint32_t primitive_id{}; bool valid{}; };
 struct Camera { Vec3 origin{0,0,3.5},target{0,-.1,0},up{0,1,0}; double vertical_fov_degrees=40; };
+enum class SamplingProposal { ndf_legacy, visible_v1 };
 struct IntegratorSettings {
     // Maximum scattering events; the final segment still sees emission/environment.
     std::uint32_t max_depth=8,rr_start=3;
@@ -23,6 +24,7 @@ struct IntegratorSettings {
     // Top 24 bits permit an exactly representable [0,1) GPU-float stream.
     // Default 53 preserves the original CPU reference sequence.
     std::uint32_t random_bits=53;
+    SamplingProposal sampling_proposal=SamplingProposal::ndf_legacy;
 };
 struct RenderConfig { std::uint32_t width=64,height=64; std::uint64_t seed=1; IntegratorSettings integrator{}; };
 
@@ -49,7 +51,7 @@ private:
 
 // Light-sample contribution including visibility and optional MIS. The hit's
 // normal is the oriented shading normal and wo points away from the surface.
-Vec3 direct_lighting(const World&,const Hit&,Vec3 wo,const LightSample&,bool use_mis);
+Vec3 direct_lighting(const World&,const Hit&,Vec3 wo,const LightSample&,bool use_mis,SamplingProposal proposal=SamplingProposal::ndf_legacy);
 // Deterministic sample-key based path; no scheduling/global RNG state.
 Vec3 radiance(const World&,const Ray&,const IntegratorSettings&,std::uint64_t sample_key);
 Scene cornell_scene();

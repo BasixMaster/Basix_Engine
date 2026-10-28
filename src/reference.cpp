@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 #include "basix/reference.hpp"
+#include "basix/material_vndf.hpp"
 #include <algorithm>
 #include <cmath>
 #include <numbers>
@@ -76,7 +77,7 @@ bool validate(const Camera& c) {
         length(cross(normalize(forward),normalize(c.up)))>1e-8&&std::isfinite(c.vertical_fov_degrees)&&
         c.vertical_fov_degrees>=1&&c.vertical_fov_degrees<=175;
 }
-bool validate(const IntegratorSettings& s) { return s.max_depth>=1&&s.max_depth<=64&&s.rr_start>=1&&s.rr_start<=64&&(s.random_bits==24||s.random_bits==53); }
+bool validate(const IntegratorSettings& s) { return s.max_depth>=1&&s.max_depth<=64&&s.rr_start>=1&&s.rr_start<=64&&(s.random_bits==24||s.random_bits==53)&&(s.sampling_proposal==SamplingProposal::ndf_legacy||s.sampling_proposal==SamplingProposal::visible_v1); }
 double power_heuristic(double a,double b) {
     if(!(a>0)||!std::isfinite(a))return 0;
     if(!(b>0)||!std::isfinite(b))return 1;
@@ -138,7 +139,7 @@ double World::light_pdf(Vec3 reference,const Hit& hit)const {
     }
     return 0;
 }
-Vec3 direct_lighting(const World& world,const Hit& hit,Vec3 wo,const LightSample& light,bool mis) {
+Vec3 direct_lighting(const World& world,const Hit& hit,Vec3 wo,const LightSample& light,bool mis,SamplingProposal proposal) {
     if(!light.valid||!finite(light.position)||!nonnegative(light.emission)||!finite(light.wi)||
        std::abs(dot(light.wi,light.wi)-1)>1e-6||!(light.pdf_solid_angle>0)||!std::isfinite(light.pdf_solid_angle))return {};
     const Frame frame(hit.normal);const Vec3 local_wi=frame.local(light.wi),local_wo=frame.local(wo);
@@ -146,8 +147,8 @@ Vec3 direct_lighting(const World& world,const Hit& hit,Vec3 wo,const LightSample
     const Vec3 start=offset(hit.position,hit.normal,light.wi),delta=light.position-start;const double distance=length(delta);
     if(!(distance>0))return {};
     if(world.intersect({start,delta/distance,0,distance*(1-128*epsilon)}))return {};
-    const auto& m=world.material(hit.material_id);const Vec3 f=render::evaluate(m,local_wo,local_wi);
-    const double weight=mis?power_heuristic(light.pdf_solid_angle,render::pdf(m,local_wo,local_wi)):1;
+    const auto& m=world.material(hit.material_id);const Vec3 f=proposal==SamplingProposal::visible_v1?render::evaluate_visible(m,local_wo,local_wi):render::evaluate(m,local_wo,local_wi);
+    const double weight=mis?power_heuristic(light.pdf_solid_angle,(proposal==SamplingProposal::visible_v1?render::pdf_visible(m,local_wo,local_wi):render::pdf(m,local_wo,local_wi))):1;
     return f*light.emission*(local_wi.z*weight/light.pdf_solid_angle);
 }
 Vec3 radiance(const World& world,const Ray& initial,const IntegratorSettings& settings,std::uint64_t key) {
@@ -172,10 +173,11 @@ Vec3 radiance(const World& world,const Ray& initial,const IntegratorSettings& se
         const Frame frame(hit->normal);const Vec3 wo=frame.local(-ray.direction);
         if(settings.next_event_estimation) {
             const double light_select=rng.next(),light_u1=rng.next(),light_u2=rng.next();
-            sum=sum+throughput*direct_lighting(world,*hit,-ray.direction,world.sample_light(hit->position,light_select,light_u1,light_u2),settings.multiple_importance_sampling);
+            sum=sum+throughput*direct_lighting(world,*hit,-ray.direction,world.sample_light(hit->position,light_select,light_u1,light_u2),settings.multiple_importance_sampling,settings.sampling_proposal);
         }
         const double lobe=rng.next(),bsdf_u1=rng.next(),bsdf_u2=rng.next();
-        const auto sample=render::sample(material,wo,lobe,bsdf_u1,bsdf_u2);if(!sample.valid)break;
+        const auto visible=settings.sampling_proposal==SamplingProposal::visible_v1?render::sample_visible(material,wo,lobe,bsdf_u1,bsdf_u2):render::VisibleSample{};
+        const auto sample=settings.sampling_proposal==SamplingProposal::visible_v1?render::BsdfSample{visible.wi,visible.f,visible.pdf,visible.valid}:render::sample(material,wo,lobe,bsdf_u1,bsdf_u2);if(!sample.valid)break;
         throughput=throughput*sample.f*(sample.wi.z/sample.pdf);
         if(!finite(throughput))throw std::runtime_error("Nonfinite path throughput");
         if(max_component(throughput)<=0)break;

@@ -2,7 +2,7 @@
 // Original bounded triangle-only GPU transport experiment. Ordinary Vulkan ray
 // queries run on the NoGraphicsAPI-owned device through an explicit native scope.
 // One identity TLAS instance: committed primitive indices address triangles[].
-#include "basix_material.slang"
+#include "basix_material_vndf.slang"
 
 struct Triangle {
  float3 a;uint material;float3 b;uint id;float3 c;float area;float3 normal;float pad;
@@ -25,8 +25,16 @@ struct Push {Root* data;};
 [[vk::push_constant]] ConstantBuffer<Push> push;
 [[vk::binding(0,0)]] RaytracingAccelerationStructure scene;
 
-static const uint PT_NEE=1,PT_MIS=2,PT_RR=4;
+static const uint PT_NEE=1,PT_MIS=2,PT_RR=4,PT_VISIBLE=8;
 static const float PT_RAY_MAX=1e30f;
+
+
+float3 ptEvaluate(Root* root,BasixMaterial m,float3 wo,float3 wi){return (root.flags&PT_VISIBLE)!=0?basixEvaluateVisible(m,wo,wi):basixEvaluate(m,wo,wi);}
+float ptPdf(Root* root,BasixMaterial m,float3 wo,float3 wi){return (root.flags&PT_VISIBLE)!=0?basixPdfVisible(m,wo,wi):basixPdf(m,wo,wi);}
+BasixBsdfSample ptSample(Root* root,BasixMaterial m,float3 wo,float ul,float u1,float u2){
+ if((root.flags&PT_VISIBLE)==0)return basixSample(m,wo,ul,u1,u2);
+ BasixVisibleSample visible=basixSampleVisible(m,wo,ul,u1,u2);BasixBsdfSample result;result.wi=visible.wi;result.pdf=visible.pdf;result.f=visible.f;result.valid=visible.valid;return result;
+}
 
 float ptMax(float3 v){return max(v.x,max(v.y,v.z));}
 float ptNaN(){return asfloat(0x7fc00000u);}
@@ -108,8 +116,8 @@ float3 ptDirect(Root* root,PtHit hit,float3 wo,PtLight light,bool mis){
  float endpointMargin=2e-5f*max(1.f,distance);if(distance<=endpointMargin)return float3(0);
  PtHit blocker=ptTrace(root,start,delta/distance,distance-endpointMargin);
  if(blocker.error!=0)return ptInvalid();if(blocker.found!=0)return float3(0);
- BasixMaterial material=root.materials[hit.material];float3 f=basixEvaluate(material,localWo,localWi);
- float weight=mis?ptPower(light.pdf,basixPdf(material,localWo,localWi)):1;
+ BasixMaterial material=root.materials[hit.material];float3 f=ptEvaluate(root,material,localWo,localWi);
+ float weight=mis?ptPower(light.pdf,ptPdf(root,material,localWo,localWi)):1;
  return f*light.emission*(localWi.z*weight/light.pdf);
 }
 float3 ptRadiance(Root* root,float3 origin,float3 direction,uint64_t key){
@@ -132,7 +140,7 @@ float3 ptRadiance(Root* root,float3 origin,float3 direction,uint64_t key){
    float select=ptNext(rng),u1=ptNext(rng),u2=ptNext(rng);
    radiance+=throughput*ptDirect(root,hit,-direction,ptLightSample(root,hit.position,select,u1,u2),mis);
   }
-  float lobe=ptNext(rng),u1=ptNext(rng),u2=ptNext(rng);BasixBsdfSample sample=basixSample(material,wo,lobe,u1,u2);
+  float lobe=ptNext(rng),u1=ptNext(rng),u2=ptNext(rng);BasixBsdfSample sample=ptSample(root,material,wo,lobe,u1,u2);
   if(sample.valid==0)break;
   throughput*=sample.f*(sample.wi.z/sample.pdf);if(!ptFiniteNonnegative(throughput))return ptInvalid();if(ptMax(throughput)<=0)break;
   float3 wi=normalize(ptWorld(frame,sample.wi));previous=hit.position;previousPdf=sample.pdf;
@@ -156,7 +164,7 @@ void computeMain(uint3 id:SV_DispatchThreadID){
   root.debugHits[pixel]=hit.error!=0?float4(ptNaN()):(hit.found!=0?float4(hit.t,float(hit.index),float(hit.material),float(hit.front)):float4(-1,-1,-1,0));return;
  }
  if(root.mode!=0||root.maxDepth<1||root.maxDepth>64||root.rrStart<1||root.rrStart>64||
-    (root.flags&~7u)!=0||root.sampleCount==0||root.sampleCount>16777215u||root.sampleStart>16777215u-root.sampleCount||
+    (root.flags&~15u)!=0||root.sampleCount==0||root.sampleCount>16777215u||root.sampleStart>16777215u-root.sampleCount||
     !ptFiniteNonnegative(root.environment.xyz)){
   root.accumulation[pixel]=float4(ptNaN());return;
  }

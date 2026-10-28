@@ -2,8 +2,8 @@
   "checked_on": "2026-10-28",
   "status": "passed",
   "chapters": 20,
-  "sources": 91,
-  "evidence_records": 120,
+  "sources": 95,
+  "evidence_records": 125,
   "checks": [
     "local targets",
     "unique IDs",

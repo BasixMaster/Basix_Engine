@@ -56,6 +56,7 @@ int main(int argc,char** argv) {
             else if(arg=="--seed")config.seed=integer<std::uint64_t>(next());
             else if(arg=="--depth")config.integrator.max_depth=integer<std::uint32_t>(next());
             else if(arg=="--rr-start")config.integrator.rr_start=integer<std::uint32_t>(next());
+            else if(arg=="--sampler"){auto value=next();if(value=="ndf")config.integrator.sampling_proposal=SamplingProposal::ndf_legacy;else if(value=="vndf")config.integrator.sampling_proposal=SamplingProposal::visible_v1;else throw std::invalid_argument("Unknown sampler");}
             else if(arg=="--random-bits")config.integrator.random_bits=integer<std::uint32_t>(next());
             else if(arg=="--fov")camera.vertical_fov_degrees=number(next());
             else if(arg=="--scene")scene=next();
@@ -63,7 +64,7 @@ int main(int argc,char** argv) {
             else if(arg=="--no-nee")config.integrator.next_event_estimation=false;
             else if(arg=="--no-mis")config.integrator.multiple_importance_sampling=false;
             else if(arg=="--no-rr")config.integrator.russian_roulette=false;
-            else throw std::invalid_argument("Unknown argument. Options: --scene cornell --width N --height N --spp N --batch N --seed N --depth N --rr-start N --random-bits 24|53 --fov DEGREES --output DIRECTORY --no-nee --no-mis --no-rr");
+            else throw std::invalid_argument("Unknown argument. Options: --scene cornell --width N --height N --spp N --batch N --seed N --depth N --rr-start N --random-bits 24|53 --sampler ndf|vndf --fov DEGREES --output DIRECTORY --no-nee --no-mis --no-rr");
         }
         if(scene!="cornell")throw std::invalid_argument("Unknown reference scene ID");
         if(spp<1||spp>1000000||batch<1||batch>1000000)throw std::invalid_argument("SPP and batch must be from 1 to 1000000");
@@ -85,7 +86,7 @@ int main(int argc,char** argv) {
         std::ofstream receipt(out/"result.json");receipt<<std::setprecision(17)
             <<"{\"status\":\"passed\",\"scene\":\"cornell\",\"width\":"<<config.width<<",\"height\":"<<config.height
             <<",\"samples_per_pixel\":"<<renderer.samples_per_pixel()<<",\"seed\":"<<config.seed<<",\"batch\":"<<batch
-            <<",\"random_bits\":"<<config.integrator.random_bits
+            <<",\"sampler\":\""<<(config.integrator.sampling_proposal==SamplingProposal::visible_v1?"vndf_sampled_state_v1":"ndf_legacy")<<"\",\"random_bits\":"<<config.integrator.random_bits
             <<",\"max_scattering_events\":"<<config.integrator.max_depth<<",\"rr_start\":"<<config.integrator.rr_start<<",\"vertical_fov_degrees\":"<<camera.vertical_fov_degrees
             <<",\"next_event_estimation\":"<<(config.integrator.next_event_estimation?"true":"false")
             <<",\"power_heuristic_mis\":"<<(config.integrator.multiple_importance_sampling?"true":"false")

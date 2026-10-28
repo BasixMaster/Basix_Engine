@@ -9,7 +9,8 @@
     "Actual static DLSS SR interoperability passes8cases with a measured descriptor-state workaround; temporal renderer quality remains unverified.",
     "Vulkan-first adoption map separates native extension contracts, portable replacements and enumeration/enabling/oracle/performance evidence; no advanced-extension execution measurements added.",
     "M2 partial: tested material CPU/GPU evaluation and CPU progressive reference; Vulkan advanced feature queries recorded separately from execution.",
-    "Scoped progressive Vulkan PT passes11 cases; GPU sampling remains partial with18 retained grazing failures and maximum paired transport-weight discrepancy15.688%."
+    "Scoped progressive Vulkan PT passes11 cases; GPU sampling remains partial with18 retained grazing failures and maximum paired transport-weight discrepancy15.688%.",
+    "Distinct visible-GGX sampled-state proposal passes canonical sampling and fixed-scene transport gates; legacy NDF grazing failures remain recorded and broader M2 stays partial."
   ],
   "questions": [
     {
@@ -1686,6 +1687,70 @@
       "topic": "rendering",
       "presentation_path": "index.html",
       "presentation_anchor": "S91"
+    },
+    {
+      "id": "S92",
+      "title": "Heitz: Sampling the GGX Distribution of Visible Normals",
+      "url": "https://jcgt.org/published/0007/04/01/",
+      "notes": "Projected-disk construction for visible GGX normals. Basix implements the published mathematics independently in original MIT CPU/Slang code. The visible-normal proposal changes sample probabilities; it does not add multiple-scattering energy compensation or change the existing separable Smith BRDF.",
+      "kind": "primary research paper",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Paper linked and summarized; no paper implementation copied into Basix.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S92"
+    },
+    {
+      "id": "S93",
+      "title": "PBRT 4: Conductor BRDF sample state",
+      "url": "https://pbr-book.org/4ed/Reflection_Models/Conductor_BRDF",
+      "notes": "The conductor sampling discussion evaluates a sample using its generated microfacet normal. Standalone BRDF/PDF evaluation reconstructs that normal from outgoing and incoming directions. These are mathematically related operations whose floating-point conditioning can differ. Basix uses the distinction as a numerical design reference, with its own material model and code.",
+      "kind": "primary technical textbook",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Linked and paraphrased; no source implementation incorporated.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S93"
+    },
+    {
+      "id": "S94",
+      "title": "Basix visible-GGX sampling acceptance",
+      "url": "https://github.com/BasixMaster/Basix_Engine/blob/main/docs/visible-results.json",
+      "notes": "Canonical visible-GGX harness passes: four deterministic 4096-case streams, independent nine-configuration GPU distribution/null/energy checks, and deliberately faulty output/PDF controls. This receipt concerns the distinct sampled-state proposal; the legacy NDF failure remains separate.",
+      "kind": "local measured scoped correctness",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Original Basix code and selected numeric receipts MIT; no vendor runtime included.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S94"
+    },
+    {
+      "id": "S95",
+      "title": "Basix visible-GGX progressive PT acceptance",
+      "url": "https://github.com/BasixMaster/Basix_Engine/blob/main/docs/visible-progressive-results.json",
+      "notes": "Canonical fixed-scene progressive harness passes with the visible-GGX proposal, matched 24-bit CPU streams, independent HDR decoding, accumulation/reset checks and expected rejection controls. No scene import, temporal reconstruction or UE-detail benchmark is established.",
+      "kind": "local measured scoped correctness",
+      "published_on": "",
+      "checked_on": "2026-10-28",
+      "access": "full",
+      "quality": "Primary source maintained by the technology owner; relevant to the stated scope.",
+      "limitations": "Mutable upstream material and vendor reports do not establish Basix compatibility or measured performance.",
+      "rights": "Original Basix code, original fixture and selected numeric receipts MIT.",
+      "topic": "rendering",
+      "presentation_path": "index.html",
+      "presentation_anchor": "S95"
     }
   ],
   "findings": [
@@ -2430,7 +2495,7 @@
     },
     {
       "id": "F19",
-      "title": "Scoped GPU scene correctness does not close the grazing material gate",
+      "title": "Earlier GPU scene result retained a failing legacy grazing control",
       "question_ids": [
         "Q2"
       ],
@@ -2438,10 +2503,10 @@
       "claim": "Seven ordinary Vulkan PT scene variants agree with the CPU24 reference and four rejection controls pass. Separately,18 extreme grazing same-variates material samples fail and remain visible in strict mode.",
       "evidence_type": "measured partial with retained failure",
       "confidence": "high",
-      "context": "2026-10-28 Windows RTX4090/NVIDIA617.42; pinned Slang/Vulkan/validation and preparation patch6.",
+      "context": "2026-10-28 Windows RTX4090/NVIDIA617.42; pinned Slang/Vulkan/validation and preparation patch6. Historical NDF baseline; later visible-GGX evidence is F20.",
       "strengths": "Independent primary/CPU image oracles, unequal light areas, explicit variant settings, poisoned output, batch/reset identity, retained strict failure and full-process validation.",
       "limitations": "Fixed unit-scale scene only; no independent GPU distribution/energy, robust thin gaps, import/textures/motion, dynamic DLSS or performance comparison.",
-      "implications": "Keep M2-gpu partial; investigate stable grazing sampling arithmetic and independent distribution/energy checks before broader temporal integration.",
+      "implications": "Retain the original partial NDF receipt. Evaluate the distinct visible-GGX contract through F20 without rewriting the old oracle result; broader M2 remains partial.",
       "tags": [
         "Vulkan",
         "reference PT",
@@ -2465,19 +2530,71 @@
       ],
       "presentation_path": "index.html",
       "presentation_anchor": "summary"
+    },
+    {
+      "id": "F20",
+      "title": "Generated microfacet state and independent physics checks define a distinct sampling gate",
+      "question_ids": [
+        "Q2"
+      ],
+      "topic": "rendering",
+      "claim": "The visible-GGX proposal retains its generated half vector for sampled f/PDF. An independent radial/azimuth oracle checks GPU directional/null probabilities and physical reflected energy; this is distinct from the retained legacy NDF criterion.",
+      "evidence_type": "measured scoped correctness",
+      "confidence": "high",
+      "context": "2026-10-28; original MIT CPU/Slang implementation; Windows RTX4090/NVIDIA617.42 is the tested GPU configuration.",
+      "strengths": "Analytic Lambert/alpha1 anchors, separate host probability/energy integration, retained failed controls, fixed tolerances, held-out streams and explicit proposal identity.",
+      "limitations": "Nine GPU distribution configurations; confidence bounds assume iid pseudorandom variates and numerical envelopes are refinement estimates. Legacy NDF conditioning is unresolved. No universal mixed-material, imported-scene, temporal or performance result.",
+      "implications": "Keep legacy and visible-normal contracts separate; only adopt after the selected sampling and scene gates pass. Continue thin-gap/coordinate and scene/guide acceptance while keeping M2 partial.",
+      "tags": [
+        "Vulkan",
+        "GGX",
+        "VNDF",
+        "sampling",
+        "numerical conditioning",
+        "independent oracle"
+      ],
+      "evidence": [
+        {
+          "source_id": "S92",
+          "locator": "Algorithm explanation, scope and selected acceptance receipt",
+          "relation": "supports",
+          "note": "Mathematics, implementation and measured acceptance are separate evidence types."
+        },
+        {
+          "source_id": "S93",
+          "locator": "Algorithm explanation, scope and selected acceptance receipt",
+          "relation": "supports",
+          "note": "Mathematics, implementation and measured acceptance are separate evidence types."
+        },
+        {
+          "source_id": "S94",
+          "locator": "Algorithm explanation, scope and selected acceptance receipt",
+          "relation": "supports",
+          "note": "Mathematics, implementation and measured acceptance are separate evidence types."
+        },
+        {
+          "source_id": "S95",
+          "locator": "Algorithm explanation, scope and selected acceptance receipt",
+          "relation": "supports",
+          "note": "Mathematics, implementation and measured acceptance are separate evidence types."
+        }
+      ],
+      "presentation_path": "index.html",
+      "presentation_anchor": "summary"
     }
   ],
   "actions": [
     {
       "id": "A1",
-      "title": "Resolve grazing transport and add renderer guides",
+      "title": "Complete renderer scene and temporal gates",
       "priority": "high",
       "finding_ids": [
-        "F19"
+        "F19",
+        "F20"
       ],
-      "rationale": "A scoped Vulkan progressive scene now runs, but18 grazing samples remain outside the original paired material criterion.",
+      "rationale": "Visible-GGX has a distinct numerical contract; its acceptance does not close the legacy NDF result or broader renderer integration.",
       "prerequisites": "Choose GPU/driver targets and optional SDK terms.",
-      "success_criterion": "Retained sampling criterion passes a justified numerical implementation plus independent GPU distribution/energy tests; then import/depth/motion/reset clips pass.",
+      "success_criterion": "Selected VNDF sampling/distribution and progressive-scene receipts pass before adoption; thin-gap/large-coordinate, import/textures and depth/motion/reset gates then pass independently.",
       "presentation_path": "index.html",
       "presentation_anchor": "roadmap"
     }
@@ -2579,7 +2696,11 @@
         "S88",
         "S89",
         "S90",
-        "S91"
+        "S91",
+        "S92",
+        "S93",
+        "S94",
+        "S95"
       ],
       "outcome": "Primary-source architecture and license gates resolved; runtime tests remain pending."
     },
@@ -2693,7 +2814,8 @@
     "Completed actual static SR interoperability after reproducing issue109; retained original failed oracle and startup-validation evidence. Added visible status logbook and scoped transitions.",
     "Added Vulkan-first feature chapter and technique mapping; latest KHR/EXT comparisons remain research, with no new implementation status promotion.",
     "Implemented original material oracle and CPU progressive PT; recorded Vulkan feature/property queries without promoting advanced extension execution.",
-    "Added actual Vulkan progressive transport and11-case scene harness while retaining the18-case grazing failure as a partial implementation gate. CPU53 default preserved; optional24-bit matched stream and checked shaderInt64 requirement added."
+    "Added actual Vulkan progressive transport and11-case scene harness while retaining the18-case grazing failure as a partial implementation gate. CPU53 default preserved; optional24-bit matched stream and checked shaderInt64 requirement added.",
+    "Added original visible-GGX sampled-state proposal, factored disk-rim arithmetic and independent GPU probability/null/energy acceptance. Legacy NDF failure and CPU default are preserved; no advanced Vulkan extension or performance claim is promoted."
   ],
   "presentation_path": "index.html",
   "evidence_page": "index.html#sources",
