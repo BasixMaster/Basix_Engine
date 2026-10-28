@@ -79,5 +79,23 @@ class RoadmapTests(unittest.TestCase):
    loaded=roadmap.load(path,check_paths=True)
    self.assertIn('pending → in progress',roadmap.markdown(loaded))
    self.assertIn('Acceptance passed for the named scope.',roadmap.render(path))
-   self.assertIn('../'+evidence,roadmap.render(path))
+   self.assertIn('href="'+evidence.removeprefix('docs/')+'"',roadmap.render(path))
+ def test_html_receipt_links_work_in_docs_only_export(self):
+  from html.parser import HTMLParser
+  from urllib.parse import urlsplit,unquote
+  class Links(HTMLParser):
+   def __init__(self):super().__init__();self.links=[]
+   def handle_starttag(self,tag,attrs):
+    if tag=='a' and dict(attrs).get('href'):self.links.append(dict(attrs)['href'])
+  item=self.data['items'][0];evidence=item['evidence'][0]['path']
+  self.data['history']=[dict(checked_on='2026-10-28',item_id=item['id'],from_status='pending',to_status=item['status'],event='Exported receipt remains reachable.',evidence=[evidence])]
+  with tempfile.TemporaryDirectory(dir=ROOT/'work',prefix='roadmap-export-test-') as tmp:
+   exported=Path(tmp)/'export';exported.mkdir();(exported/Path(evidence).name).write_bytes((ROOT/evidence).read_bytes())
+   ledger=Path(tmp)/'roadmap.json';ledger.write_text(json.dumps(self.data),encoding='utf-8');links=Links();links.feed(roadmap.render(ledger))
+   receipt_links=[href for href in links.links if href.endswith(Path(evidence).name)]
+   self.assertTrue(receipt_links)
+   for href in receipt_links:
+    target=(exported/unquote(urlsplit(href).path)).resolve()
+    self.assertTrue(target.is_relative_to(exported.resolve()))
+    self.assertTrue(target.is_file())
 if __name__=='__main__':unittest.main()

@@ -77,9 +77,11 @@ def markdown_cell(value):
     return str(value).replace('|', '\\|').replace('\r\n', '\n').replace('\n', '<br>')
 
 def evidence_href(path):
-    # The HTML renderer lives in docs/, while ledger evidence is project-relative.
+    # The docs-only export must not resolve docs/foo through ../docs/foo.
     relative = (ROOT / path).resolve().relative_to(ROOT).as_posix()
-    return '../' + quote(relative, safe='/')
+    if relative.startswith('docs/'):
+        return quote(relative[5:], safe='/')
+    return 'https://github.com/BasixMaster/Basix_Engine/blob/main/' + quote(relative, safe='/')
 
 def load(path=None, check_paths=False):
     path = Path(path) if path else ROOT / 'roadmap.json'
