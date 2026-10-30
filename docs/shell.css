@@ -118,3 +118,20 @@ html[data-doc-theme=dark] .doc-sidebar a[aria-current=location]{box-shadow:inset
  .doc-layout>.doc-sidebar .doc-nav-scroll{max-height:none;overflow:visible;padding-bottom:4px}
  .doc-layout>.doc-sidebar .doc-nav-title{font-size:14px;line-height:1.3;margin:3px 2px 5px}
 }
+
+/* doc-image-viewer:start */
+[data-doc-preview]{cursor:zoom-in}
+[data-doc-preview]:focus-visible{outline:3px solid #168692;outline-offset:4px}
+html.doc-image-viewer-open{overflow:hidden}
+.doc-image-viewer{box-sizing:border-box;width:min(96vw,1800px);max-width:96vw;max-height:94vh;max-height:94dvh;margin:auto;padding:12px;border:1px solid #71869a;border-radius:12px;background:#101923;color:#f3f7fb;box-shadow:0 16px 80px #0008}
+.doc-image-viewer::backdrop{background:#000d}
+.doc-image-toolbar{display:flex;align-items:center;justify-content:flex-end;gap:12px;margin-bottom:10px}
+.doc-image-toolbar a,.doc-image-toolbar button{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:8px 14px;border:1px solid #8195a8;border-radius:6px;background:#22374b;color:#f3f7fb;font:600 14px/1.4 system-ui;text-decoration:none;cursor:pointer}
+.doc-image-toolbar :is(a,button):focus-visible{outline:3px solid #6fe4ef;outline-offset:3px}
+.doc-image-viewer figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:10px}
+.doc-image-viewer .doc-image-full{display:block;width:auto;height:auto;min-width:0;max-width:100%;max-height:calc(94vh - 150px);max-height:calc(94dvh - 150px);object-fit:contain;filter:none;cursor:default}
+.doc-image-viewer figcaption{max-width:100%;max-height:5em;overflow:auto;overflow-wrap:anywhere;text-align:center;font:400 14px/1.5 system-ui;color:#f3f7fb}
+@media(max-width:600px){.doc-image-viewer{padding:8px;width:96vw}.doc-image-toolbar{gap:8px}.doc-image-toolbar a,.doc-image-toolbar button{padding:8px 10px}}
+@media print{.doc-image-viewer{display:none!important}html.doc-image-viewer-open{overflow:visible}}
+@media(forced-colors:active){.doc-image-viewer,.doc-image-toolbar a,.doc-image-toolbar button{background:Canvas;color:CanvasText;border-color:CanvasText}.doc-image-viewer figcaption{color:CanvasText}}
+/* doc-image-viewer:end */

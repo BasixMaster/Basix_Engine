@@ -2,7 +2,7 @@
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlsplit,unquote
-import json,sqlite3,re
+import json,sqlite3,re,datetime
 ROOT=Path(__file__).resolve().parents[1]
 class Parser(HTMLParser):
  def __init__(self):super().__init__();self.ids=[];self.links=[];self.scripts=[];self.sections=0
@@ -50,7 +50,7 @@ def main():
  for token in ['\ufffd','TODO','__LIBRARY_DATA__']:
   if token in text:errors.append('unexpected token '+token)
  if parsed.sections!=len(__import__('build_docs').sections):errors.append('chapter coverage mismatch')
- result=dict(checked_on='2026-10-28',status='failed' if errors else 'passed',chapters=parsed.sections,sources=len(source_ids),evidence_records=count,checks=['local targets','unique IDs','anchors','source coverage','FTS coverage and PETAFAB query','encoding tokens','chapter coverage'],errors=errors,not_tested=['GPU execution','SDK compatibility','engine image quality','performance','legal shipping clearance'])
+ result=dict(checked_on=datetime.datetime.now(datetime.timezone.utc).date().isoformat(),status='failed' if errors else 'passed',chapters=parsed.sections,sources=len(source_ids),evidence_records=count,checks=['local targets','unique IDs','anchors','source coverage','FTS coverage and PETAFAB query','encoding tokens','chapter coverage'],errors=errors,not_tested=['GPU execution','SDK compatibility','engine image quality','performance','legal shipping clearance'])
  (p.parent/'verification.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
  print(json.dumps(result))
  if errors:raise SystemExit(1)

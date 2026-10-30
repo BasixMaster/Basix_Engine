@@ -3,7 +3,7 @@
   "title": "Basix Engine evidence library",
   "purpose": "Support MIT engine architecture and future rendering implementation.",
   "scope": "UE5.8/6, NoGraphicsAPI, PETAFAB, DXR/DX12, Linear Algebra, RTXDI/RTXPT and DLSS.",
-  "updated_on": "2026-10-28",
+  "updated_on": "2026-10-30",
   "summary": [
     "Initial CPU/GPU foundation and scoped lifecycle/window tests have local correctness evidence; advanced rendering ideas are separately labeled proposals or author reports.",
     "Actual static DLSS SR interoperability passes8cases with a measured descriptor-state workaround; temporal renderer quality remains unverified.",
@@ -3578,8 +3578,21 @@
     "Added bounded two-object shared-BLAS metadata, authored orientation independent of vertex order, three-epoch identity/remapping checks and synchronous in-place TLAS update acceptance. Root ABI extends from176to192bytes; earlier receipts stay scoped to their original versions. No general hardware-error, asynchronous update or performance claim is promoted.",
     "Added transform-conditioned arithmetic/range policy with explicit model/hardware limits. Selected bounded acceptance completes its child only; general parent remains partial and defaults are unchanged.",
     "Added DLSS-only authored-scene guide and renderer-lifecycle work with selected bounded passing gates. No SDK quality or non-DLSS M3 completion inferred.",
-    "Evaluated the user-supplied NVIDIA whitepaper repository; no non-DLSS M3 implementation or driver installation authorized by this research addition."
+    "Evaluated the user-supplied NVIDIA whitepaper repository; no non-DLSS M3 implementation or driver installation authorized by this research addition.",
+    "30 October: compact evidence-led synthesis and original ownership diagram; reused existing outputs and receipts with original dates and limits."
   ],
+  "compact_synthesis": {
+    "updated_on": "2026-10-30",
+    "evidence_as_of": "2026-10-28",
+    "anchor": "summary",
+    "next_step": "Define M3-dlss-temporal-quality reference/ROI sequences and thresholds.",
+    "measurements": [
+      "progressive-results.json",
+      "reconstruction-guides-results.json",
+      "dlss-renderer-results.json"
+    ],
+    "limits": "No new experiments, driver update or implementation promotion."
+  },
   "presentation_path": "index.html",
   "evidence_page": "index.html#sources",
   "guide_pages": [
